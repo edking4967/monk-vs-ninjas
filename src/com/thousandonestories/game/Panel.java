@@ -1,0 +1,1140 @@
+package com.thousandonestories.game; 
+
+import android.content.Context;
+import android.content.res.Resources;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
+import android.graphics.Canvas;
+import android.graphics.Color;
+import android.graphics.Matrix;
+import android.graphics.Paint;
+import android.graphics.Typeface;
+import android.media.MediaPlayer;
+import android.util.DisplayMetrics;
+import android.util.Log;
+import android.view.MotionEvent;
+import android.view.SurfaceHolder;
+import android.view.SurfaceView;
+import java.util.concurrent.CopyOnWriteArrayList;
+
+//gravity stuff does not go in panel
+
+//TODO: scaleFactor does nothing
+
+public class Panel extends SurfaceView implements SurfaceHolder.Callback {
+	
+	// DEBUG/DEVELOPMENT SETTINGS:
+	
+	/**
+	 * Draw bounding boxes of platforms:
+	 */
+	private static final boolean DRAW_BLOCKS = false;
+	
+	/**
+	 * Experimental: Save bitmaps drawn to screen, for exporting to gif/movie 
+	 */
+	public static final boolean SAVE_BITMAPS =false;
+	
+	//Lists containing different game objects: 
+		private CopyOnWriteArrayList<GameObject> mGameObjList;
+		//private CopyOnWriteArrayList<Sprite> mSpriteList = new CopyOnWriteArrayList<Sprite>();
+		private CopyOnWriteArrayList<GravitySprite> mGravSpriteList;
+	   private CopyOnWriteArrayList<Block> mBlockList;
+	   private static CopyOnWriteArrayList<Projectile> mProjList;
+	   private CopyOnWriteArrayList<Enemy> mEnemyList;
+	   private CopyOnWriteArrayList<NPC> mNPCList;
+	   private CopyOnWriteArrayList<InteractiveScenery> iSceneryList;
+	   private CopyOnWriteArrayList<BackgroundScenery> bgSceneryList;
+	   
+	   private CopyOnWriteArrayList<BackgroundSprite> m3dPlatformList;
+	   
+	   /**
+	    * Holds bitmaps that will be drawn to the menu screen
+	    */
+	   private CopyOnWriteArrayList<ClickableSprite> menuItemList;
+
+	   
+	   /**
+	    * The level that the player is currently on.
+	    */
+	   private static int level;
+	   //private 	DiskLruCache mDiskLruCache;
+	   
+	   public static float mWidth;
+	   public static float mHeight;
+	   
+	   public static float scrollSpeed;
+	   private boolean scrollLock;
+	   private float heroSavedPos; // saved position for camera
+	   private boolean heroSavedDir; // saved direction character is pointing
+
+	   private boolean gameRunning=false;
+	   
+	   private long gameStartTime;
+	   private long crocSpawnTime;
+	   
+	   private boolean gameover=false;
+	   
+	   private Paint mPaint;
+	   private ViewThread mThread;
+	   
+	   public static HeroSprite hero; 
+	   private Enemy croc;
+	   
+	   private FlyingSprite flyingHero;
+	   	   
+	   Bitmap cloudBitmap;
+	   
+	   Bitmap crocbitmap[];
+	   Bitmap crocbitmap_f[];
+	   
+	   Bitmap projBmp[];
+	   Bitmap qiBmp[];
+	   Bitmap heroBmps[];
+	   Bitmap heroReverseBmps[];
+	   
+	   Bitmap pagoda_left[];
+	   Bitmap pagoda_right[];
+	   Bitmap pagoda_repeat[];
+	   
+	   Bitmap dragonCube;
+	   
+	   Bitmap platformBitmap;
+
+	   SpriteResources newMonkRes;
+	   
+	   SpriteResources flyingResources;
+	   
+	   SpriteResources tomatomanRes;
+	   
+	   SpriteResources dragonHeadRes;
+	   
+	   SpriteResources dragonBodyRes;
+	   
+	   SpriteResources ninjaRes;
+	   
+	   ClickableSprite gameOverSprite;
+	   ClickableSprite menuSprite;
+	   
+	   InteractiveScenery door;
+	   Bitmap door_b[];
+	   
+	   Bitmap logos_b;
+	   
+	   BackgroundSprite logos;
+	   
+	   private boolean isMenu=false;
+	   
+	   NPC blebleguy;
+	   NPC dragontest;
+	   
+	   Dragon dragon;
+
+	   MediaPlayer mp;
+	   
+	   public Panel(Context context) {
+	      super(context);
+	      
+	      gameRunning = false;
+	      
+	      level = 2;
+	      
+	      Log.d("bleh", "Panel constructor called");
+	      
+	      getHolder().addCallback(this);
+	      	      
+	      menuItemList = new CopyOnWriteArrayList<ClickableSprite>();
+
+		  
+	      showMenu();
+	      
+	      loadBitmapsLevelOne();
+	      
+	      
+	      mThread = new ViewThread(this);
+	      
+	      mp = MediaPlayer.create(context, R.raw.shooter);
+	      
+	   }
+	   
+	   public void printText( String str, Canvas canvas, Paint paint, int x, int y )
+	   {
+		   canvas.drawText(str, 10, 10, paint);
+	   }
+	   
+	   @Override
+	   public void surfaceCreated(SurfaceHolder holder) {
+		   // Create and start new thread
+		      Log.d("bleh","surfaceCreated called");
+
+		   if (!mThread.isAlive()) {
+		      mThread = new ViewThread(this);
+		      mThread.setRunning(true);
+		      mThread.start();
+		   }
+		   
+
+		}
+	   
+	   @Override
+	   public void surfaceChanged(SurfaceHolder holder, int format, int width, int height) {
+		      Log.d("bleh","surfaceChanged called");
+
+		   // Store new extents
+	      mWidth = width;
+	      mHeight = height;
+	      
+//	      if(!gameRunning)
+//    	  {
+//	    	  switch(level)
+//	    	  {
+//	    	  	case 1:
+//		    		  gameStartLevelOne(getContext());
+//		    		  break;
+//	    	  	case 2:
+//		    		  gameStartLevelTwo(getContext());
+//		    		  break;
+//	    	  }
+//    	  }
+	      
+	   }
+
+	   @Override
+	   public void surfaceDestroyed(SurfaceHolder holder) {
+		   Log.d("bleh","surfaceDestroyed called");
+		   
+		   // Stop thread
+		   if (mThread.isAlive()) {
+		      mThread.setRunning(false);
+		   }
+
+		}
+
+	// Update position and velocity of all sprites in list
+	   public void update(long elapsedTime) {
+		   
+		   if(isGameOver() || isMenu() )
+		   {
+			 return;  
+		   }
+		   if(hero.getHealth() <= 0)
+		   {
+			   gameOver();
+			   
+		   }
+		  
+		   //CAMERA CONTROL:
+		   
+		   int moveBox = 100; // amount hero can move before camera locks to him again
+		   
+		   
+		   if(!scrollLock) // scroll lock off: screen fixed, hero moves
+		   {
+			   float heroX = (hero.bX+hero.mX) / 2; //center of the hero
+			   if( heroX >= heroSavedPos + moveBox  || heroX <= heroSavedPos-moveBox  )
+			   {
+				   scrollLock = true;
+				   heroSavedPos = (hero.bX+hero.mX)/2; //save hero's position
+				   heroSavedDir=hero.getDirection(); //save hero's direction
+			   }
+		   }
+		   else // scroll lock is on: hero fixed, screen scrolling
+		   {
+			   if(heroSavedDir != hero.getDirection() ) // hero direction has changed
+			   {
+				   heroSavedDir = hero.getDirection();
+				   
+				   scrollLock=false;
+			   }
+		   }
+		   //end camera control
+           
+		   scrollLock = true;
+		   
+		   //TODO: fold these checks into one main GameObject loop.
+		   //Check sprite collisions with blocks:
+		   checkBlocks(elapsedTime);
+		   
+           //Check enemy collisions with projectiles:
+		   checkEnemyProjectiles(elapsedTime);
+		   
+		   //update enemy AI:
+		   updateEnemyAI();
+		   		   
+		   float offset = 1;
+			   
+		   for(BackgroundScenery bgObj: bgSceneryList)
+		   {
+			   if(scrollLock)
+			   {
+				   bgObj.scroll( scrollSpeed/ ( 20f + 10*offset ) ,  elapsedTime );
+				   offset++;
+			   }
+		   }
+		   
+		   for( BackgroundSprite platform: m3dPlatformList)
+		   {
+			   platform.scroll( scrollSpeed/ ( 20f ) ,  elapsedTime );
+		   }
+		   
+		   for (GameObject mObj : mGameObjList) {
+        	 
+        		mObj.update(elapsedTime); //update object's position etc
+        		if( scrollLock) 
+    			{
+        			mObj.scroll(scrollSpeed/20f,  elapsedTime ) ; // scroll object as necessary
+    			}
+        		
+        		
+        		//remove offscreen objects:
+        		if(mObj.getRightBound() <= 0 && !mObj.isPersistent() )
+        		{
+        			
+        			mObj.hide();
+        			
+        			mGameObjList.remove( mObj );
+        			
+        			if( mObj instanceof Enemy )
+        			{
+        				mEnemyList.remove(mObj);
+        			}
+        			
+        			if( mObj instanceof Block )
+        			{
+        				mBlockList.remove(mObj);
+        			}
+        			
+        			if( mObj instanceof Projectile )
+        			{
+        				mProjList.remove(mObj);
+        			}
+        			
+        		}
+        		
+        		if( mObj.getTopBound() >= this.getHeight() && mObj instanceof Enemy)
+        		{
+        			mGameObjList.remove( mObj );
+        			mEnemyList.remove( mObj );
+        		}
+            
+         }
+	      
+         //Make more enemies:
+         if( ( System.currentTimeMillis() - crocSpawnTime >= 5000) //enough time has passed
+        		 && (mEnemyList.size() < 10 ) )  // we're not saturated with enemies 
+         {
+        	 Enemy newCroc = new Enemy(getResources(), 1100, 100, crocbitmap, crocbitmap_f, projBmp, mProjList, mBlockList, mGameObjList, 1 );
+        	 mEnemyList.add(newCroc);
+	   	      mGameObjList.add(newCroc);
+	   	      mGravSpriteList.add(newCroc);
+	   	      	
+	   	      crocSpawnTime = System.currentTimeMillis();
+       	 
+         }
+         
+         for (InteractiveScenery iScenery: iSceneryList)
+         {
+        	 if( checkCollision( hero, iScenery ) )
+        	 {
+        		 iScenery.hide();
+        	 }
+         }
+         
+	      
+         //check if hero has fallen below the screen:
+	      if(hero.getTopBound() >= Panel.mHeight)
+	      {
+	    	  gameOver();
+	      }
+	      
+	   } // end of update function
+	   
+
+	   public static boolean checkCollision(GameObject obj1, GameObject obj2) {
+		
+		   return (Math.abs(obj1.getLeftBound() - obj2.getLeftBound() ) * 2 < (obj1.getWidth() + obj2.getWidth() )) &&
+			         (Math.abs(obj1.getTopBound() - obj2.getTopBound() ) * 2 < (obj1.getHeight() + obj2.getHeight() ));
+	}
+
+
+	// Draw all sprites and blocks in list
+	   //int color = 0;
+	   String color = "#7ec0ee";
+	   public void doDraw(Canvas canvas) {
+	      
+		   
+		   canvas.drawColor( Color.parseColor(color) );
+		   
+		   if( isGameOver() )
+		   {
+			   Paint mPaint = new Paint();
+			   mPaint.setColor(Color.WHITE);
+			   gameOverSprite.doDraw( canvas  );
+			   canvas.drawText("Touch \"game over\" to restart.", 500, 500, mPaint);
+			   return;
+		   }
+		   
+		   if(isMenu() )
+		   {
+			   Typeface tf = Typeface.create("Helvetica",Typeface.BOLD);
+			   
+			   Paint helveticaPaint = new Paint();
+			   helveticaPaint.setColor(Color.WHITE);
+			   helveticaPaint.setTypeface(tf);
+			   helveticaPaint.setTextSize(50);
+			   helveticaPaint.setFlags(Paint.ANTI_ALIAS_FLAG);
+
+			   for(ClickableSprite menuSprite : menuItemList)
+			   {
+				   menuSprite.doDraw(canvas);
+			   }
+
+			   canvas.drawText("MONK VS NINJAS",100,100, helveticaPaint);
+			   helveticaPaint.setTextSize(30);
+			   canvas.drawText("Touch the button to begin", 100, 150, helveticaPaint);
+			   return;
+		   }
+		   
+		   if( gameRunning )  // game running
+		   {	
+			   //Draw background color:
+			   canvas.drawColor( Color.parseColor(color) );
+			   
+			   
+			   /*
+			    * Background Scenery: paths
+			    */
+			   
+			   for( BackgroundScenery bgObj: bgSceneryList )
+			   {
+				   bgObj.doDraw(canvas);
+   
+			   }
+			   
+			   /*
+			    * Background Sprites: bitmaps
+			    */	
+			   
+			   for( BackgroundSprite bSprite: m3dPlatformList)
+			   {
+				   bSprite.doDraw(canvas);
+			   }
+
+			   /* 
+			    *  GameObjects: objects in the game world you can interact with.
+			    */
+			   
+			   for( GameObject object: mGameObjList)
+			   {
+				   if(object instanceof Block && !DRAW_BLOCKS)
+					   continue;
+					   
+				   else if(!object.hidden() )
+				   {
+					   object.doDraw(canvas);
+				   }
+				   
+				   
+			   }
+			   
+			   
+			             
+			   //Debugging stuff:
+			   
+			   if(level == 1)
+			   {
+		          canvas.drawText(" CrocLB: " + croc.blockLB + " crocRB: " + croc.blockRB + 
+		        		  " LandCount "+hero.db_landcount+" density: "+  getResources().getDisplayMetrics().density + " elapsed: " 
+		        		  +" FPS: "+1000f/ ViewThread.mElapsed , 10, 10, mPaint);
+				  	canvas.drawText("Enemy_state " + croc.getState(), 10, 40, mPaint);
+				   canvas.drawText("Health = " + hero.getHealth() + "Velocity = " + hero.getVelocity() + "x= " + hero.getLeftBound()
+						   + " rightB= " + hero.getRightBound(), 10, 25, mPaint);
+			   }
+		   }
+		   
+
+	   } //end of doDraw function
+	   
+	   public void addBlock(int left, int right, int top, int bottom, int color)
+	   {
+		   Block block = new Block(left, right, top, bottom, color);
+		   mBlockList.add( block );
+		   mGameObjList.add( block);
+      	 	
+		   //Add platform image:
+		   m3dPlatformList.add(
+    			 new BackgroundSprite(platformBitmap,left, top - 30, 6) );
+
+	   }
+	  
+	   
+	   
+	   @Override
+	   public boolean onTouchEvent(MotionEvent event) {
+		  
+		   
+		   for( ClickableSprite clickSprite : menuItemList)
+		   {
+			   if( clickSprite.checkClick(event.getX(), event.getY()) )
+			   {
+				   if(!clickSprite.hasBeenClicked())
+					   clickSprite.click( this );
+			   }
+		   }
+
+		   if( hero != null)
+		   {
+			   //touchHandleFlying(event);
+			   return touchHandlePlatformerMode(event);
+		   }
+		   else return true;
+		   
+		   
+	   }  //END ONTOUCHEVENT
+	   
+	   public boolean touchHandleFlying(MotionEvent event)
+	   {
+		   return flyingHero.handleEvent(event);
+		   
+	   }
+	   
+	   public boolean touchHandlePlatformerMode(MotionEvent event)
+	   {
+		   // check orientation of the hero:
+		   if( (int) (event.getX()-Panel.mWidth/2) < 0 )
+		   {
+			   hero.flipBmp=true;
+		   }
+		   else
+			   hero.flipBmp=false;
+
+		   int vel;
+		   int startpt;
+		   Projectile proj;
+		   
+		// touch at top of screen:
+		   if(event.getY()< 200) 
+		   {
+			   if(event.getAction() == MotionEvent.ACTION_DOWN)
+			   	hero.jump();
+		   }
+		   else if(event.getY()< 400)
+		   {
+			   //shoot a fireball :
+			   
+			   if(event.getAction()==MotionEvent.ACTION_DOWN)
+			   {
+				   // check hero orientation:
+				   if(!hero.flipBmp)
+				   {
+					   vel = 100;
+					   startpt = (int) hero.getRightBound();
+				   }
+				   else
+				   {
+					   vel= -100;
+					   startpt = (int) hero.getLeftBound();
+				   }
+					   
+				   hero.fire(System.currentTimeMillis());
+				   proj = new Projectile(getResources(), startpt, (int) ( (hero.bY+hero.mY)/2), vel, 
+						   projBmp, Projectile.TYPE_HERO, 1);
+				   mProjList.add( proj);
+				   mGameObjList.add(proj);
+			   }
+		   }
+		   else
+		   {
+			   
+			   if(event.getAction() == MotionEvent.ACTION_DOWN)
+			   {
+				   moveHero( (event.getX()-Panel.mWidth/2) /20 * hero.getScaleFactor() );
+				   //hero.mDx=(int) (event.getX()-Panel.mWidth/2) /20 * hero.getScaleFactor();
+				   hero.run(System.currentTimeMillis());
+				   
+			   }
+			   if(event.getAction() == MotionEvent.ACTION_MOVE)
+			   {
+				   moveHero(  (event.getX()-Panel.mWidth/2) /20 * hero.getScaleFactor() );
+				   //hero.mDx=(int) (event.getX()-Panel.mWidth/2) /20 ;
+			   }
+			   
+			   if(event.getAction() == MotionEvent.ACTION_UP)
+			   {
+				   moveHero(0);
+				   hero.rest();
+			   }
+		   }
+		   
+		   if( event.getActionMasked()==MotionEvent.ACTION_POINTER_DOWN)
+		   {
+			   hero.jump();
+		   }
+		   
+	      //return super.onTouchEvent(event);
+		   return true;
+	   
+	   }
+	   
+	   
+	   
+	public void moveHero(float speed)
+	{
+		hero.mDx = speed;
+		
+		scrollLock = true;
+		
+		if(scrollLock) 
+		{
+			scrollSpeed = - speed;
+		}
+		
+	}	   
+	   
+	public void checkBlocks(long mElapsed) {
+		//check for new collisions between GravitySprites and Blocks or a fall() event
+		for( GravitySprite sprite : mGravSpriteList)
+		{
+			if( sprite.getState() == GravitySprite.STATE_INAIR )
+			{
+				sprite.checkLanded(mBlockList, mElapsed);
+			}
+			else // sprite is on a block
+			{
+				for (Block block: mBlockList)
+				{
+					if( ! sprite.checkFallFromBlock() ) 
+					{
+						//sprite is on a block
+						break;
+					}
+						
+					else
+						sprite.updateBlock(block);
+				}
+				//check the last block:
+				if( sprite.checkFallFromBlock() )
+					sprite.fall();
+			}
+		}		
+	}
+	
+	public void updateEnemyAI()
+	{
+		for( Enemy enemy: mEnemyList )
+		{
+			if( enemy.getState() != GravitySprite.STATE_INAIR ) //enemy is on the ground
+			{
+				
+				//if enemy has a block
+				enemy.AICheckMoveBounds();
+				
+			}
+		}
+	}
+
+	public void checkEnemyProjectiles(long mElapsed) {
+		for( Enemy enemy: mEnemyList)
+		{
+			//check for hits by projectiles:
+			if( enemy.checkProjectile( mProjList ) )
+			{
+				enemy.die( System.currentTimeMillis() );
+			}
+			
+			//check if it's time to hide:
+			enemy.checkHide( System.currentTimeMillis(), mEnemyList );
+						
+		}
+	}
+	
+	public Bitmap[] flipBmpHorizontal( Bitmap[] input )
+	{
+		int i;
+		Bitmap output[] = new Bitmap[input.length];
+		Matrix m = new Matrix();
+	    m.preScale(-1, 1);
+		for(i=0; i< input.length; i++)
+	      {
+	    	    //flip bitmap:
+				
+	    	    output[i]=Bitmap.createBitmap(input[i], 0, 0, input[i].getWidth(), input[i].getHeight(), m, false);
+	    	    output[i].setDensity(DisplayMetrics.DENSITY_DEFAULT);
+
+	      }
+		return output;
+	}
+	
+	public void gameOver()
+	{
+		Log.d("red", "gameOver() function started");
+		
+		gameover=true;
+		
+		for( GameObject object: mGameObjList )
+		{
+			object.hide();
+		}
+		
+		mGravSpriteList.clear();
+		mBlockList.clear();
+		mEnemyList.clear();
+		mProjList.clear(); 
+		mGameObjList.clear();
+		
+		menuItemList = new CopyOnWriteArrayList<ClickableSprite>();
+		
+	   Bitmap gameoverbitmap[] = new Bitmap[1];
+	   Bitmap gameoverbitmap_r[] = new Bitmap[1];
+	   gameoverbitmap[0]= BitmapFactory.decodeResource(getResources(), R.drawable.gameover);
+	   gameoverbitmap_r = flipBmpHorizontal(gameoverbitmap);
+	   
+	   gameOverSprite= new ClickableSprite( getResources(), (int) Panel.mWidth/2, (int) Panel.mHeight/2, gameoverbitmap, gameoverbitmap_r, 1 );
+	   gameOverSprite.setAction(ClickableSprite.RESTART_GAME);
+
+	   menuItemList.add(gameOverSprite);
+	   
+	   Log.d("red", "menuitemlist size = " + menuItemList.size() );
+		   
+	}
+	
+	public void showMenu()
+	{
+		isMenu=true;
+		
+		menuItemList = new CopyOnWriteArrayList<ClickableSprite>();
+		
+		Bitmap menuimg = BitmapFactory.decodeResource(getResources(), R.drawable.menuimg);
+		Bitmap [] mimgarray = { menuimg };
+		menuSprite = new ClickableSprite(getResources(), (int) 100, (int) 200, mimgarray, mimgarray, 1);
+		menuSprite.setAction(ClickableSprite.START_LEVEL_ONE);
+		
+		ClickableSprite menuSprite2 = new ClickableSprite(getResources(), (int) 400, (int) 200, mimgarray, mimgarray, 1);
+		menuSprite2.setAction(ClickableSprite.START_LEVEL_TWO);		
+		
+		menuItemList.add(menuSprite);
+		menuItemList.add(menuSprite2);
+	}
+	
+	public boolean isGameOver()
+	{
+		return gameover;
+	}
+	
+	public boolean isMenu()
+	{
+		return isMenu;
+	}
+	
+	public static int getLevel() {
+		return level;
+	}
+
+	public static void setLevel(int level) {
+		Panel.level = level;
+	}
+
+	public void gameStartLevelOne(Context context)
+	{
+		Log.d("red", "start of gamestartlevelone" );
+		
+		initializeLists();
+		
+		initializeHero();
+	    
+		generateMountains();
+		
+	      mPaint = new Paint();
+	      mPaint.setColor(Color.BLACK);
+	      
+	      
+	      scrollSpeed=0;
+	      scrollLock = false;
+	      
+	      
+	      Resources res = getResources();
+	      // setup game:
+	     // mp = MediaPlayer.create(context, R.raw.excellent);
+	     
+		       
+	      	      
+	      //background (TODO: experimental)
+	      
+	      //TODO: fix this--less lists
+	      
+	      // add platforms:
+	      for(int i =0; i<10; i++)
+	      {
+		      addBlock( i * 600, i* 600 + 400,600,700, Color.WHITE);
+
+	      }
+	      
+	     
+
+	      
+	      croc = new Enemy(res, 1000, 100, crocbitmap, crocbitmap_f, projBmp, mProjList, mBlockList, mGameObjList, 1 );
+	      mEnemyList.add(croc);
+	      mGameObjList.add(croc);
+	      mGravSpriteList.add(croc);
+	      
+
+	      
+	      gameStartTime = System.currentTimeMillis();
+	      crocSpawnTime = gameStartTime;
+		   
+	      flyingHero = new FlyingSprite(flyingResources, 100, 100, 1);
+	      //mGameObjList.add(flyingHero);
+	      door = new InteractiveScenery(res, 500, 500, door_b, door_b, 4, true);
+	      mGameObjList.add(door);
+	      iSceneryList.add(door);
+	      
+	      	      
+	      
+		    blebleguy = new NPC( tomatomanRes, 500,500, 2 );
+		    blebleguy.startAnimation(0, 20);
+		    blebleguy.speak("hello", 9000);
+		    mGameObjList.add(blebleguy);
+		    
+//		    dragontest = new NPC( dragonHeadRes, mWidth-200, 0, 3 );
+//		    dragontest.startAnimation(0, 20);
+//		    mGameObjList.add(dragontest);
+		    
+		    
+		    
+		    //START MUSIC:
+		    
+		    //mp.setLooping(true);
+		    //mp.start();
+		    
+		    
+			gameRunning=true;
+
+
+		    
+	} // END GAMESTART LEVEL ONE
+	
+	private void initializeHero() {
+	     
+		hero = new HeroSprite(getResources(), 250, 100, heroBmps, heroReverseBmps, mProjList, 1);
+	      
+	    mGravSpriteList.add(hero);
+	    mGameObjList.add(hero);
+	    heroSavedPos = (hero.bX+hero.mX)/2 ; 		
+	}
+
+	private void initializeLists() {
+
+		mGameObjList = new CopyOnWriteArrayList<GameObject>();
+		mGravSpriteList = new CopyOnWriteArrayList<GravitySprite>();
+	   mBlockList = new CopyOnWriteArrayList<Block>();
+	    mProjList = new CopyOnWriteArrayList<Projectile>();
+	   mEnemyList = new CopyOnWriteArrayList<Enemy>();
+	    mNPCList = new CopyOnWriteArrayList<NPC>();
+	    iSceneryList = new CopyOnWriteArrayList<InteractiveScenery>();
+		bgSceneryList = new CopyOnWriteArrayList<BackgroundScenery>();
+		m3dPlatformList = new CopyOnWriteArrayList<BackgroundSprite>();		
+	}
+
+	public void gameStartLevelTwo(Context context)
+	{
+		Log.d("bloh", "start of gamestartlevelone" );
+		
+		initializeLists();
+		
+		initializeHero();
+		
+		generateMountains();
+		
+		logos = new BackgroundSprite(logos_b, (float) mWidth - logos_b.getWidth()*12, (float) 150, 12);
+	    bgSceneryList.add(1, logos);
+
+	    dragon = new Dragon( dragonHeadRes, dragonBodyRes, mWidth-200, 0, 2, 5 );
+	    mGameObjList.add(dragon);
+	    
+	     addBlock(  0,  400,600,700, Color.WHITE);
+
+	    
+		gameRunning=true;
+	    
+	}
+ 	
+	public void leaveMenu()
+	{
+		isMenu=false;
+  	  switch(level)
+  	  {
+  	  	case 1:
+	    		  gameStartLevelOne(getContext());
+	    		  break;
+  	  	case 2:
+	    		  gameStartLevelTwo(getContext());
+	    		  break;
+  	  }
+
+	}
+	
+	public void restartGame(Context context)
+	{
+		gameover=false;
+		showMenu();
+	}
+	
+	public void loadBitmapsLevelOne()
+	{
+		int i;
+		Resources mRes = getResources();
+		
+	    BitmapFactory.Options options_pixellated = new BitmapFactory.Options();
+	    options_pixellated.inDither = false;
+	    options_pixellated.inScaled = false;
+		
+		
+		platformBitmap = BitmapFactory.decodeResource(mRes, R.drawable.platform, options_pixellated);
+		
+		//CopyOnWriteArrayList<int> imgs = new CopyOnWriteArrayList(2)
+	      //load monk animation frames:
+	      int imgs[] = new int[22];
+	      imgs[0]=R.drawable.monk01;
+	      imgs[1]=R.drawable.monk02;
+	      imgs[2]=R.drawable.monk03;
+	      imgs[3]=R.drawable.monk04;
+	      imgs[4]=R.drawable.monk05;
+	      imgs[5]=R.drawable.monk06;
+	      imgs[6]=R.drawable.monk07;
+	      imgs[7]=R.drawable.monk08;
+	      imgs[8]=R.drawable.monk09;
+	      imgs[9]=R.drawable.monk10;
+	      imgs[10]=R.drawable.monk11;
+	      imgs[11]=R.drawable.monk12;
+	      imgs[12]=R.drawable.monk13;
+	      imgs[13]=R.drawable.monk14;
+	      imgs[14]=R.drawable.monk15;
+	      imgs[15]=R.drawable.monk16;
+	      imgs[16]=R.drawable.monk17;
+	      imgs[17]=R.drawable.monk18;
+	      imgs[18]=R.drawable.monk19;
+	      imgs[19]=R.drawable.monk20;
+	      imgs[20]=R.drawable.monk21;
+	      imgs[21]=R.drawable.monk06;  // jump image
+	      
+			BitmapFactory.Options o = new BitmapFactory.Options();
+			
+			
+			o.inSampleSize=4;
+			o.inScaled = false;
+	      
+	       //projectile images:
+		   projBmp = new Bitmap[1];
+		   projBmp[0] = BitmapFactory.decodeResource(mRes, R.drawable.projectile_small, o);
+		   
+		      
+		      heroBmps = new Bitmap[imgs.length];
+		    		  
+		      heroReverseBmps = new Bitmap[imgs.length];
+		      		      
+		      for(i=0; i<imgs.length; i++ )
+		      {
+		    	  heroBmps[i] = BitmapFactory.decodeResource( mRes, imgs[i], o );
+		      }
+		      
+		      heroReverseBmps = flipBmpHorizontal( heroBmps );
+		      		      
+		      crocbitmap = new Bitmap[22];  //TODO: don't need to duplicate "jump" bitmap.
+		      crocbitmap_f = new Bitmap[22];
+		      
+		      int imgs_2[] = new int[22];
+		     imgs_2[0]=R.drawable.ninja_0;
+		      imgs_2[1]=R.drawable.ninja_1;
+		      imgs_2[2]=R.drawable.ninja_2;
+		      imgs_2[3]=R.drawable.ninja_3;
+		      imgs_2[4]=R.drawable.ninja_4;
+		      imgs_2[5]=R.drawable.ninja_5;
+		      imgs_2[6]=R.drawable.ninja_6;
+		      imgs_2[7]=R.drawable.ninja_7;
+		      imgs_2[8]=R.drawable.ninja_8;
+		      imgs_2[9]=R.drawable.ninja_9;
+		      imgs_2[10]=R.drawable.ninja_10;
+		      imgs_2[11]=R.drawable.ninja_11;
+		      imgs_2[12]=R.drawable.ninja_12;
+		      imgs_2[13]=R.drawable.ninja_13;
+		      imgs_2[14]=R.drawable.ninja_14;
+		      imgs_2[15]=R.drawable.ninja_15;
+		      imgs_2[16]=R.drawable.ninja_16;
+		      imgs_2[17]=R.drawable.ninja_17;
+		      imgs_2[18]=R.drawable.ninja_18;
+		      imgs_2[19]=R.drawable.ninja_19;
+		      imgs_2[20]=R.drawable.ninja_20;
+		      imgs_2[21]=R.drawable.ninja_5;  // jump image
+		      
+		      for(i=0; i<imgs.length; i++ )
+		      {
+		    	  crocbitmap[i] = BitmapFactory.decodeResource( mRes, imgs_2[i], o );
+		      }
+		      
+		     
+		      
+		      crocbitmap_f = flipBmpHorizontal( crocbitmap );
+		      		      
+		      qiBmp = new Bitmap[1];
+		      
+		      qiBmp[0]= BitmapFactory.decodeResource(mRes, R.drawable.qi);
+		      		      
+		      int tomatoman_imgs[]= { R.drawable.tomatoman_1, R.drawable.tomatoman_2 };
+		      int speechbubble[] = { R.drawable.speech_bubble };
+		      
+		     tomatomanRes = new SpriteResources( mRes, true, tomatoman_imgs, speechbubble ); 
+		      
+		     
+			   
+		   pagoda_left = new Bitmap[1];
+		   pagoda_left[0]= BitmapFactory.decodeResource(mRes, R.drawable.pagoda_left);
+		   pagoda_repeat = new Bitmap[1];
+		   pagoda_repeat[0]= BitmapFactory.decodeResource(mRes, R.drawable.pagoda_repeating);
+		   pagoda_right = new Bitmap[1];
+		   pagoda_right[0]= BitmapFactory.decodeResource(mRes, R.drawable.pagoda_right);
+		   
+		   int [] monk_med = new int[21];
+		   monk_med[0] = R.drawable.amonk_med0001;
+		   monk_med[1] = R.drawable.amonk_med0002;
+		   monk_med[2] = R.drawable.amonk_med0003;
+		   monk_med[3] = R.drawable.amonk_med0004;
+		   monk_med[4] = R.drawable.amonk_med0005;
+		   monk_med[5] = R.drawable.amonk_med0006;
+		   monk_med[6] = R.drawable.amonk_med0007;
+		   monk_med[7] = R.drawable.amonk_med0008;
+		   monk_med[8] = R.drawable.amonk_med0009;
+		   monk_med[9] = R.drawable.amonk_med0010;
+		   monk_med[10] = R.drawable.amonk_med0011;
+		   monk_med[11] = R.drawable.amonk_med0012;
+		   monk_med[12] = R.drawable.amonk_med0013;
+		   monk_med[13] = R.drawable.amonk_med0014;
+		   monk_med[14] = R.drawable.amonk_med0015;
+		   monk_med[15] = R.drawable.amonk_med0016;
+		   monk_med[16] = R.drawable.amonk_med0017;
+		   monk_med[17] = R.drawable.amonk_med0018;
+		   monk_med[18] = R.drawable.amonk_med0019;
+		   monk_med[19] = R.drawable.amonk_med0020;
+		   monk_med[20] = R.drawable.amonk_med0021;
+		   
+		   //newMonkRes = new SpriteResources(mRes, imgs, monk_med);
+		   
+		   int [] flyingBmps = new int[1];
+		   flyingBmps[0] = R.drawable.flyer_remove;
+		   flyingResources = new SpriteResources(mRes, true, flyingBmps);
+		   
+		   door_b = new Bitmap[1];
+
+		   door_b[0] = BitmapFactory.decodeResource(mRes, R.drawable.door, options_pixellated);
+		   
+		   cloudBitmap =  BitmapFactory.decodeResource(mRes, R.drawable.cloud);
+		   
+		   logos_b = BitmapFactory.decodeResource(mRes, R.drawable.logos, options_pixellated);
+		   
+		   int dragonBmps[] = {R.drawable.dragon1, R.drawable.dragon2 };
+		   
+		   dragonHeadRes = new SpriteResources(mRes, true, dragonBmps);
+		   
+		   int dragonCubeBmp[] = {R.drawable.dragoncube};
+		   
+		   dragonBodyRes = new SpriteResources(mRes, true, dragonCubeBmp );
+		   
+		   int ninjaJumpBmp[] =
+			   { R.drawable.ninjajump_0,
+				   R. drawable.ninjajump_1,
+				   R. drawable.ninjajump_2,
+				   R. drawable.ninjajump_3,
+				   R. drawable.ninjajump_4,
+				   R. drawable.ninjajump_5,
+			   };
+		   
+		   ninjaRes = new SpriteResources(mRes, false, ninjaJumpBmp );
+	}
+	
+	public void removeFromLists( GameObject mObj )
+	{
+		mGameObjList.remove(mObj);
+		
+		if(mObj instanceof Enemy)
+			mEnemyList.remove(mObj);
+		
+		if(mObj instanceof GravitySprite)
+			mGravSpriteList.remove(mObj);
+		
+		if(mObj instanceof Projectile)
+			mProjList.remove(mObj);
+		
+		if(mObj instanceof Block)
+			mBlockList.remove(mObj);
+		
+		if(mObj instanceof NPC)
+			mNPCList.remove(mObj);
+	}
+
+	
+	public void generateMountains()
+	{
+	      float coords[][] = { 
+	    		  {0,Panel.mHeight},
+	    		  {0, Panel.mHeight/2} ,
+	    		  {Panel.mWidth/4,Panel.mHeight/6}, 
+	    		  {Panel.mWidth/2,Panel.mHeight/2}, 
+	    		  {Panel.mWidth*3/4, Panel.mHeight/5},
+	    		  {Panel.mWidth, (float) (Panel.mHeight /2)},
+	    		  {Panel.mWidth, Panel.mHeight }    		  
+	      };
+	      
+	      
+	      int numrepeats = 5; 
+	      
+	      Mountain mountain;
+	      
+	      BackgroundScenery cloud;
+	      
+	      int numMountains = 3;
+	      
+	      String mtnColors[] = { "#7b86b8", "#74778f", "#a0a3b2" };
+	      
+	      float xoffset = 50;
+	      float yoffset = 200;
+	      
+	      for(int k=0; k<numMountains; k++)
+	      {
+	      
+		      float newcoords[][] = new float[numrepeats * coords.length][2];
+		    		  
+		      for(int i=-1; i< numrepeats-1; i++)
+		      {
+		    	  for(int j =0; j< coords.length; j++)
+		    	  {
+		    		  newcoords[(i+1) * coords.length + j][0] = coords[j][0] + Panel.mWidth * i;  // x coord: shift
+		    		  newcoords[(i+1) * coords.length + j][1] = coords[j][1];   // y coord: keep
+		    	  }
+		      }
+		      
+		      for(int i = 0; i< newcoords.length; i++)
+		      {
+		    	  newcoords[i][0] += xoffset*k; 
+		    	  newcoords[i][1] += yoffset*k; 
+
+		      }
+		      
+		      mountain = new Mountain( Color.parseColor( mtnColors[k] ) , newcoords );
+		      
+		      cloud = new BackgroundSprite(cloudBitmap, Panel.mWidth * k /4, Panel.mHeight/3, 2 );
+		      
+		      bgSceneryList.add((BackgroundScenery) mountain);
+		      bgSceneryList.add((BackgroundScenery) cloud);
+	      
+	      }
+	}
+	
+    public ViewThread getThread()
+    {
+  	  return mThread;
+    }
+
+	public static CopyOnWriteArrayList<Projectile> getmProjList() {
+		return mProjList;
+	}
+
+}
