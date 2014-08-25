@@ -378,7 +378,7 @@ public class Enemy extends GravitySprite
 			if( gt.hasElapsed( ) )
 			{
 				guard() ;
-				gt.reset();
+				gt.initialize();
 			}
 			
 			
@@ -391,15 +391,11 @@ public class Enemy extends GravitySprite
 			if( gt.hasElapsed( ) )
 			{
 				unGuard() ;
-				gt.reset();
+				gt.initialize();
 			}
 
 		}	
 	}
+	
 
-
-		
-	
-	
-	
 }

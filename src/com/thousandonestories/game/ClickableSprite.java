@@ -14,6 +14,7 @@ public class ClickableSprite extends Sprite
 	public static final int RESTART_GAME = 0;
 	public static final int START_LEVEL_ONE = 1;
 	public static final int START_LEVEL_TWO = 2;
+	public static final int START_LEVEL_THREE = 3;
 	
 	/**
 	 * The action to be performed when a button is activated.
@@ -78,6 +79,11 @@ public class ClickableSprite extends Sprite
 				Panel.setLevel(2);
 				panel.leaveMenu();
 				break;
+			case START_LEVEL_THREE:
+				Panel.setLevel(3);
+				panel.leaveMenu();
+				break;
+
 		}
 		
 	}

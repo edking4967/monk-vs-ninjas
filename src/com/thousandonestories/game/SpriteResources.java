@@ -9,21 +9,24 @@ public class SpriteResources{
 
 	private SpriteAnimation[] anims; //array of animations for a sprite.
 	private SpriteAnimation currentAnimation;
+	private Resources mRes;
 	
-	SpriteResources( Resources res, boolean pixelart, int[]... animations )
+	SpriteResources( Resources res, boolean pixelart, int sampleFactor, int[]... animations )
 	{
 		anims = new SpriteAnimation[animations.length];
 		int i;
 		
 		for( i = 0; i< animations.length; i++)
 		{
-			anims[i] = new SpriteAnimation(animations[i], res, pixelart);
+			anims[i] = new SpriteAnimation(animations[i], res, pixelart, sampleFactor);
 		}
 		
+		mRes = res;
 		
 		currentAnimation=anims[0];
 	}
 	
+
 	public SpriteAnimation[] getSpriteAnimations()
 	{
 		return anims;
@@ -44,6 +47,14 @@ public class SpriteResources{
 		
 		currentAnimation = anims[animationNum];
 		currentAnimation.start(startFrame) ;
+
+	}
+	
+	public void stopOnFrame(int animationNum, int frameNum)
+	{
+		currentAnimation = anims[animationNum];
+		currentAnimation.setCurrentFrame(frameNum);
+		currentAnimation.stop();
 	}
 	
 	public boolean updateAnimation()
@@ -66,6 +77,17 @@ public class SpriteResources{
 	public Bitmap getSpeechBubble() {
 		 
 		return anims[ anims.length - 1 ].getInitialFrame();
+	}
+	
+	public Resources getAndroidResources()
+	{
+		return mRes;
+	}
+
+
+	public SpriteAnimation getCurrentAnimation() {
+		// TODO Auto-generated method stub
+		return currentAnimation;
 	}
 	
 }

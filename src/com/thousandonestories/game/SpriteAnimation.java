@@ -30,7 +30,7 @@ public class SpriteAnimation {
 	 */
 	private boolean repeat;
 	
-	public SpriteAnimation(int[] bmp_nums, Resources res, boolean pixelart )
+	public SpriteAnimation(int[] bmp_nums, Resources res, boolean pixelart, int sampleSize )
 	{
 		int i;
 		//import bitmaps designated in bmp_nums
@@ -49,6 +49,8 @@ public class SpriteAnimation {
 		
 		o.inScaled = false;
 		
+		o.inSampleSize = sampleSize;
+		
 		if(pixelart)
 		{
 			o.inDither = false;
@@ -60,6 +62,7 @@ public class SpriteAnimation {
 			height[i] = bmps[i].getHeight();
 			width[i] = bmps[i].getWidth();
 		}
+		
 		currentFrameNum=0;
 		
 		currentFrame = bmps[0];
@@ -112,6 +115,11 @@ public class SpriteAnimation {
 	public Bitmap getCurrentFrame()
 	{
 		return currentFrame;
+	}
+	
+	public void setCurrentFrame(int frameNum)
+	{
+		currentFrame = getBitmap(frameNum);
 	}
 	
 	//
@@ -175,6 +183,15 @@ public class SpriteAnimation {
 
 	public void setRepeat(boolean repeat) {
 		this.repeat = repeat;
+	}
+
+	public void stop() {
+		playing = false;
+	}
+	
+	public boolean isPlaying()
+	{
+		return playing;
 	}
 	
 }

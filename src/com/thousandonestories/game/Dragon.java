@@ -52,7 +52,7 @@ public class Dragon implements GameObject {
 				
 		//offsetFactor = dragonHead.getHeight();
 		
-		offsetFactor = dragonHead.getResources().getInitialFrame().getHeight() * scalefactor;
+		offsetFactor = dragonHead.getSpriteResources().getInitialFrame().getHeight() * scalefactor;
 		
 		float bodyOffset = offsetFactor * 2/3 ;
 		float initialOffset = offsetFactor*  2/3;
@@ -106,7 +106,7 @@ public class Dragon implements GameObject {
 			
 			//Check collisions:
 			
-			for( Projectile proj: Panel.getmProjList() )
+			for( Projectile proj: Panel.getProjList() )
 			{
 				if( Panel.checkCollision(bp, proj) )
 				{

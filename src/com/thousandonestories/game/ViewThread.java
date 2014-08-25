@@ -62,7 +62,9 @@ public class ViewThread extends Thread {
          if (canvas != null) {
         	             
             // Update state based on elapsed time
-        	 
+        	
+        	 if(Panel.getGameState()==Panel.STATE_UNINITIALIZED)
+        		 continue;
         	 
             mPanel.update(mElapsed);
 

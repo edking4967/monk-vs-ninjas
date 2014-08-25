@@ -29,9 +29,14 @@ public class GameTimer {
 			return false;
 	}
 	
-	public void reset()
+	public void initialize()
 	{
 		initialized = false;
+	}
+	
+	public void reset()
+	{
+		initialTime = System.currentTimeMillis();
 	}
 	
 }
