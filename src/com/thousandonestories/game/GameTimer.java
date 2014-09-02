@@ -3,6 +3,7 @@ package com.thousandonestories.game;
 public class GameTimer {
 
 	private long duration;
+
 	private long initialTime;
 	private boolean initialized;
 	
@@ -12,7 +13,11 @@ public class GameTimer {
 		initialized=false;
 	}
 	
-	public void addTimer(long duration) {
+	/**
+	 * Sets timer to duration and begins the timer.
+	 * @param duration
+	 */
+	public void setTimer(long duration) {
 		
 		if( !initialized )
 		{
@@ -23,6 +28,9 @@ public class GameTimer {
 	}
 
 	public boolean hasElapsed() {
+		
+		if(!initialized ) return false;
+		
 		if(System.currentTimeMillis() - initialTime >= duration)
 			return true;
 		else 
@@ -39,4 +47,21 @@ public class GameTimer {
 		initialTime = System.currentTimeMillis();
 	}
 	
+	public void start()
+	{
+		setTimer(duration);
+	}
+	
+	public long getDuration() {
+		return duration;
+	}
+
+	/**
+	 * Sets timer's duration without starting it.
+	 * @param duration
+	 */
+	public void setDuration(long duration) {
+		this.duration = duration;
+	}
+
 }

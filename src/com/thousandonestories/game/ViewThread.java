@@ -26,6 +26,8 @@ public class ViewThread extends Thread {
    
    private int saveNum = 0;
    
+   public static final float STEP = 1/30f;
+   
    
    
    /**

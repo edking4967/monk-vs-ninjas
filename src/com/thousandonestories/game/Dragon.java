@@ -1,7 +1,6 @@
 package com.thousandonestories.game;
 
 import java.util.concurrent.CopyOnWriteArrayList;
-
 import android.graphics.Canvas;
 import android.graphics.Color;
 
@@ -13,25 +12,27 @@ public class Dragon implements GameObject {
 	private float mHeight;
 	private float mX, mY;
 	private boolean hidden;
-	
+
+	private State<Dragon> currentState;
+
 	private float offsetFactor; // a position offset factor based on the height of the dragon's head. 
 	private int numBodyParts;
-	
+
 	/**
 	 * Whether the dragon is spewing fire.
 	 */
 	private boolean spewingFire;
-	
+
 	/**
 	 * timesave for "snakelike motion" animation
 	 */
 	private long snakeLike_timesave;
-	
+
 	/**
 	 *  length of one frame of "snakelike motion" animation, in ms.
 	 */
 	private long snakeLike_animSpeed = 20;
-	
+
 	/**
 	 * 
 	 * @param headRes = SpriteResources object for the head
@@ -42,23 +43,22 @@ public class Dragon implements GameObject {
 	 * @param numBodyParts
 	 */
 	public Dragon(SpriteResources headRes, SpriteResources bodyRes, float x, float y, int scalefactor, int numBodyParts) {
-		
-		
+
 		bodyPartsList = new CopyOnWriteArrayList<NewSprite>();
-		
+
 		this.numBodyParts = numBodyParts;
-		
+
 		dragonHead = new NewSprite( headRes, x, y, scalefactor) ;
-				
+
 		//offsetFactor = dragonHead.getHeight();
-		
+
 		offsetFactor = dragonHead.getSpriteResources().getInitialFrame().getHeight() * scalefactor;
-		
+
 		float bodyOffset = offsetFactor * 2/3 ;
 		float initialOffset = offsetFactor*  2/3;
-		
+
 		NewSprite bodyPart;		
-		
+
 		for(int i = numBodyParts-1 ; i >= 0 ; i -- )  	//iterate backwards so that body parts overlap each other visually 
 		{
 			bodyPart = new NewSprite( 
@@ -70,42 +70,51 @@ public class Dragon implements GameObject {
 			//bodyPart.setVelocity( __ );
 			bodyPartsList.add(bodyPart);
 		}
-		
+
 		bodyPart = null; // don't need this reference any more
-				
+
 		this.setHeight( 
 				bodyPartsList.get( numBodyParts - 1 ).getBottomBound() // bottom of lowest body part
-				
+
 				- y  // top of dragon's head
-				
+
 				);
-		
+
 		this.setWidth( dragonHead.getWidth() ) ;
-		
+
 		mX = x;
 		mY = y;
-		
+
 		snakeLike_timesave = System.currentTimeMillis() ;
-		
-		
+
+
 		spewingFire = false; // dragon is not spewing fire.
-		
+
+		currentState = new InitialState(this);
+
 	}
-	
+
 	float ex = 0;
 	@Override
 	public void update(long elapsedTime)
 	{
+
+		currentState.doActions(elapsedTime);
+		if(currentState.doChecks())
+		{
+			currentState.transition();
+		}
+
 		//Update head:
 		dragonHead.update(elapsedTime);
-				
+
 		//Update body parts:
 		for( NewSprite bp: bodyPartsList )
 		{
 			bp.update( elapsedTime );
-			
-			//Check collisions:
-			
+
+			//Check projectile collisions:
+
 			for( Projectile proj: Panel.getProjList() )
 			{
 				if( Panel.checkCollision(bp, proj) )
@@ -114,97 +123,100 @@ public class Dragon implements GameObject {
 					{
 						bp.flash(Color.RED, 500);
 						
+						Panel.blip2.start();
+
 						if(!spewingFire) 
 						{
 							spewFire();
-							dragonHead.startAnimation(0, 20, 1, false);
 						}
+
 					}
 				}
 			}
-			
+
 		}
-		
-		
-		//Spewing fire:
-		
+
+
+		//Rotate head when spewing fire:
+
 		if(spewingFire)
 		{
-			
+
 			dragonHead.rotate(2);
 			if(dragonHead.getRotation()==0)
 			{
 				spewingFire = false;
 			}
-				
-			
+
+
 		}
-		
-		
+
+
 		//Do snakelike motion:
 		float twoPi = (float) (Math.PI * 2);
 		if( System.currentTimeMillis() - snakeLike_timesave >= snakeLike_animSpeed )
 		{
 
 			ex += Math.PI / 50 ; 
-						
+
 			dragonHead.setLeftBound( (float) ( mX + - offsetFactor/4 + offsetFactor/2 * ( Math.sin( ex ) ) ) );
-						
+
 			int i=1;
 			for( NewSprite bp: bodyPartsList )
 			{
 				bp.setLeftBound( 
 						(float) (
-								
+
 								mX + offsetFactor/2 * ( Math.sin( ex + twoPi * i / (numBodyParts+1) ) ) 
-								
+
 								)						
 						);
 				i = ( i+1 ) % (  numBodyParts+1 );
 			}
-			
+
 			if( ex >= twoPi)
 			{
 				ex=0;
 			}
-			
+
 			snakeLike_timesave = System.currentTimeMillis();
 		}
-		
+
 	}
-	
+
 	/**
 	 * Spew fire!
 	 */
 	public void spewFire()
 	{
 		dragonHead.rotate(-40);
+		dragonHead.startAnimation(0, 20, 1, false);
 		spewingFire = true;
 	}
-	
+
 	@Override
 	public void scroll(float amt, long elapsedTime) {
-		
+
 		this.mX += amt*elapsedTime;
-		
+
 		dragonHead.scroll(amt, elapsedTime);
-		
+
 		for( NewSprite bp: bodyPartsList )
 		{
 			bp.scroll(amt, elapsedTime);
 		}
-		
+
 	}
-	
+
 	@Override
 	public void doDraw(Canvas c)
 	{
-		
+
 		for( NewSprite bp: bodyPartsList )
 		{
 			bp.doDraw(c);
 		}
-		
+
 		dragonHead.doDraw(c);
 
 	}
@@ -231,7 +243,7 @@ public class Dragon implements GameObject {
 
 	@Override
 	public void deactivate() {
-		
+
 	}
 
 	@Override
@@ -273,5 +285,99 @@ public class Dragon implements GameObject {
 	public void setHeight(float height) {
 		mHeight = height;
 	}
+
+	
+	//TODO this sucks
+	public void move( float x, float y )
+	{
+		mX += x; mY += y;
+
+		dragonHead.setLeftBound( dragonHead.getLeftBound() + x);
+		dragonHead.setTopBound( dragonHead.getTopBound() + y);
+
+		for(NewSprite b: bodyPartsList)
+		{
+			b.setLeftBound( b.getLeftBound() + x);
+			b.setTopBound( b.getTopBound() + y);
+
+		}
+
+	}
+
+	public void setState(State<Dragon> s)
+	{
+		this.currentState = s;
+	}
+
+	/*
+	 * STATES:
+	 */
+
+	public class InitialState extends State<Dragon>
+	{
+
+		private boolean init=false;
+
+		public InitialState(Dragon e) {
+			super(e);
+		}
+
+		@Override
+		public void transition() {
+			getInstance().setState( new InPlaceState( getInstance() ) );
+		}
+
+		@Override
+		public boolean doChecks() {
+			return (getInstance().getTopBound() <= 10);
+		}
+
+		@Override
+		public void doActions( long elapsedTime ) {
+			if(!init)
+			{
+				getInstance().move( 0, Panel.mHeight );
+				init = true;
+			}
+			else
+			{
+				getInstance().move( 0, - getInstance().getWidth() / 2 / elapsedTime );
+			}
+		}
+
+	}
+
+	public class InPlaceState extends State<Dragon>
+	{
+
+		private GameTimer t;
+
+		public InPlaceState(Dragon e) {
+			super(e);
+			t = new GameTimer();
+			t.setTimer(2000);
+		}
+
+		@Override
+		public void transition() {
+
+		}
+
+		@Override
+		public boolean doChecks() {
+			return false;
+		}
+
+		@Override
+		public void doActions(long elapsedTime) {
+			if(t.hasElapsed() && !getInstance().spewingFire)
+			{
+				getInstance().spewFire();
+				t.reset();
+			}
+		}
+
+	}
+
 
 }

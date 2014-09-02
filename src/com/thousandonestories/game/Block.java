@@ -18,7 +18,7 @@ public class Block implements GameObject
 	private float mHeight;
 	private float mWidth;
 	
-	public Block(float lB, float rB, float tB, float bB, int color)
+	public Block(float lB, float tB, float rB, float bB, int color)
 	{
 		mRect = new Rect((int) lB, (int) tB, (int) rB, (int) bB);
 		paint = new Paint();
@@ -116,6 +116,19 @@ public class Block implements GameObject
 	@Override
 	public void setHeight( float height ) {
 		mHeight = height;
+	}
+
+
+
+	public void setRect(float left, float top, float right,
+			float bottom) {
+		mRect.set((int) left, (int) top, (int) right, (int) bottom );	
+	}
+
+
+
+	public Rect getRect() {
+		return mRect;
 	}
 	
 }

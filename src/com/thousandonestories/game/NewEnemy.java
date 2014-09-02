@@ -6,102 +6,81 @@ import android.graphics.Color;
 public class NewEnemy extends NewPhysicsSprite {
 
 	/**
+	 * Animation numbers:
+	 */
+	private int RUN_ANIMATION_NUM=0;
+	
+	/**
 	 * Timer for when to fire fireballs.
 	 */
 	private GameTimer projectileTimer;
-
-	private GameTimer gt;
-
-	/**
-	 * The time when the sprite starts running
-	 */
-
-	/**
-	 * Whether enemy is guarding.
-	 */
-	private boolean hasGuardUp;
 
 	/**
 	 * whether enemy can perform slash move
 	 */
 	private boolean canSlash;
+	
+	private GameTimer tintTimer;
 
-	/**
-	 * The time when the enemy becomes tinted, shortly after which it will die
-	 */
-	private long tintTime;
-
-	/**
-	 * the amount of time the enemy is tinted for before it dies.
-	 */
-	private final long tintInterval = 500;
-
-	/**
-	 * The current state of this instance's AI.
-	 */
-	private int aiState;
-
-	public static final int STATE_SLEEP = 0 ;
-	public static final int STATE_FOLLOW = 1 ;
-	public static final int STATE_BATTLE = 2 ;
-
-	/*
-	 * AI: determines whether to jump.
-	 */
-	private float AIMoveLB, AIMoveRB;
-	private boolean AIInBounds;
-
-	private boolean vulnerable;
-
-	/**
-	 * Enemy's safety buffer for AI
-	 */
-	float safetyBound; 
-
+	
+	private State<NewEnemy> currentState;
+	
 	public NewEnemy(SpriteResources spriteRes, float x, float y,
 			int scalefactor, PhysicsStuff phys) {
 		super(spriteRes, x, y, scalefactor, phys);
 		projectileTimer = new GameTimer();
+		tintTimer = new GameTimer();
 
 		/*
 		 * Set interval to shoot fireballs:
 		 */
-		projectileTimer.addTimer(1200);
+		projectileTimer.setTimer(1200);
+		
+		tintTimer.setDuration(500);
 
-		hasGuardUp=false;
-
-		tintTime = 0;
-
-		vulnerable = false;	
-
-		AIInBounds = false;
-
-		aiState = STATE_FOLLOW;
-		setMovementState(STATE_STILL);
+		this.setRunning(false);
+		
 		canSlash = false;
+		
+		setState( new InitialState(this) );
 
 	}
 
 	public void update(long elapsedTime)
 	{
 		super.update(elapsedTime);
-
-		updateAI();
-
+		
+		/*
+		 * Manage state
+		 */
+		
+		currentState.doActions( elapsedTime );
+		
+		if(currentState.doChecks())
+		{
+			currentState.transition();
+		}
+		
+		/*
+		 * Fire projectile:
+		 */
 		if(projectileTimer.hasElapsed())
 		{
 			fire();
 			projectileTimer.reset();
 		}
 
-		if(tintTime != 0) // enemy has been tinted
+		/*
+		 * Remove dying enemies:
+		 */
+		if( tintTimer.hasElapsed() ) 
 		{
-			if( System.currentTimeMillis() - tintTime >= tintInterval)
-			{
-				Panel.removeFromLists( this );
-			}
+			Panel.removeFromLists( this );
 		}
 
+		/*
+		 * Check for collisions with hero's projectile:
+		 */
 		for( Projectile p: Panel.getProjList() )
 		{
 			if(p.getType() == Projectile.TYPE_HERO)
@@ -110,175 +89,13 @@ public class NewEnemy extends NewPhysicsSprite {
 				{
 					Panel.removeFromLists(p); //delete projectile
 					die();
+					this.setDx(10 * p.mDx / Math.abs(p.mDx) );
 				}
 			}
 		}
 
 	}
 
-	public void updateAI()
-	{
-		//Update the boundaries where the enemy will move:
-		if(getOnBlock() != null)
-		{
-			AIMoveLB = getOnBlock().getLeftBound() +20;
-			AIMoveRB = getOnBlock().getRightBound()-20;
-
-		}
-
-		switch(aiState)
-		{
-		case STATE_SLEEP: 
-			updateAISleep();
-			break;
-		case STATE_FOLLOW:
-			updateAIFollow();
-			break;
-		case STATE_BATTLE:
-			updateAIBattle();
-			break;
-		}
-
-		if(getPositionState() == STATE_INAIR && getLeftBound() - Panel.hero.getRightBound() <= 50 && canSlash)
-			doSlash();
-
-	}
-
-	private void updateAIBattle() {
-
-		checkGuard();
-
-	}
-
-	private void checkGuard()
-	{
-		if( isVulnerable() && !hasGuardUp )
-		{
-
-			//wait .5 seconds:
-			gt.addTimer( 500 );
-
-
-			if( gt.hasElapsed( ) )
-			{
-				guard() ;
-				gt.initialize();
-			}
-
-
-			//doDelayed( 500, guard() );
-
-		}
-		else if ( this.hasGuardUp && !isVulnerable()  ) // It's safe to let guard down
-		{
-			gt.addTimer(500);
-			if( gt.hasElapsed( ) )
-			{
-				unGuard() ;
-				gt.initialize();
-			}
-
-		}	
-	}
-
-	public void guard()
-	{
-		this.setTint(Color.GREEN);
-		hasGuardUp=true;
-
-	}
-
-	public void unGuard()
-	{
-		hasGuardUp=false;
-	}
-
-	private void updateAISleep() {
-		float heroX = ( Panel.hero.getLeftBound() + Panel.hero.getRightBound()  ) / 2;
-
-		float thisX = ( this.getLeftBound() + this.getRightBound() ) / 2;
-
-		if( Math.abs(heroX - thisX) <= safetyBound * 4 )
-		{
-			goToFollowMode();
-		}
-
-	}
-
-	public void run() {
-		setMovementState( NewPhysicsSprite.STATE_RUN);
-		startAnimation(0);
-
-	}
-
-
-
-	private void updateAIFollow() {
-
-		if(this.getPositionState() == NewPhysicsSprite.STATE_ONBLOCK && this.getMovementState()!= STATE_RUN)
-		{
-			this.mDx = -8;
-			this.run();
-			AICheckMoveBounds();
-		}
-
-		checkGuard();	
-
-
-		/*
-		 *  to other states:
-		 */
-		float heroX = ( Panel.hero.getLeftBound() + Panel.hero.getRightBound()  ) / 2;
-
-		float thisX = ( this.getLeftBound() + this.getRightBound() ) / 2;
-
-		if(isVulnerable() && Math.abs( heroX-thisX ) <= safetyBound )
-		{
-			goToBattleMode();
-		}
-	}
-
-
-	public void AICheckMoveBounds()
-	{
-		int x;
-		x = (int) (getLeftBound()+getRightBound())/2;
-		if( (x > AIMoveRB || x < AIMoveLB) && AIInBounds )
-		{
-			jump();
-		}
-		if( x < AIMoveRB && x > AIMoveLB) //Enemy is within bounds of a block
-		{
-			AIInBounds=true;
-		}
-
-	}
-
-	public void land(Block b)
-	{
-		super.land(b);
-
-		AIInBounds=true;
-		AIMoveLB = b.getLeftBound() +20;
-		AIMoveRB = b.getRightBound()-20;
-
-		this.stopOnFrame(0,0);
-
-		setPositionState(STATE_ONBLOCK); 
-
-	}
-
-	private void goToBattleMode() {
-
-		aiState = STATE_BATTLE;
-
-	}
-
-	private void goToFollowMode() {
-
-		aiState = STATE_FOLLOW;
-
-	}
 
 	public void fire()
 	{
@@ -302,33 +119,167 @@ public class NewEnemy extends NewPhysicsSprite {
 		Panel.getGameObjList().add(proj);
 
 	}
-
-	public boolean isVulnerable()
+	
+	public void land(Block b)
 	{
-		return vulnerable;
-	}
-
-	public void jump()
-	{
-		super.jump();
+		super.land(b);
 		canSlash = true;
 	}
 
 	public void die() {
 
-		if( hasGuardUp )
-			return;			// guard is up, cannot be attacked.
-
-		this.flash(Color.RED, tintInterval);
-
-		tintTime = System.currentTimeMillis() ;
-
+		this.flash(Color.RED, tintTimer.getDuration() );
+		tintTimer.start();
+	}
+	
+	public void startRunning( float velocity )
+	{
+		this.setDx(velocity);
+		this.startAnimation( this.RUN_ANIMATION_NUM );
+		this.setRunning(true);
+	}
+	
+	public void stopRunning()
+	{
+		this.stopOnFrame(RUN_ANIMATION_NUM, 0);
+		this.setRunning(false);
 	}
 
+	/**
+	 * Set up animations for this instance of the class. 
+	 * @param runAnim The animation for running.
+	 */
+	public void setAnims( int runAnim )
+	{
+		RUN_ANIMATION_NUM = runAnim;
+	}
 
 	public void doSlash()
 	{
 		startAnimation(1, 1, 0, false);
 		canSlash = false;
+	}
+	
+	public void setState(State<NewEnemy> s)
+	{
+		this.currentState = s;
+	}
+		
+	
+
+	/*
+	 * STATES:
+	 */
+	
+	class InitialState extends State<NewEnemy>
+	{
+		public InitialState(NewEnemy e) {
+			super(e);
+		}
+
+		/**
+		 * Transitions when Sprite lands
+		 */
+		@Override
+		public boolean doChecks() {
+			//return !isInAir() ;
+			
+			return false;
+		}
+
+		@Override
+		public void doActions(long elapsedTime) {
+			
+		}
+
+		@Override
+		public void transition() {
+			getInstance().setState( new Running( getInstance() ) );
+		}
+		
+	}
+	class Running extends State<NewEnemy>
+	{
+		public Running(NewEnemy e) {
+			super(e);
+			// TODO Auto-generated constructor stub
+		}
+
+		/**
+		 * Jump if enemy has reached boundary
+		 */
+		@Override
+		public boolean doChecks() {
+			return ( getInstance().getLeftBound() - getInstance().getOnBlock().getLeftBound() <= 10 );
+		}
+
+		@Override
+		public void doActions(long elapsedTime) {
+			if( !getInstance().isRunning() )
+			{
+				getInstance().startRunning( - getInstance().getWidth() / elapsedTime );
+			}
+		}
+
+		@Override
+		public void transition() {
+			getInstance().setState( new Jumping( getInstance() ) );
+			
+		}
+
+	
+	}
+	class Jumping extends State<NewEnemy>
+	{
+		public Jumping(NewEnemy e) {
+			super(e);
+		}
+
+		/**
+		 * Slash if hero is within reach
+		 */
+		@Override
+		public boolean doChecks() {
+			return ( getInstance().getLeftBound() - Panel.hero.getRightBound() <= 15 );
+		}
+
+		@Override
+		public void doActions(long elapsedTime) {
+			if( !getInstance().isInAir() )
+			{
+				getInstance().jump();
+			}
+		}
+
+		@Override
+		public void transition() {
+			getInstance().setState( new Slashing( getInstance() ) );
+		}
+	}
+	class Slashing extends State<NewEnemy>
+	{
+		public Slashing(NewEnemy e) {
+			super(e);
+			// TODO Auto-generated constructor stub
+		}
+
+		public void transition() 
+		{
+			getInstance().setState( new Running( getInstance() ) );
+		}
+
+		@Override
+		public boolean doChecks() {
+			return !getInstance().isInAir();
+		}
+
+		@Override
+		public void doActions(long elapsedTime) {
+			if(getInstance().canSlash)
+			{
+				getInstance().doSlash();
+			}
+		}
+
 	}
 }

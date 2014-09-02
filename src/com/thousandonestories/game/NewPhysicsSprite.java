@@ -1,5 +1,8 @@
 package com.thousandonestories.game;
 
+import java.util.concurrent.CopyOnWriteArrayList;
+
+
 public class NewPhysicsSprite extends NewSprite
 {
 	private static final float GRAVITY = 1;
@@ -8,30 +11,28 @@ public class NewPhysicsSprite extends NewSprite
 	/*
 	 * Position states
 	 */
-	private int positionState;
-	public static final int STATE_ONBLOCK=0;
-	public static final int STATE_INAIR=1;
+	private boolean inAir;
 
 	/*
 	 * Movement states
 	 */
-	private int movementState;
-	public static final int STATE_STILL=0;
-	public static final int STATE_RUN=1;
+	private boolean running;
 
 	private float mass;
 	private float jumpVel;
 
 	protected float mDx;
+
 	protected float mDy;
 
 	protected float mD2x;
 	protected float mD2y;
 
 	/**
-	 * The state that this sprite is currently standing on.
+	 * The block that this sprite is currently standing on.
 	 */
 	private Block onBlock;
+
 
 	public NewPhysicsSprite(SpriteResources spriteRes, float x, float y, int scalefactor, PhysicsStuff phys) {
 
@@ -42,8 +43,9 @@ public class NewPhysicsSprite extends NewSprite
 		mass = phys.getMass();
 		jumpVel = phys.getJumpVel();
 
-		setPositionState(STATE_INAIR);
-
+		setInAir(true);
+		setRunning(false);
+		
 		setOnBlock(null);
 
 	}
@@ -66,37 +68,27 @@ public class NewPhysicsSprite extends NewSprite
 		setRightBound(getLeftBound() + getWidth());
 		setBottomBound(getTopBound() + getHeight());
 
-		switch (getPositionState())
+		if( isInAir() )
 		{
-		case STATE_INAIR:
-			this.setmD2y(GRAVITY * mass);
-			checkBlocks();
-			break;
-		case STATE_ONBLOCK:
-			this.setmD2y(0);
-			this.setmDy(0);
-			checkFallFromBlock();
-			break;	      
+			this.setD2y(GRAVITY * mass);
 
+			/*
+			 * Check for landing on a block:
+			 */
+
+			//checkBlocks();
+
+			checkLanded(Panel.getBlockList(), elapsedTime);
+		}
+		else			
+		{
+			this.setD2y(0);
+			this.setDy(0);
+			checkFallFromBlock();
+			
 		}
 	}
 
-
-	public float getmDy() {
-		return mDy;
-	}
-
-	public void setmDy(float mDy) {
-		this.mDy = mDy;
-	}
-
-	public float getmD2y() {
-		return mD2y;
-	}
-
-	public void setmD2y(float mD2y) {
-		this.mD2y = mD2y;
-	}
 
 	public void land( Block b )
 	{
@@ -104,14 +96,15 @@ public class NewPhysicsSprite extends NewSprite
 
 		this.moveFeet( b.getTopBound() );
 
-		this.setPositionState(STATE_ONBLOCK);
+		this.setInAir(false);
+
 	}
 
 	public void jump()
 	{
-		this.setmDy(-jumpVel);
+		this.setDy(-jumpVel);
 		this.setOnBlock(null);
-		this.setPositionState(STATE_INAIR);
+		this.setInAir(true);
 	}
 
 	private void moveFeet(float feetPosition) {
@@ -119,18 +112,53 @@ public class NewPhysicsSprite extends NewSprite
 		this.setTopBound(feetPosition - getHeight() );
 	}
 
-	public boolean checkBlocks()
+	public void checkLanded( CopyOnWriteArrayList<Block> blockList, long mElapsed)  // check for GravitySprite collisions with Blocks
 	{
-		for(Block b : Panel.getBlockList() )
-		{
-			if( Panel.checkCollision( b , this ) )
-			{
-				this.land( b );
+		float x;
+		boolean hor_col;
+		boolean ver_col;
+		float deltaY;
 
-				return true;
+		x = ( getLeftBound() + getRightBound() ) / 2;
+
+		for( Block block: blockList)
+		{
+			hor_col=false;
+			ver_col=false;
+
+			//////////////////////////////
+			// CHECK FOR HORIZONTAL MATCH:
+
+			if( block.getRightBound() > x && block.getLeftBound() < x) 
+			{
+				hor_col=true;			        		 
 			}
-		}
-		return false;
+			//
+			/////////////////////////////
+
+			//////////////////////////////// 
+			// CHECK FOR VERTICAL CROSSOVER:
+
+			deltaY = this.mDy * mElapsed / 20f;
+			if(this.getBottomBound() -10 <= block.getTopBound() && (this.getBottomBound() + deltaY ) >= block.getTopBound() )
+			{
+				ver_col=true;
+			}
+
+			//
+			/////////////////////////////
+
+			// if a collision has happened:
+			if(hor_col && ver_col)
+			{
+				moveFeet(block.getTopBound()); //line feet up with block
+				land(block);
+				break;
+
+			}
+
+		}		 
+
 	}
 
 	public boolean checkFallFromBlock()
@@ -142,7 +170,7 @@ public class NewPhysicsSprite extends NewSprite
 			// The sprite has moved off its current block.
 			fall();
 			return true;
-			
+
 		}
 		else
 			return false;
@@ -150,7 +178,7 @@ public class NewPhysicsSprite extends NewSprite
 
 	private void fall() {
 		mD2y = GRAVITY * mass;
-		positionState=STATE_INAIR;
+		this.setInAir(true);
 		onBlock = null;
 	}
 
@@ -162,20 +190,45 @@ public class NewPhysicsSprite extends NewSprite
 		this.onBlock = onBlock;
 	}
 
-	public int getPositionState() {
-		return positionState;
+	public float getDy() {
+		return mDy;
 	}
 
-	public void setPositionState(int positionState) {
-		this.positionState = positionState;
+	public void setDy(float mDy) {
+		this.mDy = mDy;
 	}
 
-	public int getMovementState() {
-		return movementState;
+	public float getD2y() {
+		return mD2y;
 	}
 
-	public void setMovementState(int movementState) {
-		this.movementState = movementState;
+	public void setD2y(float mD2y) {
+		this.mD2y = mD2y;
 	}
+
+	public float getDx() {
+		return mDx;
+	}
+
+	public void setDx(float mDx) {
+		this.mDx = mDx;
+	}
+
+	public boolean isInAir() {
+		return inAir;
+	}
+
+	public void setInAir(boolean inAir) {
+		this.inAir = inAir;
+	}
+
+	public boolean isRunning() {
+		return running;
+	}
+
+	public void setRunning(boolean running) {
+		this.running = running;
+	}
+
 
 }

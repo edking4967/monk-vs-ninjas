@@ -144,6 +144,11 @@ public class Sprite implements GameObject{
 	   return bY;
    }
    
+   public float getYMiddle()
+   {
+	   return ( mY + bY ) / 2;
+   }
+   
    public void changeXDir()
    {
 	   mDx *= -1;

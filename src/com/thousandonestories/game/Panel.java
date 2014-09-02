@@ -58,7 +58,8 @@ public class Panel extends SurfaceView implements SurfaceHolder.Callback {
 	private static CopyOnWriteArrayList<NPC> mNPCList;
 	private static CopyOnWriteArrayList<InteractiveScenery> iSceneryList;
 	private static CopyOnWriteArrayList<BackgroundScenery> bgSceneryList;
-
+	private static CopyOnWriteArrayList<ClickableSprite> gameUIList;
+	private static CopyOnWriteArrayList<ClickableSprite> healthBarList;
 	private static CopyOnWriteArrayList<BackgroundSprite> m3dPlatformList;
 
 	/**
@@ -90,6 +91,9 @@ public class Panel extends SurfaceView implements SurfaceHolder.Callback {
 	private Enemy croc;
 
 	private FlyingSprite flyingHero;
+
+	
+	public static Bitmap swordBmp;
 
 	Bitmap cloudBitmap;
 
@@ -136,7 +140,11 @@ public class Panel extends SurfaceView implements SurfaceHolder.Callback {
 
 	Dragon dragon;
 
-	MediaPlayer mp;
+	MediaPlayer bgSong;
+	
+	public static MediaPlayer blip;
+	public static MediaPlayer blip2;
+
 
 	public Panel(Context context) {
 		super(context);
@@ -159,8 +167,12 @@ public class Panel extends SurfaceView implements SurfaceHolder.Callback {
 
 		mThread = new ViewThread(this);
 
-		mp = MediaPlayer.create(context, R.raw.shooter);
+		bgSong = MediaPlayer.create(context, R.raw.shooter);
 		
+		blip = MediaPlayer.create(context, R.raw.blip);
+		
+		blip2 = MediaPlayer.create(context, R.raw.blip2);
+
 
 	}
 
@@ -216,6 +228,8 @@ public class Panel extends SurfaceView implements SurfaceHolder.Callback {
 			gameOver();
 
 		}
+		
+		updateHealthBar();
 
 		//CAMERA CONTROL:
 
@@ -427,9 +441,17 @@ public class Panel extends SurfaceView implements SurfaceHolder.Callback {
 					object.doDraw(canvas);
 				}
 
-
 			}
 
+			for( ClickableSprite ui: gameUIList )
+			{
+				ui.doDraw(canvas);
+			}
+			
+			for( ClickableSprite healthBar: healthBarList )
+			{
+				healthBar.doDraw(canvas);
+			}
 
 
 			//Debugging stuff:
@@ -450,7 +472,7 @@ public class Panel extends SurfaceView implements SurfaceHolder.Callback {
 
 	public void addBlock(int left, int right, int top, int bottom, int color)
 	{
-		Block block = new Block(left, right, top, bottom, color);
+		Block block = new Block(left, top, right, bottom, color);
 		mBlockList.add( block );
 		mGameObjList.add( block);
 
@@ -471,7 +493,22 @@ public class Panel extends SurfaceView implements SurfaceHolder.Callback {
 			if( clickSprite.checkClick(event.getX(), event.getY()) )
 			{
 				if(!clickSprite.hasBeenClicked())
+				{
 					clickSprite.click( this );
+					return true;
+				}
+			}
+		}
+		
+		for( ClickableSprite uiSprite : gameUIList)
+		{
+			if( uiSprite.checkClick(event.getX(), event.getY()) )
+			{
+				if(!uiSprite.hasBeenClicked())
+				{
+					uiSprite.click( this );
+					return true;
+				}
 			}
 		}
 
@@ -857,6 +894,29 @@ public class Panel extends SurfaceView implements SurfaceHolder.Callback {
 		mGameObjList.add(ninj);
 		
 		setGameState(STATE_GAME_RUNNING);
+		
+		
+		ClickableSprite ns = new ClickableSprite( getResources(), 100, 200, projBmp, projBmp, 3);
+		ns.setAction(ClickableSprite.CHOOSE_PROJECTILE);
+		ns.setPersistent(true);
+		gameUIList.add(ns);
+		
+		Bitmap[] sb = {swordBmp};
+		ClickableSprite ss = new ClickableSprite( getResources(), 200, 200, sb, sb, 3);
+		ss.setAction(ClickableSprite.CHOOSE_SWORD);
+		ss.setPersistent(true);
+		gameUIList.add(ss);
+
+		Bitmap health[] = { BitmapFactory.decodeResource(getResources(), R.drawable.healthbox) };
+		int numHealthBars = hero.getHealth() / 25;
+		for(int i=0; i<numHealthBars; i++)
+		{
+			ClickableSprite hs = new ClickableSprite( getResources(), 100 + 100*i, 100, health, health, 2);
+			hs.setPersistent(true);
+			healthBarList.add(hs);
+
+		}
+
 	}
 	
 	private void initializeHero() {
@@ -880,6 +940,10 @@ public class Panel extends SurfaceView implements SurfaceHolder.Callback {
 		bgSceneryList = new CopyOnWriteArrayList<BackgroundScenery>();
 		m3dPlatformList = new CopyOnWriteArrayList<BackgroundSprite>();		
 		menuItemList = new CopyOnWriteArrayList<ClickableSprite>();		
+		
+		gameUIList = new CopyOnWriteArrayList<ClickableSprite>();
+		healthBarList = new CopyOnWriteArrayList<ClickableSprite>();
+		
 	}
 
 	public void leaveMenu()
@@ -915,6 +979,7 @@ public class Panel extends SurfaceView implements SurfaceHolder.Callback {
 		options_pixellated.inDither = false;
 		options_pixellated.inScaled = false;
 
+		swordBmp = BitmapFactory.decodeResource(mRes, R.drawable.herosword);
 
 		platformBitmap = BitmapFactory.decodeResource(mRes, R.drawable.platform, options_pixellated);
 
@@ -1153,6 +1218,14 @@ public class Panel extends SurfaceView implements SurfaceHolder.Callback {
 			bgSceneryList.add((BackgroundScenery) cloud);
 
 		}
+	}
+	
+	public void updateHealthBar()
+	{
+		int numHealthBars = hero.getHealth()/25;
+		if(numHealthBars < healthBarList.size())
+			healthBarList.remove(numHealthBars);
+
 	}
 
 	public ViewThread getThread()

@@ -24,7 +24,7 @@ public class NewSprite implements GameObject
 
 	
 	private Rect drawRect;
-
+	
 	private int sf;
 
 	private boolean hidden;

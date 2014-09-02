@@ -15,6 +15,10 @@ public class ClickableSprite extends Sprite
 	public static final int START_LEVEL_ONE = 1;
 	public static final int START_LEVEL_TWO = 2;
 	public static final int START_LEVEL_THREE = 3;
+	public static final int CHOOSE_PROJECTILE = 4;
+	public static final int CHOOSE_SWORD = 5;
+
+	GameTimer clickTimer;
 	
 	/**
 	 * The action to be performed when a button is activated.
@@ -35,10 +39,21 @@ public class ClickableSprite extends Sprite
 		//Adjust coordinates to reference MIDDLE of the sprite, not top-left, for easy centering.
 		mX -= mWidth /2;
 		mY -= mHeight/2;
+		
+		clickTimer = new GameTimer();
+		
+		clickTimer.setDuration(10); //.1 sec
+		
 	}
 	
 	public boolean checkClick( float x, float y)
 	{
+		if(clickTimer.hasElapsed())
+		{
+			clickTimer.reset();
+			clicked = false;
+		}
+		
 		if( x <= getRightBound() && x >= getLeftBound() && 
 				   y <= getBottomBound() && y >= getTopBound() )
 		{
@@ -50,17 +65,11 @@ public class ClickableSprite extends Sprite
 	public void click(Panel panel)
 	{
 		
-		//panel.color=Color.RED;
-		
-//		//start game again:
-//		if(panel.isGameOver())
-//			panel.restartGame( panel.getContext() );
-//		if(panel.isMenu())
-//			panel.leaveMenu();
-		
 		doAction(this.action, panel);
 		
 		clicked = true;
+		
+		clickTimer.start();
 	}
 	
 	public void doAction(int action, Panel panel)
@@ -83,9 +92,13 @@ public class ClickableSprite extends Sprite
 				Panel.setLevel(3);
 				panel.leaveMenu();
 				break;
-
+			case CHOOSE_PROJECTILE:
+				Panel.hero.setWeapon( HeroSprite.WEAPON_PROJECTILE );
+				break;
+			case CHOOSE_SWORD:
+				Panel.hero.setWeapon( HeroSprite.WEAPON_SWORD );
+				break;
 		}
-		
 	}
 	
 	public void setAction(int action)

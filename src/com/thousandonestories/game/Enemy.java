@@ -372,7 +372,7 @@ public class Enemy extends GravitySprite
 		{
 			
 			//wait .5 seconds:
-			gt.addTimer( 500 );
+			gt.setTimer( 500 );
 			 
 			
 			if( gt.hasElapsed( ) )
@@ -387,7 +387,7 @@ public class Enemy extends GravitySprite
 		}
 		else if ( this.hasGuardUp && !isVulnerable()  ) // It's safe to let guard down
 		{
-			gt.addTimer(500);
+			gt.setTimer(500);
 			if( gt.hasElapsed( ) )
 			{
 				unGuard() ;
