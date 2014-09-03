@@ -2,7 +2,7 @@ package com.thousandonestories.game.ui;
 
 import com.thousandonestories.game.GameTimer;
 import com.thousandonestories.game.gameobjects.HeroSprite;
-import com.thousandonestories.game.gameobjects.Panel;
+import com.thousandonestories.game.gameobjects.OldPanel;
 import com.thousandonestories.game.gameobjects.Sprite;
 
 import android.content.res.Resources;
@@ -67,7 +67,7 @@ public class ClickableSprite extends Sprite
 		else return false;
 	}
 	
-	public void click(Panel panel)
+	public void click(OldPanel panel)
 	{
 		
 		doAction(this.action, panel);
@@ -77,7 +77,7 @@ public class ClickableSprite extends Sprite
 		clickTimer.start();
 	}
 	
-	public void doAction(int action, Panel panel)
+	public void doAction(int action, OldPanel panel)
 	{
 		switch(action)
 		{
@@ -86,22 +86,22 @@ public class ClickableSprite extends Sprite
 				panel.restartGame( panel.getContext() );
 				break;
 			case START_LEVEL_ONE:
-				Panel.setLevel(1);
+				OldPanel.setLevel(1);
 				panel.leaveMenu();
 				break;
 			case START_LEVEL_TWO:
-				Panel.setLevel(2);
+				OldPanel.setLevel(2);
 				panel.leaveMenu();
 				break;
 			case START_LEVEL_THREE:
-				Panel.setLevel(3);
+				OldPanel.setLevel(3);
 				panel.leaveMenu();
 				break;
 			case CHOOSE_PROJECTILE:
-				Panel.hero.setWeapon( HeroSprite.WEAPON_PROJECTILE );
+				OldPanel.hero.setWeapon( HeroSprite.WEAPON_PROJECTILE );
 				break;
 			case CHOOSE_SWORD:
-				Panel.hero.setWeapon( HeroSprite.WEAPON_SWORD );
+				OldPanel.hero.setWeapon( HeroSprite.WEAPON_SWORD );
 				break;
 		}
 	}

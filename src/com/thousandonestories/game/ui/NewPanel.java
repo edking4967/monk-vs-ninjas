@@ -23,7 +23,7 @@ public class NewPanel extends SurfaceView implements SurfaceHolder.Callback{
 		super(context);
 		
 		getHolder().addCallback(this);
-		mThread = new ViewThread(this);
+		//mThread = new ViewThread(this);
 
 		
 		ui = new UIOverlay();
@@ -52,4 +52,9 @@ public class NewPanel extends SurfaceView implements SurfaceHolder.Callback{
 		ui.doDraw(c);
 	}
 
+	public void update(long elapsedTime)
+	{
+		ui.update(elapsedTime);
+	}
+	
 }

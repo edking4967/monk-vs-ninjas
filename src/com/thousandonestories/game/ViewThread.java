@@ -3,7 +3,8 @@ package com.thousandonestories.game;
 import java.io.File;
 import java.io.FileOutputStream;
 
-import com.thousandonestories.game.gameobjects.Panel;
+import com.thousandonestories.game.gameobjects.OldPanel;
+import com.thousandonestories.game.ui.NewPanel;
 
 
 import android.graphics.Bitmap;
@@ -15,7 +16,7 @@ import android.util.Log;
 import android.view.SurfaceHolder;
 
 public class ViewThread extends Thread {
-	private Panel mPanel;
+	private OldPanel mPanel;
 	private SurfaceHolder mHolder;
 	private boolean mRun = false;
 	private long mStartTime;
@@ -38,7 +39,7 @@ public class ViewThread extends Thread {
 	 */
 	private Bitmap saveBmp;
 
-	public ViewThread(Panel panel) {
+	public ViewThread(OldPanel panel) {
 		mPanel = panel;
 		mHolder = mPanel.getHolder();
 		mPaint = new Paint();
@@ -68,7 +69,7 @@ public class ViewThread extends Thread {
 
 				// Update state based on elapsed time
 
-				if(Panel.getGameState()==Panel.STATE_UNINITIALIZED)
+				if(OldPanel.getGameState()==OldPanel.STATE_UNINITIALIZED)
 					continue;
 
 				mPanel.update(mElapsed);
@@ -99,12 +100,7 @@ public class ViewThread extends Thread {
 				//				e.printStackTrace();
 				//			}
 
-				mElapsed = 0;
-
-				while(mElapsed < STEP) 
-				{ 
-					mElapsed = System.currentTimeMillis() - mStartTime; 
-				} 
+				mElapsed = System.currentTimeMillis() - mStartTime; 
 
 			}
 
@@ -120,7 +116,7 @@ public class ViewThread extends Thread {
 		/**
 		 * Experimental: save canvas as a bitmap to create gameplay gifs/movies
 		 */
-		if(Panel.SAVE_BITMAPS) {
+		if(OldPanel.SAVE_BITMAPS) {
 			if (saveNum % 5 == 0) {
 
 				saveBmp = Bitmap.createBitmap( canvas.getWidth(), canvas.getHeight(), Bitmap.Config.ARGB_8888);

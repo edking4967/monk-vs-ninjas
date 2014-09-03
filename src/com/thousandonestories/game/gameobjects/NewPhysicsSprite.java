@@ -82,7 +82,7 @@ public class NewPhysicsSprite extends NewSprite
 
 			//checkBlocks();
 
-			checkLanded(Panel.getBlockList(), elapsedTime);
+			checkLanded(OldPanel.getBlockList(), elapsedTime);
 		}
 		else			
 		{

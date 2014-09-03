@@ -35,7 +35,7 @@ public class HeroSprite extends GravitySprite {
 		
 		Log.d("bleh", "hero constructor called");
 		
-		this.swordBmp = Panel.swordBmp;
+		this.swordBmp = OldPanel.swordBmp;
 	}
 
 	
@@ -62,7 +62,7 @@ public class HeroSprite extends GravitySprite {
 		{
 			setHealth( getHealth() - 25);
 			
-			Panel.blip.start();
+			OldPanel.blip.start();
 			
 			return true;
 		}

@@ -123,15 +123,15 @@ public class Dragon implements GameObject {
 
 			//Check projectile collisions:
 
-			for( Projectile proj: Panel.getProjList() )
+			for( Projectile proj: OldPanel.getProjList() )
 			{
-				if( Panel.checkCollision(bp, proj) )
+				if( OldPanel.checkCollision(bp, proj) )
 				{
 					if(proj.getType() == Projectile.TYPE_HERO)
 					{
 						bp.flash(Color.RED, 500);
 						
-						Panel.blip2.start();
+						OldPanel.blip2.start();
 
 						if(!spewingFire) 
 						{
@@ -344,7 +344,7 @@ public class Dragon implements GameObject {
 		public void doActions( long elapsedTime ) {
 			if(!init)
 			{
-				getInstance().moveBy( 0, Panel.mHeight );
+				getInstance().moveBy( 0, OldPanel.mHeight );
 				init = true;
 			}
 			else
