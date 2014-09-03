@@ -1,5 +1,8 @@
 package com.thousandonestories.game;
 
+
+import com.thousandonestories.game.gameobjects.Panel;
+
 import android.content.res.Resources;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;

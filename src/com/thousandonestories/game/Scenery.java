@@ -1,5 +1,7 @@
 package com.thousandonestories.game;
 
+import com.thousandonestories.game.gameobjects.Sprite;
+
 import android.content.res.Resources;
 import android.graphics.Bitmap;
 

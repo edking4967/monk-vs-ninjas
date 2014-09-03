@@ -1,5 +1,8 @@
 package com.thousandonestories.game;
 
+
+import com.thousandonestories.game.gameobjects.Panel;
+
 import android.os.Bundle;
 import android.app.Activity;
 import android.content.pm.ActivityInfo;
