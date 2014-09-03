@@ -3,9 +3,7 @@ package com.thousandonestories.game;
 import java.io.File;
 import java.io.FileOutputStream;
 
-import com.thousandonestories.game.gameobjects.Panel;
-
-
+import com.thousandonestories.game.ui.Panel;
 import android.graphics.Bitmap;
 import android.graphics.Canvas;
 import android.graphics.Color;
@@ -68,7 +66,7 @@ public class ViewThread extends Thread {
 
 				// Update state based on elapsed time
 
-				if(Panel.getGameState()==Panel.STATE_UNINITIALIZED)
+				if(OldPanel.getGameState()==OldPanel.STATE_UNINITIALIZED)
 					continue;
 
 				mPanel.update(mElapsed);
@@ -120,7 +118,7 @@ public class ViewThread extends Thread {
 		/**
 		 * Experimental: save canvas as a bitmap to create gameplay gifs/movies
 		 */
-		if(Panel.SAVE_BITMAPS) {
+		if(OldPanel.SAVE_BITMAPS) {
 			if (saveNum % 5 == 0) {
 
 				saveBmp = Bitmap.createBitmap( canvas.getWidth(), canvas.getHeight(), Bitmap.Config.ARGB_8888);

@@ -8,7 +8,7 @@ import android.graphics.Canvas;
 import android.view.SurfaceHolder;
 import android.view.SurfaceView;
 
-public class NewPanel extends SurfaceView implements SurfaceHolder.Callback{
+public class Panel extends SurfaceView implements SurfaceHolder.Callback{
 
 	private UIOverlay ui;
 	private GameManager gm;
@@ -19,7 +19,7 @@ public class NewPanel extends SurfaceView implements SurfaceHolder.Callback{
 	private ViewThread mThread;
 	
 	
-	public NewPanel(Context context) {
+	public Panel(Context context) {
 		super(context);
 		
 		getHolder().addCallback(this);
