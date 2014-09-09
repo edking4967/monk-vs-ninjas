@@ -1,7 +1,7 @@
 package com.thousandonestories.game;
 
 
-import com.thousandonestories.game.gameobjects.Panel;
+import com.thousandonestories.game.gameobjects.OldPanel;
 
 import android.content.res.Resources;
 import android.graphics.Bitmap;
@@ -34,9 +34,9 @@ public class Background {
 	public void doDraw(Canvas canvas)
 	{
 		int x=0; int y=0;
-		while(y < Panel.mHeight)
+		while(y < OldPanel.mHeight)
 		{
-			while(x  < Panel.mWidth )
+			while(x  < OldPanel.mWidth )
 			{
 				canvas.drawBitmap(drawBitmap, (float) x, (float) y, null);
 				x+=mWidth;

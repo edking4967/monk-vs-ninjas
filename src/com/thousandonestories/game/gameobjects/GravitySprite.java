@@ -34,7 +34,7 @@ public class GravitySprite extends Sprite {
 	protected int currentImg;
 	private int savedImg;
 
-	protected boolean flipBmp;
+	private boolean flipBmp;
 	public long runStart;
 
 	/**
@@ -67,7 +67,7 @@ public class GravitySprite extends Sprite {
 		mBitmaps = bitmaps;
 		mReversedBitmaps = reversedbitmaps;
 		currentImg=0;
-		flipBmp=false;
+		setFlipBmp(false);
 		movementState = STATE_INAIR;
 		jumpVel = (int) (80*scalefactor);
 		// Set velocity (gravity)
@@ -87,7 +87,7 @@ public class GravitySprite extends Sprite {
 		//drawRect.set( (int) getLeftBound(), (int) getTopBound(), (int) ( getLeftBound()+mWidth) , (int) (getTopBound()+mHeight) );
 		//canvas.drawRect(drawRect, paint );
 
-		if(!flipBmp)
+		if(!isFlipBmp())
 		{
 			canvas.drawBitmap(mBitmaps[currentImg], mX, mY, null); // goes by top left
 		}
@@ -388,7 +388,7 @@ public class GravitySprite extends Sprite {
 
 	public boolean getDirection()
 	{
-		return flipBmp;
+		return isFlipBmp();
 	}
 
 	public void setGravity(int grav)
@@ -399,5 +399,13 @@ public class GravitySprite extends Sprite {
 	public void setRunLength(int l)
 	{
 		runLength=l;
+	}
+
+	public boolean isFlipBmp() {
+		return flipBmp;
+	}
+
+	public void setFlipBmp(boolean flipBmp) {
+		this.flipBmp = flipBmp;
 	}
 }

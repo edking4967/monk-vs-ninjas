@@ -3,7 +3,8 @@ package com.thousandonestories.game;
 import java.io.File;
 import java.io.FileOutputStream;
 
-import com.thousandonestories.game.ui.Panel;
+import com.thousandonestories.game.gameobjects.OldPanel;
+import com.thousandonestories.game.ui.NewPanel;
 import android.graphics.Bitmap;
 import android.graphics.Canvas;
 import android.graphics.Color;
@@ -13,7 +14,9 @@ import android.util.Log;
 import android.view.SurfaceHolder;
 
 public class ViewThread extends Thread {
-	private Panel mPanel;
+	private NewPanel mPanel;
+	
+	
 	private SurfaceHolder mHolder;
 	private boolean mRun = false;
 	private long mStartTime;
@@ -36,7 +39,7 @@ public class ViewThread extends Thread {
 	 */
 	private Bitmap saveBmp;
 
-	public ViewThread(Panel panel) {
+	public ViewThread(NewPanel panel) {
 		mPanel = panel;
 		mHolder = mPanel.getHolder();
 		mPaint = new Paint();
@@ -44,7 +47,7 @@ public class ViewThread extends Thread {
 
 
 	}
-
+	
 	// Set current thread state
 	public void setRunning(boolean run) {
 		mRun = run;
@@ -62,12 +65,11 @@ public class ViewThread extends Thread {
 			// Obtain lock on canvas object
 			canvas = mHolder.lockCanvas();
 
+
+			
 			if (canvas != null) {
 
 				// Update state based on elapsed time
-
-				if(OldPanel.getGameState()==OldPanel.STATE_UNINITIALIZED)
-					continue;
 
 				mPanel.update(mElapsed);
 
@@ -97,14 +99,11 @@ public class ViewThread extends Thread {
 				//				e.printStackTrace();
 				//			}
 
-				mElapsed = 0;
-
-				while(mElapsed < STEP) 
-				{ 
-					mElapsed = System.currentTimeMillis() - mStartTime; 
-				} 
+				mElapsed = System.currentTimeMillis() - mStartTime; 
 
 			}
+			
+			else Log.d("hey", "canvas = null");
 
 			// Update start time
 			mStartTime = System.currentTimeMillis();
@@ -150,7 +149,6 @@ public class ViewThread extends Thread {
 			saveNum++;
 		}
 	}
-
 	public void saveBitmap( Bitmap bmp, int num){
 
 

@@ -1,13 +1,14 @@
 package com.thousandonestories.game.ui;
 
-import com.thousandonestories.game.GameTimer;
-import com.thousandonestories.game.gameobjects.HeroSprite;
-import com.thousandonestories.game.gameobjects.Panel;
-import com.thousandonestories.game.gameobjects.Sprite;
-
 import android.content.res.Resources;
 import android.graphics.Bitmap;
 import android.util.Log;
+
+import com.thousandonestories.game.GameManager;
+import com.thousandonestories.game.GameTimer;
+import com.thousandonestories.game.gameobjects.HeroSprite;
+import com.thousandonestories.game.gameobjects.OldPanel;
+import com.thousandonestories.game.gameobjects.Sprite;
 
 
 public class ClickableSprite extends Sprite
@@ -35,9 +36,9 @@ public class ClickableSprite extends Sprite
 	 */
 	private boolean clicked;
 	
-	public ClickableSprite(Resources res, int x, int y, Bitmap bmps[], Bitmap reversedbmps[], float scalefactor)	
+	public ClickableSprite(Resources res, int x, int y, Bitmap bmps[], float scalefactor)	
 	{
-		super(res, x, y, bmps, reversedbmps, scalefactor);
+		super(res, x, y, bmps, null, scalefactor);
 		clicked = false;
 		
 		
@@ -67,41 +68,38 @@ public class ClickableSprite extends Sprite
 		else return false;
 	}
 	
-	public void click(Panel panel)
+	public void click(GameManager gm)
 	{
 		
-		doAction(this.action, panel);
+		doAction(this.action, gm);
 		
 		clicked = true;
 		
 		clickTimer.start();
 	}
 	
-	public void doAction(int action, Panel panel)
+	public void doAction(int action, GameManager gm)
 	{
 		switch(action)
 		{
 			case RESTART_GAME:
 				Log.d("red", "restart game called from ClickableSprite");
-				panel.restartGame( panel.getContext() );
+				gm.restartGame();
 				break;
 			case START_LEVEL_ONE:
-				Panel.setLevel(1);
-				panel.leaveMenu();
+				gm.leaveMenu();
 				break;
 			case START_LEVEL_TWO:
-				Panel.setLevel(2);
-				panel.leaveMenu();
+				gm.leaveMenu();
 				break;
 			case START_LEVEL_THREE:
-				Panel.setLevel(3);
-				panel.leaveMenu();
+				gm.leaveMenu();
 				break;
 			case CHOOSE_PROJECTILE:
-				Panel.hero.setWeapon( HeroSprite.WEAPON_PROJECTILE );
+				OldPanel.hero.setWeapon( HeroSprite.WEAPON_PROJECTILE );
 				break;
 			case CHOOSE_SWORD:
-				Panel.hero.setWeapon( HeroSprite.WEAPON_SWORD );
+				OldPanel.hero.setWeapon( HeroSprite.WEAPON_SWORD );
 				break;
 		}
 	}

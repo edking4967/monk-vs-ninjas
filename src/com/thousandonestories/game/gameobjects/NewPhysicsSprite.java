@@ -4,6 +4,8 @@ import java.util.concurrent.CopyOnWriteArrayList;
 
 import com.thousandonestories.game.PhysicsStuff;
 import com.thousandonestories.game.SpriteResources;
+import com.thousandonestories.game.ui.NewPanel;
+import com.thousandonestories.states.GameState_Play;
 
 
 
@@ -82,7 +84,7 @@ public class NewPhysicsSprite extends NewSprite
 
 			//checkBlocks();
 
-			checkLanded(Panel.getBlockList(), elapsedTime);
+			checkLanded( this.getBlockList() , elapsedTime);
 		}
 		else			
 		{
@@ -232,6 +234,11 @@ public class NewPhysicsSprite extends NewSprite
 
 	public void setRunning(boolean running) {
 		this.running = running;
+	}
+	
+	public CopyOnWriteArrayList<Block> getBlockList()
+	{
+		return ((GameState_Play) ( NewPanel.gm.getGameState() )).getLevel().getBlockList() ;
 	}
 
 

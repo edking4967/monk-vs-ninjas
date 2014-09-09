@@ -61,7 +61,7 @@ public class Enemy extends GravitySprite
 	public Enemy(Resources res, int x, int y, Bitmap bmps[], Bitmap reversebmps[], Bitmap projectilebmps[], CopyOnWriteArrayList<Projectile> projList, CopyOnWriteArrayList<Block> blockList, 
 			CopyOnWriteArrayList<GameObject> gameObjList, float scalefactor) {
 		super(res, x, y, bmps, reversebmps, scalefactor);
-		this.flipBmp=true;
+		this.setFlipBmp(true);
 		spawnTime = System.currentTimeMillis();
 		lastFireTime=spawnTime;
 		tintPaint = new Paint();
@@ -112,7 +112,7 @@ public class Enemy extends GravitySprite
 	{
 		float startX;
 		int dir;
-		if (this.flipBmp)
+		if (this.isFlipBmp())
 		{
 			startX=this.getLeftBound() - 25;
 			dir = -1;
@@ -140,7 +140,7 @@ public class Enemy extends GravitySprite
    // Render bitmap at current location
    public void doDraw(Canvas canvas) {
 	   //this.currentImg=0;
-		if(!flipBmp)
+		if(!isFlipBmp())
 		{
 			canvas.drawBitmap(mBitmaps[currentImg], mX, mY, tintPaint); // goes by top left
 		}
@@ -180,7 +180,7 @@ public class Enemy extends GravitySprite
 			else
 			{
 				this.mDx *= -1; 
-				this.flipBmp = ! (this.flipBmp);
+				this.setFlipBmp(! (this.isFlipBmp()));
 
 			}
 			
@@ -251,12 +251,12 @@ public class Enemy extends GravitySprite
 	 */
 	public boolean isVulnerable()
 	{
-		if(Panel.hero == null)
+		if(OldPanel.hero == null)
 			return false;
 		else
 		{
 			float y = ( this.getTopBound() + this.getBottomBound() ) / 2;
-			return ( y >= Panel.hero.getTopBound() && y <= Panel.hero.getBottomBound() ) ;
+			return ( y >= OldPanel.hero.getTopBound() && y <= OldPanel.hero.getBottomBound() ) ;
 		}
 	}
 	
@@ -319,7 +319,7 @@ public class Enemy extends GravitySprite
 	}
 
 	private void updateAISleep() {
-		float heroX = ( Panel.hero.getLeftBound() + Panel.hero.getRightBound()  ) / 2;
+		float heroX = ( OldPanel.hero.getLeftBound() + OldPanel.hero.getRightBound()  ) / 2;
 		
 		float thisX = ( this.getLeftBound() + this.getRightBound() ) / 2;
 		
@@ -346,7 +346,7 @@ public class Enemy extends GravitySprite
 		/*
 		 *  to other states:
 		 */
-		float heroX = ( Panel.hero.getLeftBound() + Panel.hero.getRightBound()  ) / 2;
+		float heroX = ( OldPanel.hero.getLeftBound() + OldPanel.hero.getRightBound()  ) / 2;
 		
 		float thisX = ( this.getLeftBound() + this.getRightBound() ) / 2;
 		

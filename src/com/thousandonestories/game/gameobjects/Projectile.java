@@ -32,7 +32,7 @@ public class Projectile extends Sprite
 		super.update(elapsedTime);
 		
 		
-		if( getLeftBound() >= Panel.mWidth  || getRightBound() <= 0 )
+		if( getLeftBound() >= OldPanel.mWidth  || getRightBound() <= 0 )
 		{
 			//deactivate();
 			hide();

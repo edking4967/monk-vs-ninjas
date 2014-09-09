@@ -1,18 +1,14 @@
 package com.thousandonestories.game.gameobjects;
 
 import java.util.concurrent.CopyOnWriteArrayList;
-
-
-
 import android.content.res.Resources;
 import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
 import android.util.Log;
 
 public class HeroSprite extends GravitySprite {
 	
-	CopyOnWriteArrayList<Projectile> mProjList;
+	CopyOnWriteArrayList<Projectile> projList;
 	private int health;	
 	
 	public static final int WEAPON_PROJECTILE=0;
@@ -25,17 +21,17 @@ public class HeroSprite extends GravitySprite {
 	
 	private Bitmap swordBmp;
 	
-	public HeroSprite(Resources res, int x, int y, Bitmap bmps[], Bitmap reversebmps[], CopyOnWriteArrayList<Projectile> projList, float scalefactor) {
+	public HeroSprite(Resources res, int x, int y, Bitmap bmps[], Bitmap reversebmps[],  float scalefactor) {
 		super(res, x, y, bmps, reversebmps, scalefactor);
 		jumpVel = (int) (40*scalefactor);
-		mProjList=projList;
+		projList=new CopyOnWriteArrayList<Projectile>();
 		health=100;
 		
 		setWeapon(WEAPON_PROJECTILE);
 		
 		Log.d("bleh", "hero constructor called");
 		
-		this.swordBmp = Panel.swordBmp;
+		this.swordBmp = OldPanel.swordBmp;
 	}
 
 	
@@ -50,6 +46,12 @@ public class HeroSprite extends GravitySprite {
 	public void doDraw(Canvas c)
 	{
 		super.doDraw(c);
+		
+		for(Projectile p: projList)
+		{
+			p.doDraw(c);
+		}
+		
 		if(weapon==WEAPON_SWORD)
 		{
 			c.drawBitmap(swordBmp, getRightBound(), getYMiddle(), null );
@@ -62,7 +64,7 @@ public class HeroSprite extends GravitySprite {
 		{
 			setHealth( getHealth() - 25);
 			
-			Panel.blip.start();
+			OldPanel.blip.start();
 			
 			return true;
 		}
@@ -74,11 +76,23 @@ public class HeroSprite extends GravitySprite {
 	public void update(long elapsedTime)
 	{
 		super.update(elapsedTime);
-		checkProjectile(mProjList);
+		
+		for(Projectile p: projList)
+		{
+			p.update(elapsedTime);
+		}
+
+		
+		checkProjectile(projList);
 	}
 	
 	public void setWeapon( int weapon )
 	{
 		this.weapon= weapon;
+	}
+	
+	public CopyOnWriteArrayList<Projectile> getProjList()
+	{
+		return projList;
 	}
 }

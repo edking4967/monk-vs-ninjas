@@ -4,8 +4,8 @@ package com.thousandonestories.game.gameobjects;
 import com.thousandonestories.game.GameTimer;
 import com.thousandonestories.game.PhysicsStuff;
 import com.thousandonestories.game.SpriteResources;
+import com.thousandonestories.game.ai.AIState;
 
-import ai.AIState;
 import android.graphics.Color;
 
 
@@ -81,19 +81,19 @@ public class NewEnemy extends NewPhysicsSprite {
 		 */
 		if( tintTimer.hasElapsed() ) 
 		{
-			Panel.removeFromLists( this );
+			OldPanel.removeFromLists( this );
 		}
 
 		/*
 		 * Check for collisions with hero's projectile:
 		 */
-		for( Projectile p: Panel.getProjList() )
+		for( Projectile p: OldPanel.getProjList() )
 		{
 			if(p.getType() == Projectile.TYPE_HERO)
 			{
-				if( Panel.checkCollision(this, p) )
+				if( OldPanel.checkCollision(this, p) )
 				{
-					Panel.removeFromLists(p); //delete projectile
+					OldPanel.removeFromLists(p); //delete projectile
 					die();
 					this.setDx(10 * p.mDx / Math.abs(p.mDx) );
 				}
@@ -119,10 +119,10 @@ public class NewEnemy extends NewPhysicsSprite {
 		}
 
 		Projectile proj = new Projectile( getSpriteResources().getAndroidResources() , startX,  ( getTopBound() + getBottomBound() )/2, 10 * dir, 
-				Panel.projBmp, Projectile.TYPE_ENEMY, 2 );
+				OldPanel.projBmp, Projectile.TYPE_ENEMY, 2 );
 
-		Panel.getProjList().add( proj);
-		Panel.getGameObjList().add(proj);
+		OldPanel.getProjList().add( proj);
+		OldPanel.getGameObjList().add(proj);
 
 	}
 	
@@ -246,7 +246,7 @@ public class NewEnemy extends NewPhysicsSprite {
 		 */
 		@Override
 		public boolean doChecks() {
-			return ( getInstance().getLeftBound() - Panel.hero.getRightBound() <= 15 );
+			return ( getInstance().getLeftBound() - OldPanel.hero.getRightBound() <= 15 );
 		}
 
 		@Override

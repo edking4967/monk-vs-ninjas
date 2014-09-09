@@ -14,6 +14,15 @@ public class UIBlock {
 		uiItems = new CopyOnWriteArrayList<ClickableSprite>();
 	}
 	
+	public UIBlock( ClickableSprite... cslist )
+	{
+		this();
+		for(ClickableSprite cs: cslist)
+		{
+			uiItems.add(cs);
+		}
+	}
+	
 
 	public void doDraw(Canvas canvas) {
 		for(ClickableSprite uiItem: uiItems)

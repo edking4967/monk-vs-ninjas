@@ -1,23 +1,22 @@
 package com.thousandonestories.game;
 
 
-import com.thousandonestories.game.gameobjects.Panel;
-
-import android.os.Bundle;
 import android.app.Activity;
 import android.content.pm.ActivityInfo;
 import android.graphics.drawable.Drawable;
+import android.os.Bundle;
 import android.util.Log;
 import android.view.Menu;
-import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
+
+import com.thousandonestories.game.ui.NewPanel;
 
 public class MainActivity extends Activity {
 
 	Drawable myImage;
 	Thread t;
-	Panel panel;
+	NewPanel panel;
 	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -35,7 +34,7 @@ public class MainActivity extends Activity {
 
 	    // setContentView(R.layout.activity_main);
 	    
-	    panel = new Panel(this);   
+	    panel = new NewPanel(this);   
 	    
 
 		setContentView(panel);
@@ -71,13 +70,6 @@ public class MainActivity extends Activity {
 		return true;
 	}
 	
-	public void startButtonListener(View v)
-	{
-		v.getId();
-		panel = new Panel(this);        
-
-		setContentView(panel);
-	}
 
 }
 
