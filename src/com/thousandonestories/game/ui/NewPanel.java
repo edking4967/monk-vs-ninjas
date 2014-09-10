@@ -3,11 +3,12 @@ package com.thousandonestories.game.ui;
 import android.content.Context;
 import android.graphics.Canvas;
 import android.graphics.Color;
+import android.support.v4.view.GestureDetectorCompat;
 import android.view.MotionEvent;
 import android.view.SurfaceHolder;
 import android.view.SurfaceView;
+import android.view.VelocityTracker;
 
-import com.thousandonestories.game.BitmapCache;
 import com.thousandonestories.game.GameManager;
 import com.thousandonestories.game.ViewThread;
 
@@ -22,7 +23,6 @@ public class NewPanel extends SurfaceView implements SurfaceHolder.Callback{
 		getHolder().addCallback(this);
 		mThread = new ViewThread(this);
 		gm = new GameManager(this); 
-		BitmapCache.setContext(getContext());
 	}
 
 
@@ -64,6 +64,8 @@ public class NewPanel extends SurfaceView implements SurfaceHolder.Callback{
 	@Override
 	public boolean onTouchEvent(MotionEvent event) 
 	{
+		GestureDetectorCompat g;
+		VelocityTracker v;
 		return gm.handleInput( event.getX(), event.getY(), event.getAction() );
 	}
 
