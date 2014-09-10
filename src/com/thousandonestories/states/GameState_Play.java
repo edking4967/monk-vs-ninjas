@@ -3,6 +3,8 @@ package com.thousandonestories.states;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
+import android.util.Log;
+
 import com.thousandonestories.game.GameManager;
 import com.thousandonestories.game.R;
 import com.thousandonestories.game.gameobjects.NewHeroSprite;
@@ -15,7 +17,6 @@ public class GameState_Play extends GameState{
 
 	private HUD hud;
 	private Level currentLevel;
-	
 	private NewHeroSprite hro;
 
 	public GameState_Play(GameManager gm) {
@@ -31,6 +32,8 @@ public class GameState_Play extends GameState{
 
 		hro = new NewHeroSprite( gm,  200, 100, 1 );
 			
+		loadSong( R.raw.shooter);
+
 	}
 
 	@Override
@@ -58,6 +61,14 @@ public class GameState_Play extends GameState{
 		return currentLevel;
 	}
 
+	@Override
+	public boolean handleFling(float velocityX, float velocityY) {
+		hro.setDx(velocityX/500);
+		hro.setDy(velocityY/500);
+		Log.d("z", "FLING! dx= "+ velocityX + "dy= " + velocityY);
+		return true;
+	}
 
+	
 
 }

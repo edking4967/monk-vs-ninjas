@@ -1,5 +1,6 @@
 package com.thousandonestories.game;
 
+import android.content.Context;
 import android.content.res.Resources;
 import android.graphics.Canvas;
 import com.thousandonestories.game.ui.NewPanel;
@@ -11,11 +12,13 @@ public class GameManager {
 	
 	private GameState currentState;
 	private Resources resources;
+	private Context context;
 	private int panelWidth = 0;
 	private int panelHeight= 0;
 	
 	public GameManager( NewPanel p )
 	{
+		context = p.getContext();
 		resources = p.getResources();
 		currentState = new GameState_Menu(this);
 	}
@@ -31,6 +34,7 @@ public class GameManager {
 	}
 
 	public void leaveMenu() {
+		currentState.closeOut();
 		currentState = new GameState_Play(this);
 	}
 	
@@ -65,6 +69,14 @@ public class GameManager {
 	public void update(long dt)
 	{
 		currentState.update(dt);
+	}
+
+	public boolean handleFling(float velocityX, float velocityY) {
+		return currentState.handleFling(velocityX, velocityY);
+	}
+
+	public Context getContext() {
+		return context;
 	}
 
 

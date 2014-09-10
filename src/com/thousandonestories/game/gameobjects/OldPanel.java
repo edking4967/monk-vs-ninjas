@@ -7,7 +7,6 @@ import android.graphics.BitmapFactory;
 import android.graphics.Color;
 import android.graphics.Matrix;
 import android.graphics.Paint;
-import android.graphics.Typeface;
 import android.media.MediaPlayer;
 import android.util.DisplayMetrics;
 import android.util.Log;
@@ -15,7 +14,6 @@ import android.view.MotionEvent;
 import android.view.SurfaceHolder;
 import android.view.SurfaceView;
 import java.util.concurrent.CopyOnWriteArrayList;
-
 import com.thousandonestories.background.BackgroundScenery;
 import com.thousandonestories.background.BackgroundSprite;
 import com.thousandonestories.background.InteractiveScenery;
@@ -23,9 +21,6 @@ import com.thousandonestories.background.Mountain;
 import com.thousandonestories.game.PhysicsStuff;
 import com.thousandonestories.game.R;
 import com.thousandonestories.game.SpriteResources;
-import com.thousandonestories.game.ViewThread;
-import com.thousandonestories.game.R.drawable;
-import com.thousandonestories.game.R.raw;
 import com.thousandonestories.game.ui.ClickableSprite;
 
 //gravity stuff does not go in panel

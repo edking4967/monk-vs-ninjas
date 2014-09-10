@@ -5,6 +5,7 @@ import android.app.Activity;
 import android.content.pm.ActivityInfo;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
+import android.support.v4.view.GestureDetectorCompat;
 import android.util.Log;
 import android.view.Menu;
 import android.view.Window;
@@ -17,6 +18,7 @@ public class MainActivity extends Activity {
 	Drawable myImage;
 	Thread t;
 	NewPanel panel;
+	static GestureDetectorCompat gd;
 	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -36,7 +38,6 @@ public class MainActivity extends Activity {
 	    
 	    panel = new NewPanel(this);   
 	    
-
 		setContentView(panel);
 	
 	}
@@ -69,7 +70,6 @@ public class MainActivity extends Activity {
 		getMenuInflater().inflate(R.menu.main, menu);
 		return true;
 	}
-	
 
 }
 

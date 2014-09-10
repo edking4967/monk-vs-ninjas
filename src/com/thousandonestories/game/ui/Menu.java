@@ -2,14 +2,10 @@ package com.thousandonestories.game.ui;
 
 import java.util.concurrent.CopyOnWriteArrayList;
 
-import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
-
 import com.thousandonestories.game.GameManager;
-import com.thousandonestories.game.R;
 
-public class Menu {
+public abstract class Menu {
 	private CopyOnWriteArrayList<ClickableSprite> menuItems;
 	private GameManager gm;
 
@@ -17,11 +13,6 @@ public class Menu {
 	{
 		menuItems = new CopyOnWriteArrayList<ClickableSprite>();
 		this.gm = gm;
-		
-		Bitmap[] b = { BitmapFactory.decodeResource(gm.getResources() , R.drawable.qi ) };
-		ClickableSprite s = new ClickableSprite(gm.getResources(), 100, 100, b, 1 );
-		s.setAction(ClickableSprite.START_LEVEL_ONE);
-		this.addItem( s ) ;
 		
 	}
 
