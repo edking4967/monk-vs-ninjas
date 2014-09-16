@@ -4,6 +4,7 @@ import android.content.res.Resources;
 import android.graphics.Bitmap;
 import android.util.Log;
 
+import com.thousandonestories.game.BitmapCache;
 import com.thousandonestories.game.GameManager;
 import com.thousandonestories.game.GameTimer;
 import com.thousandonestories.game.gameobjects.HeroSprite;
@@ -51,6 +52,13 @@ public class ClickableSprite extends Sprite
 		clickTimer.setDuration(10); //.1 sec
 		
 	}
+	
+	public ClickableSprite(Resources res, int x, int y, int bmps_nums[], float scalefactor)	
+	{
+		this(res, x, y, BitmapCache.getBitmaps(bmps_nums), scalefactor);
+		
+	}
+
 	
 	public boolean checkClick( float x, float y)
 	{

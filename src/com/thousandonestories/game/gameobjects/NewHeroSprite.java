@@ -56,4 +56,6 @@ public class NewHeroSprite extends NewPhysicsSprite {
 		return projectileList;
 	}
 
+	
+
 }

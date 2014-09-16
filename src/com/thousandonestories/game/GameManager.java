@@ -3,10 +3,11 @@ package com.thousandonestories.game;
 import android.content.Context;
 import android.content.res.Resources;
 import android.graphics.Canvas;
+
+import com.thousandonestories.game.states.GameState;
+import com.thousandonestories.game.states.GameState_Menu;
+import com.thousandonestories.game.states.GameState_Play;
 import com.thousandonestories.game.ui.NewPanel;
-import com.thousandonestories.states.GameState;
-import com.thousandonestories.states.GameState_Menu;
-import com.thousandonestories.states.GameState_Play;
 
 public class GameManager {
 	

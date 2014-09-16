@@ -4,12 +4,14 @@ import java.util.concurrent.CopyOnWriteArrayList;
 
 import android.content.res.Resources;
 import android.graphics.Canvas;
+import android.graphics.Color;
 
 import com.thousandonestories.background.BackgroundScenery;
 import com.thousandonestories.game.GameManager;
 import com.thousandonestories.game.SpriteResources;
 import com.thousandonestories.game.gameobjects.Block;
 import com.thousandonestories.game.gameobjects.GameObject;
+import com.thousandonestories.game.states.GameState_Play;
 
 public abstract class Level {
 
@@ -59,6 +61,11 @@ public abstract class Level {
 	{
 		blockList.add(b);
 	}
+	
+	public void addBlock(float lB, float tB, float rB, float bB)
+	{
+		blockList.add(new Block(lB,tB,rB,bB,Color.WHITE));
+	}
 
 	public abstract void start();
 
@@ -74,4 +81,16 @@ public abstract class Level {
 		}
 	}
 
+	/**
+	 * Get game state as a type GameState_Play, since if a level is instantiated then the game must be in the "play" state.
+	 * @return
+	 */
+	public GameState_Play getGameState()
+	{
+		if( gm.getGameState() instanceof GameState_Play )
+		{
+			return (GameState_Play) gm.getGameState();
+		}
+		else return null;
+	}
 }

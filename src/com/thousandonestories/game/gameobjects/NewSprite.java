@@ -4,7 +4,6 @@ import com.thousandonestories.game.SpriteResources;
 
 import android.graphics.Bitmap;
 import android.graphics.Canvas;
-import android.graphics.Color;
 import android.graphics.ColorFilter;
 import android.graphics.Matrix;
 import android.graphics.Paint;
@@ -115,9 +114,6 @@ public class NewSprite implements GameObject
 		}
 		else
 		{
-			Paint aPaint = new Paint();
-			aPaint.setColor(Color.WHITE);
-			canvas.drawRect(drawRect, aPaint );
 			canvas.drawBitmap( spriteResources.getCurrentFrame(), getLeftBound(), getTopBound(), paint );
 		}
 

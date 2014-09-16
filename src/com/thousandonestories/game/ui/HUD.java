@@ -4,10 +4,11 @@ import java.util.concurrent.CopyOnWriteArrayList;
 
 import android.graphics.Canvas;
 
-public class HUD {
+public class Hud {
+	
 	private CopyOnWriteArrayList<UIBlock> uiBlockList;
 	
-	public HUD()
+	public Hud()
 	{
 		uiBlockList = new CopyOnWriteArrayList<UIBlock>();	
 	}

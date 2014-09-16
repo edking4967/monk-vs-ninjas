@@ -4,8 +4,8 @@ import java.util.concurrent.CopyOnWriteArrayList;
 
 import com.thousandonestories.game.PhysicsStuff;
 import com.thousandonestories.game.SpriteResources;
+import com.thousandonestories.game.states.GameState_Play;
 import com.thousandonestories.game.ui.NewPanel;
-import com.thousandonestories.states.GameState_Play;
 
 
 
@@ -241,5 +241,18 @@ public class NewPhysicsSprite extends NewSprite
 		return ((GameState_Play) ( NewPanel.gm.getGameState() )).getLevel().getBlockList() ;
 	}
 
+	public void run(float x) {
+		setRunning(true);
+		setDx(x);
+		if( !animationIsPlaying() )
+			startAnimation(0);
+	}
+	
+	public void stopRunning()
+	{
+		setRunning(false);
+		setDx(0);
+		stopOnFrame(0,0);
+	}
 
 }

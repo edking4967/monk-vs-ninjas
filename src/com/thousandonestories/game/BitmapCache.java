@@ -1,10 +1,15 @@
 package com.thousandonestories.game;
 
+import android.content.Context;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
+
 
 public class BitmapCache {
 
 	private static SpriteResources heroRes;
 	private static SpriteResources ninjaRes;
+	private static Context context;
 
 	public static SpriteResources getHeroRes(GameManager gm)
 	{
@@ -35,6 +40,11 @@ public class BitmapCache {
 					R.drawable.monk20,
 					R.drawable.monk21,
 			};
+			
+//			int imgs2[] =
+//				{
+//					R.drawable.
+//				};
 			heroRes = new SpriteResources(gm.getResources(), false, 1, imgs);
 
 			return heroRes;
@@ -76,5 +86,21 @@ public class BitmapCache {
 		}
 	}
 
+	public static Bitmap[] getBitmaps(  int[] bmps_nums) {
+		Bitmap [] bmps = new Bitmap[bmps_nums.length];
+		for(int i = 0; i<bmps_nums.length; i++)
+		{
+			bmps[i] = BitmapFactory.decodeResource(context.getResources(), bmps_nums[i]);
+		}
+		return bmps;
+	}
+	public static Bitmap getBitmaps( int bmp_num) {
+		int [] bmp_nums = { bmp_num }; 
+		return getBitmaps( bmp_nums )[0];
+	}
 
+	public static void setContext(Context c)
+	{
+		BitmapCache.context = c;
+	}
 }

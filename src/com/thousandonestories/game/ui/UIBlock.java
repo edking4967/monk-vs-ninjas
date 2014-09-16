@@ -7,7 +7,7 @@ import android.graphics.Canvas;
 
 public class UIBlock {
 
-	private CopyOnWriteArrayList<ClickableSprite> uiItems;
+	protected CopyOnWriteArrayList<ClickableSprite> uiItems;
 	
 	public UIBlock()
 	{
