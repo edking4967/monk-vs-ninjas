@@ -216,7 +216,6 @@ public class Dragon implements GameObject {
 
 	}
 
-	@Override
 	public void doDraw(Canvas c)
 	{
 

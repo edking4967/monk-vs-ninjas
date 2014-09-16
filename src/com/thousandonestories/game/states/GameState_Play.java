@@ -90,9 +90,11 @@ public class GameState_Play extends GameState{
 			case MotionEvent.ACTION_UP:
 				hro.stopRunning();
 				break;
-			case MotionEvent.ACTION_POINTER_INDEX_MASK:
-				camera.pan(x/100);
-				break;
+			default:
+				
+				if( (action & MotionEvent.ACTION_MASK) == MotionEvent.ACTION_POINTER_DOWN)
+					hro.jump();
+				
 			}
 		}
 		return true;
@@ -103,16 +105,21 @@ public class GameState_Play extends GameState{
 	public void update(long dt) {
 		hud.update(dt);
 		hro.update(dt);
+		
+		if(hro.getTopBound() >= camera.getHeight() )
+			changeState(new GameState_Menu(gm) );
+		
+		camera.pan(dt/10);
 	}
 
 	@Override
 	public void doDraw(Canvas c) {
 		currentLevel.doDraw(c, camera);  	//scroll
 		hro.doDraw(c, camera);				//scroll
-		//enemies.doDraw(c)			//scroll
-		hud.doDraw(c);				//don't scroll
-		rOverlay.doDraw(c);			//don't scroll
-		speechDisplay.doDraw(c);	//don't scroll
+		//enemies.doDraw(c, camera)			//scroll
+		hud.doDraw(c);						//don't scroll
+		rOverlay.doDraw(c);					//don't scroll
+		speechDisplay.doDraw(c);			//don't scroll
 	}
 
 	public Level getLevel()

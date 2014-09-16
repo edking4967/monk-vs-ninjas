@@ -78,7 +78,7 @@ public abstract class Level {
 		}
 		for ( Block b: blockList )
 		{
-			b.doDraw(c);
+			b.doDraw(c,camera);
 		}
 	}
 

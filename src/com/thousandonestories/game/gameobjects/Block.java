@@ -54,7 +54,8 @@ public class Block implements GameObject
 	
 	public void doDraw(Canvas canvas, Camera camera)
 	{
-		//canvas.drawRect( getLeftBound() - camera.getOffset() , mPaint );
+		canvas.drawRect( getLeftBound() - camera.getXOffset(), getTopBound() - camera.getYOffset(),
+				getRightBound() - camera.getXOffset(), getBottomBound() - camera.getYOffset() , paint );
 	}
 
 	public void doDraw(Canvas c) {

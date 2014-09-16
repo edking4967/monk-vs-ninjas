@@ -38,5 +38,12 @@ public abstract class GameState {
 
 		}
 	}
+	
+	public void changeState( GameState g)
+	{
+		this.closeOut();
+		gm.setCurrentState(g );
+	}
+
 
 }

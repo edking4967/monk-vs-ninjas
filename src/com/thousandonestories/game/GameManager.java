@@ -80,5 +80,9 @@ public class GameManager {
 		return context;
 	}
 
+	public void setCurrentState(GameState g) {
+		currentState = g;
+	}
+
 
 }

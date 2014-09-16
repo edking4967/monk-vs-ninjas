@@ -1,16 +1,19 @@
 package com.thousandonestories.game.ui;
 
+import android.graphics.Rect;
+
 public class Camera {
 	private int width;
 	private int height;
-	private float offsetFromOrigin=0;
-
+	private float offsetX;
+	private float offsetY;
 	
 	public Camera(int gameWidth, int gameHeight) {
 
 		setWidth( gameWidth);
 		setHeight( gameHeight);
-		
+		offsetX=0;
+		offsetY=0;
  	}
 
 	public int getWidth() {
@@ -29,16 +32,24 @@ public class Camera {
 		this.height = height;
 	}
 
-	public float getOffset() {
-		return offsetFromOrigin;
+	public float getXOffset() {
+		return offsetX;
 	}
 
-	public void setOffsetFromOrigin(float offsetFromOrigin) {
-		this.offsetFromOrigin = offsetFromOrigin;
+	public void setXOffset(float offsetFromOrigin) {
+		this.offsetX = offsetFromOrigin;
 	}
 
 	public void pan(float x) {
-		offsetFromOrigin += x;
+		offsetX += x;
+	}
+
+	public float getYOffset() {
+		return offsetY;
+	}
+
+	public Rect createPannedRect(Rect rect) {
+		return new Rect(rect.left - (int) offsetX , rect.top - (int) offsetY, rect.right - (int) offsetX, rect.bottom - (int) offsetY);
 	}
 
 }

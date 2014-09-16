@@ -16,7 +16,7 @@ public class NewHeroSprite extends NewPhysicsSprite {
 	public NewHeroSprite(GameManager gm, float x, float y, int scalefactor)
 	{
 		
-		super( BitmapCache.getHeroRes(gm), x, y, scalefactor, new PhysicsStuff(10,10) );
+		super( BitmapCache.getHeroRes(gm), x, y, scalefactor, new PhysicsStuff(10,60) );
 		projectileList = new CopyOnWriteArrayList<Projectile>();
 	}
 	
@@ -42,7 +42,7 @@ public class NewHeroSprite extends NewPhysicsSprite {
 	@Override
 	public void doDraw(Canvas c, Camera camera)
 	{
-		super.doDraw(c);
+		super.doDraw(c,camera);
 		
 		for(Projectile p: projectileList)
 		{

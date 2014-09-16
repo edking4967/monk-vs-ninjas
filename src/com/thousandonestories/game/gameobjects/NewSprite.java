@@ -88,20 +88,35 @@ public class NewSprite implements GameObject
 
 	public void doDraw( Canvas canvas )
 	{
+		Camera camera = new Camera(0,0);
+		doDraw(canvas, camera);
+	}
+	
+	
+	/**
+	 * Temporary variable to adjust the gameobject to the camera's position.
+	 */
+	private Rect pRect;
+	
+	public void doDraw(Canvas c, Camera camera) {
+		
 		if(getRotation() != 0)
 		{
 			Bitmap bitmap = spriteResources.getCurrentFrame();
 			Rect rect = new Rect((int) getLeftBound(), (int) getTopBound(),bitmap.getWidth(), bitmap.getHeight());
+			
+			pRect = camera.createPannedRect(rect);
+			
 			Matrix matrix = new Matrix();
-			float px = rect.exactCenterX();
-			float py = rect.exactCenterY();
+			float px = pRect.exactCenterX();
+			float py = pRect.exactCenterY();
 			matrix.postTranslate(-bitmap.getWidth()/2, -bitmap.getHeight()/2);
 			matrix.postRotate(getRotation());
 			matrix.postTranslate(px, py);
 
 			matrix.postScale(sf, sf);
 
-			canvas.drawBitmap(bitmap, matrix, null);
+			c.drawBitmap(bitmap, matrix, null);
 			matrix.reset();
 			bitmap = null;
 			return;
@@ -110,18 +125,14 @@ public class NewSprite implements GameObject
 		if(sf !=1 )
 		{
 
-			canvas.drawBitmap( spriteResources.getCurrentFrame(), null, drawRect, paint );
+			c.drawBitmap( spriteResources.getCurrentFrame(), null, camera.createPannedRect(drawRect), paint );
 
 		}
 		else
 		{
-			canvas.drawBitmap( spriteResources.getCurrentFrame(), getLeftBound(), getTopBound(), paint );
+			c.drawBitmap( spriteResources.getCurrentFrame(), getLeftBound()-camera.getXOffset(), 
+					getTopBound() - camera.getYOffset(), paint );
 		}
-
-	}
-	
-	public void doDraw(Canvas c, Camera camera) {
-		
 	}
 
 	public boolean updateAnimation( long elapsedTime )
