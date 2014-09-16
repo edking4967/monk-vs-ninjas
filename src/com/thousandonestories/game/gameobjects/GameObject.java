@@ -1,7 +1,5 @@
 package com.thousandonestories.game.gameobjects;
 
-import android.graphics.Canvas;
-
 public interface GameObject
 {
 	public float getLeftBound();
@@ -10,8 +8,6 @@ public interface GameObject
 	public float getTopBound();
 	
 	public float getBottomBound();
-	
-	void doDraw(Canvas canvas);
 	
 	void update(long elapsedTime);
 	public void scroll(float amt, long elapsedTime);

@@ -1,6 +1,8 @@
 package com.thousandonestories.game.gameobjects;
 
 
+import com.thousandonestories.game.ui.Camera;
+
 import android.graphics.Canvas;
 import android.graphics.Paint;
 import android.graphics.Rect;
@@ -50,9 +52,13 @@ public class Block implements GameObject
 		return BB;
 	}
 	
-	public void doDraw(Canvas canvas)
+	public void doDraw(Canvas canvas, Camera camera)
 	{
-		canvas.drawRect(mRect, paint);
+		//canvas.drawRect( getLeftBound() - camera.getOffset() , mPaint );
+	}
+
+	public void doDraw(Canvas c) {
+		c.drawRect(mRect, paint);
 	}
 	
 	public void update(long elapsedTime)
@@ -131,5 +137,8 @@ public class Block implements GameObject
 	public Rect getRect() {
 		return mRect;
 	}
+
+
+
 	
 }

@@ -1,6 +1,7 @@
 package com.thousandonestories.game.gameobjects;
 
 import com.thousandonestories.game.SpriteResources;
+import com.thousandonestories.game.ui.Camera;
 
 import android.graphics.Bitmap;
 import android.graphics.Canvas;
@@ -117,6 +118,10 @@ public class NewSprite implements GameObject
 			canvas.drawBitmap( spriteResources.getCurrentFrame(), getLeftBound(), getTopBound(), paint );
 		}
 
+	}
+	
+	public void doDraw(Canvas c, Camera camera) {
+		
 	}
 
 	public boolean updateAnimation( long elapsedTime )
@@ -312,6 +317,8 @@ public class NewSprite implements GameObject
 	{
 		return paint;
 	}
+
+	
 
 }
 

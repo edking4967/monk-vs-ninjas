@@ -6,12 +6,13 @@ import android.content.res.Resources;
 import android.graphics.Canvas;
 import android.graphics.Color;
 
-import com.thousandonestories.background.BackgroundScenery;
 import com.thousandonestories.game.GameManager;
 import com.thousandonestories.game.SpriteResources;
+import com.thousandonestories.game.background.BackgroundScenery;
 import com.thousandonestories.game.gameobjects.Block;
 import com.thousandonestories.game.gameobjects.GameObject;
 import com.thousandonestories.game.states.GameState_Play;
+import com.thousandonestories.game.ui.Camera;
 
 public abstract class Level {
 
@@ -69,7 +70,7 @@ public abstract class Level {
 
 	public abstract void start();
 
-	public void doDraw(Canvas c)
+	public void doDraw(Canvas c, Camera camera)
 	{
 		for( BackgroundScenery bg: bgSceneryList)
 		{

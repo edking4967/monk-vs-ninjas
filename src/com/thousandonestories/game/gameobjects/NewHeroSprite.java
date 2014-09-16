@@ -7,6 +7,7 @@ import com.thousandonestories.game.BitmapCache;
 import com.thousandonestories.game.GameManager;
 import com.thousandonestories.game.PhysicsStuff;
 import com.thousandonestories.game.SpriteResources;
+import com.thousandonestories.game.ui.Camera;
 
 public class NewHeroSprite extends NewPhysicsSprite {
 
@@ -39,7 +40,7 @@ public class NewHeroSprite extends NewPhysicsSprite {
 	}
 	
 	@Override
-	public void doDraw(Canvas c)
+	public void doDraw(Canvas c, Camera camera)
 	{
 		super.doDraw(c);
 		

@@ -12,8 +12,6 @@ import android.view.SurfaceView;
 import com.thousandonestories.game.BitmapCache;
 import com.thousandonestories.game.GameManager;
 import com.thousandonestories.game.ViewThread;
-import com.thousandonestories.game.states.GameState_Menu;
-import com.thousandonestories.game.states.GameState_Play;
 
 public class NewPanel extends SurfaceView implements SurfaceHolder.Callback, GestureDetector.OnGestureListener {
 
@@ -69,6 +67,7 @@ public class NewPanel extends SurfaceView implements SurfaceHolder.Callback, Ges
 	@Override
 	public boolean onTouchEvent(MotionEvent event) 
 	{
+		
 //		if( gm.getGameState() instanceof GameState_Menu ) 
 //			return gm.handleInput( event.getX(), event.getY(), event.getAction() );
 //		else if (gm.getGameState() instanceof GameState_Play )

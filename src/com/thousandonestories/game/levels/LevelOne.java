@@ -1,9 +1,9 @@
 package com.thousandonestories.game.levels;
 
 import android.graphics.Color;
-import com.thousandonestories.background.BackgroundScenery;
-import com.thousandonestories.background.Mountain;
 import com.thousandonestories.game.GameManager;
+import com.thousandonestories.game.background.BackgroundScenery;
+import com.thousandonestories.game.background.Mountain;
 
 
 public class LevelOne extends Level {

@@ -14,13 +14,13 @@ import android.view.MotionEvent;
 import android.view.SurfaceHolder;
 import android.view.SurfaceView;
 import java.util.concurrent.CopyOnWriteArrayList;
-import com.thousandonestories.background.BackgroundScenery;
-import com.thousandonestories.background.BackgroundSprite;
-import com.thousandonestories.background.InteractiveScenery;
-import com.thousandonestories.background.Mountain;
 import com.thousandonestories.game.PhysicsStuff;
 import com.thousandonestories.game.R;
 import com.thousandonestories.game.SpriteResources;
+import com.thousandonestories.game.background.BackgroundScenery;
+import com.thousandonestories.game.background.BackgroundSprite;
+import com.thousandonestories.game.background.InteractiveScenery;
+import com.thousandonestories.game.background.Mountain;
 import com.thousandonestories.game.ui.ClickableSprite;
 
 //gravity stuff does not go in panel
