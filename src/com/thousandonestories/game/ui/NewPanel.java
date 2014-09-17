@@ -9,9 +9,9 @@ import android.view.MotionEvent;
 import android.view.SurfaceHolder;
 import android.view.SurfaceView;
 
-import com.thousandonestories.game.BitmapCache;
 import com.thousandonestories.game.GameManager;
 import com.thousandonestories.game.ViewThread;
+import com.thousandonestories.game.bitmap.BitmapCache;
 
 public class NewPanel extends SurfaceView implements SurfaceHolder.Callback, GestureDetector.OnGestureListener {
 

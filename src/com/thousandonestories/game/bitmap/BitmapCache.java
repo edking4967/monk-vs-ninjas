@@ -1,4 +1,9 @@
-package com.thousandonestories.game;
+package com.thousandonestories.game.bitmap;
+
+import com.thousandonestories.game.GameManager;
+import com.thousandonestories.game.R;
+import com.thousandonestories.game.SpriteResources;
+import com.thousandonestories.game.R.drawable;
 
 import android.content.Context;
 import android.graphics.Bitmap;

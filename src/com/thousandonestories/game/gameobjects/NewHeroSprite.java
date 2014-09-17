@@ -3,10 +3,10 @@ package com.thousandonestories.game.gameobjects;
 import java.util.concurrent.CopyOnWriteArrayList;
 
 import android.graphics.Canvas;
-import com.thousandonestories.game.BitmapCache;
 import com.thousandonestories.game.GameManager;
 import com.thousandonestories.game.PhysicsStuff;
 import com.thousandonestories.game.SpriteResources;
+import com.thousandonestories.game.bitmap.BitmapCache;
 import com.thousandonestories.game.ui.Camera;
 
 public class NewHeroSprite extends NewPhysicsSprite {
