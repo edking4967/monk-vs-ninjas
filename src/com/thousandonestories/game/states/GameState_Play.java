@@ -51,7 +51,7 @@ public class GameState_Play extends GameState{
 		//
 		
 		//Hero:
-		hro = new NewHeroSprite( gm,  200, 100, 1 );
+		hro = new NewHeroSprite( gm,  200, 100, 2 );
 		//
 		
 		//Level:

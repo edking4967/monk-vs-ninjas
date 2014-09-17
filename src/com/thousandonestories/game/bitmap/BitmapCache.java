@@ -16,7 +16,7 @@ public class BitmapCache {
 	private static SpriteResources ninjaRes;
 	private static Context context;
 
-	public static SpriteResources getHeroRes(GameManager gm)
+	public static SpriteResources getHeroRes(GameManager gm, int bitmapSampleFactor)
 	{
 
 		if(heroRes != null) return heroRes;
@@ -50,7 +50,7 @@ public class BitmapCache {
 //				{
 //					R.drawable.
 //				};
-			heroRes = new SpriteResources(gm.getResources(), false, 1, imgs);
+			heroRes = new SpriteResources(gm.getResources(), false, bitmapSampleFactor, imgs);
 
 			return heroRes;
 

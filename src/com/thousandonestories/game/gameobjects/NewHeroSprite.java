@@ -13,10 +13,10 @@ public class NewHeroSprite extends NewPhysicsSprite {
 
 	private CopyOnWriteArrayList<Projectile> projectileList;
 	
-	public NewHeroSprite(GameManager gm, float x, float y, int scalefactor)
+	public NewHeroSprite(GameManager gm, float x, float y, int bitmap_sample_factor)
 	{
 		
-		super( BitmapCache.getHeroRes(gm), x, y, scalefactor, new PhysicsStuff(10,60) );
+		super( BitmapCache.getHeroRes(gm, bitmap_sample_factor), x, y, 1, new PhysicsStuff(10,60) );
 		projectileList = new CopyOnWriteArrayList<Projectile>();
 	}
 	
