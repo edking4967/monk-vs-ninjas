@@ -3,8 +3,6 @@ package com.thousandonestories.game.bitmap;
 import com.thousandonestories.game.GameManager;
 import com.thousandonestories.game.R;
 import com.thousandonestories.game.SpriteResources;
-import com.thousandonestories.game.R.drawable;
-
 import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
@@ -14,6 +12,9 @@ public class BitmapCache {
 
 	private static SpriteResources heroRes;
 	private static SpriteResources ninjaRes;
+	
+	private static Bitmap projBmp; 
+	
 	private static Context context;
 
 	public static SpriteResources getHeroRes(GameManager gm, int bitmapSampleFactor)
@@ -58,7 +59,7 @@ public class BitmapCache {
 
 	}
 
-	public static SpriteResources getNinjaRes(GameManager gm)
+	public static SpriteResources getNinjaRes(GameManager gm, int bitmap_sample_factor)
 	{
 		if(ninjaRes != null) return ninjaRes;
 		else
@@ -86,7 +87,7 @@ public class BitmapCache {
 					R.drawable.ninja_20,
 			};
 
-			ninjaRes = new SpriteResources(gm.getResources(), false, 1, imgs);
+			ninjaRes = new SpriteResources(gm.getResources(), false, bitmap_sample_factor, imgs);
 			return ninjaRes;
 		}
 	}
@@ -107,5 +108,15 @@ public class BitmapCache {
 	public static void setContext(Context c)
 	{
 		BitmapCache.context = c;
+	}
+
+	public static Bitmap[] getProjBmp() {
+		Bitmap [] returnval = new Bitmap[1];
+		if(projBmp == null) 
+		{
+			projBmp = BitmapFactory.decodeResource(context.getResources(), R.drawable.projectile_small);
+		}
+		returnval[0] = projBmp;
+		return returnval;
 	}
 }

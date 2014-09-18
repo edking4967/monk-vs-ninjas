@@ -31,7 +31,7 @@ public class NewSprite implements GameObject
 
 	private boolean hidden;
 	private boolean persistent;
-	private boolean flipped;
+	protected boolean flipped;
 
 	private Paint paint;
 

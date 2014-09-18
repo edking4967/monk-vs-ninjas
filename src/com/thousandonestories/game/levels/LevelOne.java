@@ -4,6 +4,7 @@ import android.graphics.Color;
 import com.thousandonestories.game.GameManager;
 import com.thousandonestories.game.background.BackgroundScenery;
 import com.thousandonestories.game.background.Mountain;
+import com.thousandonestories.game.gameobjects.enemies.Ninja;
 
 
 public class LevelOne extends Level {
@@ -29,6 +30,8 @@ public class LevelOne extends Level {
 			LevelTools.addBlock( getBlockList(), i * 600, i* 600 + 400,600,700, Color.WHITE);
 
 		}
+		
+		getGameObjList().add( new Ninja(gm, 700, 100, 2) );
 		
 	}
 	

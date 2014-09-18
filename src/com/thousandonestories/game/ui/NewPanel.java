@@ -52,7 +52,7 @@ public class NewPanel extends SurfaceView implements SurfaceHolder.Callback, Ges
 
 	public void doDraw(Canvas c)
 	{
-		c.drawColor(Color.RED);
+		c.drawColor(Color.BLUE);
 		gm.doDraw(c);
 	}
 

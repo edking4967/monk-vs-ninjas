@@ -73,6 +73,15 @@ public class NewPhysicsSprite extends NewSprite
 
 		setRightBound(getLeftBound() + getWidth());
 		setBottomBound(getTopBound() + getHeight());
+		
+		if(mDx <0)
+		{
+			this.setFacingLeft(true);
+		}
+		else
+		{
+			this.setFacingLeft(false);
+		}
 
 		if( isInAir() )
 		{
@@ -95,6 +104,10 @@ public class NewPhysicsSprite extends NewSprite
 		}
 	}
 
+
+	private void setFacingLeft(boolean b) {
+		flipped = b;
+	}
 
 	public void land( Block b )
 	{

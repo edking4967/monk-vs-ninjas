@@ -4,13 +4,12 @@ import android.graphics.Canvas;
 import android.graphics.Color;
 import android.util.Log;
 import android.view.MotionEvent;
-
 import com.thousandonestories.game.GameManager;
 import com.thousandonestories.game.R;
 import com.thousandonestories.game.gameobjects.Block;
 import com.thousandonestories.game.gameobjects.NewHeroSprite;
 import com.thousandonestories.game.levels.Level;
-import com.thousandonestories.game.levels.Tutorial;
+import com.thousandonestories.game.levels.LevelOne;
 import com.thousandonestories.game.ui.Camera;
 import com.thousandonestories.game.ui.Hud;
 import com.thousandonestories.game.ui.LifeMeter;
@@ -55,7 +54,7 @@ public class GameState_Play extends GameState{
 		//
 		
 		//Level:
-		currentLevel = new Tutorial(gm);
+		currentLevel = new LevelOne(gm);
 		currentLevel.loadBitmaps();
 		currentLevel.start();
 		//
@@ -85,7 +84,7 @@ public class GameState_Play extends GameState{
 			{
 			case MotionEvent.ACTION_DOWN:
 			case MotionEvent.ACTION_MOVE:
-				hro.run( (x - gm.getGameHeight()/2 ) /100 );
+				hro.run( (x - gm.getGameWidth()/2 ) /70 );
 				break;
 			case MotionEvent.ACTION_UP:
 				hro.stopRunning();
@@ -103,6 +102,7 @@ public class GameState_Play extends GameState{
 
 	@Override
 	public void update(long dt) {
+		currentLevel.update(dt);
 		hud.update(dt);
 		hro.update(dt);
 		

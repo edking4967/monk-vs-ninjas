@@ -11,13 +11,14 @@ import com.thousandonestories.game.SpriteResources;
 import com.thousandonestories.game.background.BackgroundScenery;
 import com.thousandonestories.game.gameobjects.Block;
 import com.thousandonestories.game.gameobjects.GameObject;
+import com.thousandonestories.game.gameobjects.enemies.Ninja;
 import com.thousandonestories.game.states.GameState_Play;
 import com.thousandonestories.game.ui.Camera;
 
 public abstract class Level {
 
 	private CopyOnWriteArrayList<Block> blockList;
-	private CopyOnWriteArrayList<GameObject> gameObjList;
+	private CopyOnWriteArrayList<Ninja> gameObjList;
 	private CopyOnWriteArrayList<BackgroundScenery> bgSceneryList;
 	
 	private Resources mRes;
@@ -26,7 +27,7 @@ public abstract class Level {
 	public Level(GameManager gm)
 	{
 		blockList = new CopyOnWriteArrayList<Block>();
-		gameObjList = new CopyOnWriteArrayList<GameObject>();
+		gameObjList = new CopyOnWriteArrayList<Ninja>();
 		bgSceneryList = new CopyOnWriteArrayList<BackgroundScenery>();
 		this.gm=gm;
 		mRes = gm.getResources();
@@ -37,7 +38,7 @@ public abstract class Level {
 		return blockList;
 	}
 
-	public CopyOnWriteArrayList<GameObject> getGameObjList()
+	public CopyOnWriteArrayList<Ninja> getGameObjList()
 	{
 		return gameObjList;
 	}
@@ -80,6 +81,10 @@ public abstract class Level {
 		{
 			b.doDraw(c,camera);
 		}
+		for( Ninja g: gameObjList)
+		{
+			g.doDraw(c, camera);
+		}
 	}
 
 	/**
@@ -93,5 +98,10 @@ public abstract class Level {
 			return (GameState_Play) gm.getGameState();
 		}
 		else return null;
+	}
+
+	public void update(long dt) {
+		for(GameObject g: gameObjList)
+			g.update(dt);
 	}
 }
