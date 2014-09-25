@@ -3,7 +3,6 @@ package com.thousandonestories.game.ui;
 import android.content.res.Resources;
 import android.graphics.Bitmap;
 import android.util.Log;
-
 import com.thousandonestories.game.GameManager;
 import com.thousandonestories.game.GameTimer;
 import com.thousandonestories.game.bitmap.BitmapCache;
@@ -121,5 +120,6 @@ public class ClickableSprite extends Sprite
 	{
 		return clicked;
 	}
+
 	
 }

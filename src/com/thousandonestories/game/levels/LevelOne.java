@@ -86,8 +86,6 @@ public class LevelOne extends Level {
 
 		}
 		
-		
-		gm.restartGame();
 	}
 	
 	

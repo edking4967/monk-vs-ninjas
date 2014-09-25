@@ -133,13 +133,8 @@ public class Block implements GameObject
 		mRect.set((int) left, (int) top, (int) right, (int) bottom );	
 	}
 
-
-
 	public Rect getRect() {
 		return mRect;
 	}
-
-
-
 	
 }
