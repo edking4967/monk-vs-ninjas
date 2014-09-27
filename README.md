@@ -5,7 +5,7 @@ Monks vs. Ninjas. You are a monk. You must fight ninjas. Only you can restore pe
 
 ### How do I get set up? ###
 
-MVN is a standard Android project with no dependencies. Go wild!
+MVN is a standard Android project with no external dependencies. Go wild!
 
 ### Contribution guidelines ###
 
