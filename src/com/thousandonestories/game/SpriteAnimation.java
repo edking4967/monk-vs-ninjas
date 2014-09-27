@@ -198,5 +198,9 @@ public class SpriteAnimation {
 	{
 		flipped = !flipped;
 	}
+
+	public void setFlipped(boolean b) {
+		flipped = b;		
+	}
 	
 }

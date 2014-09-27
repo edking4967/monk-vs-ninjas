@@ -331,6 +331,20 @@ public class NewSprite implements GameObject
 	{
 		return !facingLeft;
 	}
+	
+	public void setFacingRight()
+	{
+		this.getSpriteResources().getCurrentAnimation().setFlipped(false);
+
+		facingLeft = false;
+	}
+	
+	public void setFacingLeft()
+	{
+		this.getSpriteResources().getCurrentAnimation().setFlipped(true);
+
+		facingLeft = true;
+	}
 
 	public Paint getPaint()
 	{

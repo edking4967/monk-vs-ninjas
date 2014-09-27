@@ -2,6 +2,8 @@ package com.thousandonestories.game.gameobjects;
 
 import java.util.concurrent.CopyOnWriteArrayList;
 
+import android.graphics.Color;
+
 import com.thousandonestories.game.PhysicsStuff;
 import com.thousandonestories.game.SpriteResources;
 import com.thousandonestories.game.states.GameState_Play;
@@ -94,11 +96,14 @@ public class NewPhysicsSprite extends NewSprite
 			this.setD2y(GRAVITY * mass);
 
 			/*
+			 * Animation:
+			 */
+			this.stopOnFrame(0, 6);
+
+			
+			/*
 			 * Check for landing on a block:
 			 */
-
-			//checkBlocks();
-
 			checkLanded( this.getBlockList() , elapsedTime);
 		}
 		else			
@@ -123,6 +128,12 @@ public class NewPhysicsSprite extends NewSprite
 
 		this.setInAir(false);
 		this.setCanJump(true);
+		
+		/*
+		 * Animation:
+		 */
+		stopOnFrame(0,0);
+
 
 	}
 
@@ -250,8 +261,8 @@ public class NewPhysicsSprite extends NewSprite
 		return inAir;
 	}
 
-	public void setInAir(boolean inAir) {
-		this.inAir = inAir;
+	public void setInAir(boolean b) {
+		this.inAir = b;
 	}
 
 	public boolean isRunning() {
