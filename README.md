@@ -9,7 +9,7 @@ MVN is a standard Android project with no external dependencies. Go wild!
 
 ### Contribution guidelines ###
 
-TBD
+TBD. The main branch that's being worked on right now is "new-panel."
 
 ### Who do I talk to? ###
 
