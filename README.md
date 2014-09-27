@@ -1,7 +1,7 @@
 # README #
 
 ### What is this repository for? ###
-Monks vs. Ninjas. You are a monk. You must fight ninjas. Only you can restore peace to the world. A 2D platformer game in the early stages of development. THIS GAME IS SICK
+Monks vs. Ninjas. You are a monk. You must fight ninjas. Only you can restore peace to the world. A 2D platformer game in the early stages of development. 
 
 ### How do I get set up? ###
 
