@@ -115,7 +115,7 @@ public class NewEnemy extends NewPhysicsSprite {
 	{
 		float startX;
 		int dir;
-		if ( this.isFlipped() )
+		if ( this.isFacingLeft() )
 		{
 			startX=this.getLeftBound() - 25;
 			dir = -1;

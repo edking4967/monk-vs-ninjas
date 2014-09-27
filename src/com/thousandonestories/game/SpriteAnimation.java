@@ -65,7 +65,7 @@ public class SpriteAnimation {
 		
 		currentFrameNum=0;
 		
-		currentFrame = bmps[0];
+		currentFrame = getBitmap(currentFrameNum);
 		
 	}
 	
@@ -73,7 +73,7 @@ public class SpriteAnimation {
 	{
 		startTime = System.currentTimeMillis();
 		currentFrameNum = startFrame;
-		currentFrame = getBitmap(startFrame);
+		currentFrame = getBitmap(currentFrameNum);
 		playing=true;
 	}
 	
@@ -114,12 +114,12 @@ public class SpriteAnimation {
 	
 	public Bitmap getCurrentFrame()
 	{
-		return currentFrame;
+		return getBitmap(currentFrameNum);
 	}
 	
 	public void setCurrentFrame(int frameNum)
 	{
-		currentFrame = getBitmap(frameNum);
+		currentFrameNum = frameNum;
 	}
 	
 	//
@@ -192,6 +192,11 @@ public class SpriteAnimation {
 	public boolean isPlaying()
 	{
 		return playing;
+	}
+	
+	public void flip()
+	{
+		flipped = !flipped;
 	}
 	
 }

@@ -33,6 +33,9 @@ public class NewPhysicsSprite extends NewSprite
 
 	protected float mD2x;
 	protected float mD2y;
+	
+	private boolean canJump;
+
 
 	/**
 	 * The block that this sprite is currently standing on.
@@ -50,6 +53,7 @@ public class NewPhysicsSprite extends NewSprite
 		jumpVel = phys.getJumpVel();
 
 		setInAir(true);
+		setCanJump(false);
 		setRunning(false);
 		
 		setOnBlock(null);
@@ -63,6 +67,8 @@ public class NewPhysicsSprite extends NewSprite
 
 
 		mDx += mD2x * (elapsedTime / 20f ); 
+		
+		
 		if(mDy<= TERMINAL_VELOCITY) // upper limit
 		{
 			mDy += mD2y * (elapsedTime / 20f ); 
@@ -106,7 +112,7 @@ public class NewPhysicsSprite extends NewSprite
 
 
 	private void setFacingLeft(boolean b) {
-		flipped = b;
+		facingLeft = b;
 	}
 
 	public void land( Block b )
@@ -116,14 +122,21 @@ public class NewPhysicsSprite extends NewSprite
 		this.moveFeet( b.getTopBound() );
 
 		this.setInAir(false);
+		this.setCanJump(true);
 
 	}
 
 	public void jump()
 	{
-		this.setDy(-jumpVel);
-		this.setOnBlock(null);
-		this.setInAir(true);
+		if(!canJump())
+			return;
+		else
+		{
+			this.setDy(-jumpVel);
+			this.setOnBlock(null);
+			this.setInAir(true);
+			canJump = false;
+		}
 	}
 
 	private void moveFeet(float feetPosition) {
@@ -267,5 +280,14 @@ public class NewPhysicsSprite extends NewSprite
 		setDx(0);
 		stopOnFrame(0,0);
 	}
+	
+	public boolean canJump() {
+		return canJump;
+	}
+
+	public void setCanJump(boolean canJump) {
+		this.canJump = canJump;
+	}
+
 
 }

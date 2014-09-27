@@ -84,7 +84,18 @@ public class GameState_Play extends GameState{
 			{
 			case MotionEvent.ACTION_DOWN:
 			case MotionEvent.ACTION_MOVE:
-				hro.run( (x - gm.getGameWidth()/2 ) /70 );
+				hro.run( (x - gm.getGameWidth()/2 ) /60 );
+				
+				if(hro.isFacingLeft() && x > hro.getMiddleX() )
+				{
+					//hro.flip();
+				}
+				
+				if(!hro.isFacingRight() && x < hro.getMiddleX() )
+				{
+					//hro.flip();
+				}
+				
 				break;
 			case MotionEvent.ACTION_UP:
 				hro.stopRunning();

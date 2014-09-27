@@ -31,7 +31,7 @@ public class NewSprite implements GameObject
 
 	private boolean hidden;
 	private boolean persistent;
-	protected boolean flipped;
+	protected boolean facingLeft;
 
 	private Paint paint;
 
@@ -64,7 +64,7 @@ public class NewSprite implements GameObject
 
 		sf = scalefactor;
 
-		flipped = false;
+		facingLeft = false;
 
 		drawRect = new Rect(); 
 
@@ -106,6 +106,8 @@ public class NewSprite implements GameObject
 			Rect rect = new Rect((int) getLeftBound(), (int) getTopBound(),bitmap.getWidth(), bitmap.getHeight());
 			
 			pRect = camera.createPannedRect(rect);
+			
+			facingLeft = false;
 			
 			Matrix matrix = new Matrix();
 			float px = pRect.exactCenterX();
@@ -316,12 +318,18 @@ public class NewSprite implements GameObject
 
 	public void flip()
 	{
-		flipped = !flipped;
+		facingLeft = !facingLeft;
+		this.getSpriteResources().getCurrentAnimation().flip();
 	}
 
-	public boolean isFlipped()
+	public boolean isFacingLeft()
 	{
-		return flipped;
+		return facingLeft;
+	}
+	
+	public boolean isFacingRight()
+	{
+		return !facingLeft;
 	}
 
 	public Paint getPaint()
@@ -329,6 +337,10 @@ public class NewSprite implements GameObject
 		return paint;
 	}
 
+	public float getMiddleX()
+	{
+		return ( getLeftBound()+getRightBound() ) /2;
+	}
 	
 
 }
