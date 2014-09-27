@@ -1,8 +1,7 @@
 package com.thousandonestories.game.gameobjects.enemies;
 
 
-import java.util.concurrent.CopyOnWriteArrayList;
-
+import com.thousandonestories.game.GameManager;
 import com.thousandonestories.game.GameTimer;
 import com.thousandonestories.game.PhysicsStuff;
 import com.thousandonestories.game.SpriteResources;
@@ -34,11 +33,11 @@ public class NewEnemy extends NewPhysicsSprite {
 	private boolean canSlash;
 	
 	private GameTimer tintTimer;
-	private CopyOnWriteArrayList<Projectile> projectileList;
 	private AIState<NewEnemy> currentState;
+	private GameManager gm;
 	
-	public NewEnemy(SpriteResources spriteRes, float x, float y,
-			int scalefactor, PhysicsStuff phys) {
+	public NewEnemy(GameManager gm, SpriteResources spriteRes, float x,
+			float y, int scalefactor, PhysicsStuff phys) {
 		super(spriteRes, x, y, scalefactor, phys);
 		projectileTimer = new GameTimer();
 		tintTimer = new GameTimer();
@@ -48,8 +47,6 @@ public class NewEnemy extends NewPhysicsSprite {
 		 */
 		projectileTimer.setTimer(1200);
 		
-		projectileList = new CopyOnWriteArrayList<Projectile>();
-		
 		tintTimer.setDuration(500);
 
 		this.setRunning(false);
@@ -58,6 +55,7 @@ public class NewEnemy extends NewPhysicsSprite {
 		
 		setState( new InitialState(this) );
 
+		this.gm=gm;
 	}
 
 	public void update(long elapsedTime)
@@ -133,11 +131,6 @@ public class NewEnemy extends NewPhysicsSprite {
 
 	}
 	
-	private CopyOnWriteArrayList<Projectile> getProjList() {
-		// TODO Auto-generated method stub
-		return projectileList;
-	}
-
 	public void land(Block b)
 	{
 		super.land(b);
@@ -200,9 +193,7 @@ public class NewEnemy extends NewPhysicsSprite {
 		 */
 		@Override
 		public boolean doChecks() {
-			//return !isInAir() ;
-			
-			return false;
+			return !isInAir() ;
 		}
 
 		@Override
@@ -220,7 +211,6 @@ public class NewEnemy extends NewPhysicsSprite {
 	{
 		public Running(NewEnemy e) {
 			super(e);
-			// TODO Auto-generated constructor stub
 		}
 
 		/**
@@ -258,7 +248,7 @@ public class NewEnemy extends NewPhysicsSprite {
 		 */
 		@Override
 		public boolean doChecks() {
-			return ( getInstance().getLeftBound() - OldPanel.hero.getRightBound() <= 15 );
+			return ( getInstance().getLeftBound() - gm.getHero().getRightBound() <= 15 );
 		}
 
 		@Override
@@ -278,7 +268,6 @@ public class NewEnemy extends NewPhysicsSprite {
 	{
 		public Slashing(NewEnemy e) {
 			super(e);
-			// TODO Auto-generated constructor stub
 		}
 
 		public void transition() 

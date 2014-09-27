@@ -9,12 +9,12 @@ public class Ninja extends NewEnemy{
 
 	public Ninja(SpriteResources spriteRes, float x, float y, int scalefactor,
 			PhysicsStuff phys) {
-		super(spriteRes, x, y, scalefactor, phys);
+		super(null, spriteRes, x, y, scalefactor, phys);
 	}
 	
 	public Ninja(GameManager gm, float x, float y, int bitmap_sample_factor)
 	{
-		super( BitmapCache.getNinjaRes(gm, bitmap_sample_factor), x, y, 1, new PhysicsStuff(5,60) );
+		super( gm, BitmapCache.getNinjaRes(gm, bitmap_sample_factor), x, y, 1, new PhysicsStuff(5,60) );
 	}
 
 

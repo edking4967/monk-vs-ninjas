@@ -86,8 +86,18 @@ public class BitmapCache {
 					R.drawable.ninja_19,
 					R.drawable.ninja_20,
 			};
+			
+			int imgs2[]={
+				R.drawable.ninjajump_0,
+				R.drawable.ninjajump_1,
+				R.drawable.ninjajump_2,
+				R.drawable.ninjajump_3,
+				R.drawable.ninjajump_4,
+				R.drawable.ninjajump_5,
 
-			ninjaRes = new SpriteResources(gm.getResources(), false, bitmap_sample_factor, imgs);
+			};
+
+			ninjaRes = new SpriteResources(gm.getResources(), false, bitmap_sample_factor, imgs, imgs2);
 			return ninjaRes;
 		}
 	}

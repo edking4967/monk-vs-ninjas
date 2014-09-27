@@ -2,7 +2,7 @@ package com.thousandonestories.game.gameobjects;
 
 import java.util.concurrent.CopyOnWriteArrayList;
 
-import android.graphics.Color;
+import android.graphics.Canvas;
 
 import com.thousandonestories.game.PhysicsStuff;
 import com.thousandonestories.game.SpriteResources;
@@ -37,6 +37,7 @@ public class NewPhysicsSprite extends NewSprite
 	protected float mD2y;
 	
 	private boolean canJump;
+	private CopyOnWriteArrayList<Projectile> projectileList;
 
 
 	/**
@@ -59,25 +60,39 @@ public class NewPhysicsSprite extends NewSprite
 		setRunning(false);
 		
 		setOnBlock(null);
+		projectileList = new CopyOnWriteArrayList<Projectile>();
 
 	}
 
-	public void update( long elapsedTime )
+	@Override
+	public void doDraw(Canvas c)
 	{
-		super.update(elapsedTime);
+		super.doDraw(c);
+
+		for(Projectile p: projectileList)
+		{
+			p.doDraw(c);
+		}
+		
+	}
+	
+	@Override
+	public void update( long dt )
+	{
+		super.update(dt);
 
 
 
-		mDx += mD2x * (elapsedTime / 20f ); 
+		mDx += mD2x * (dt / 20f ); 
 		
 		
 		if(mDy<= TERMINAL_VELOCITY) // upper limit
 		{
-			mDy += mD2y * (elapsedTime / 20f ); 
+			mDy += mD2y * (dt / 20f ); 
 		}
 
-		setLeftBound(getLeftBound() + mDx * (elapsedTime / 20f));
-		setTopBound(getTopBound() + mDy * (elapsedTime / 20f));
+		setLeftBound(getLeftBound() + mDx * (dt / 20f));
+		setTopBound(getTopBound() + mDy * (dt / 20f));
 
 		setRightBound(getLeftBound() + getWidth());
 		setBottomBound(getTopBound() + getHeight());
@@ -104,7 +119,7 @@ public class NewPhysicsSprite extends NewSprite
 			/*
 			 * Check for landing on a block:
 			 */
-			checkLanded( this.getBlockList() , elapsedTime);
+			checkLanded( this.getBlockList() , dt);
 		}
 		else			
 		{
@@ -113,6 +128,12 @@ public class NewPhysicsSprite extends NewSprite
 			checkFallFromBlock();
 			
 		}
+		
+		for(Projectile p: projectileList)
+		{
+			p.update(dt);
+		}
+
 	}
 
 
@@ -133,7 +154,6 @@ public class NewPhysicsSprite extends NewSprite
 		 * Animation:
 		 */
 		stopOnFrame(0,0);
-
 
 	}
 
@@ -299,6 +319,25 @@ public class NewPhysicsSprite extends NewSprite
 	public void setCanJump(boolean canJump) {
 		this.canJump = canJump;
 	}
+
+	
+	public void shoot()
+	{
+		float startX; 
+		float startY = this.getHeight()/2 + this.getTopBound();
+		
+		if(this.isFacingRight())
+			startX = this.getRightBound() + 25;
+		else
+			startX = this.getLeftBound() - 25;
+		
+	}
+	
+	public CopyOnWriteArrayList<Projectile> getProjList() 
+	{
+		return projectileList;
+	}
+
 
 
 }

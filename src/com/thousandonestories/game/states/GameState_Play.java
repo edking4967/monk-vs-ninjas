@@ -150,6 +150,11 @@ public class GameState_Play extends GameState{
 		return hud;
 	}
 	
+	public NewHeroSprite getHero()
+	{
+		return hro;
+	}
+	
 
 
 }

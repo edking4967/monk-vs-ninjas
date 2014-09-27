@@ -745,11 +745,11 @@ public class OldPanel extends SurfaceView implements SurfaceHolder.Callback {
 		
 		PhysicsStuff phys = new PhysicsStuff(1, 20);
 		
-		NewEnemy ninj = new NewEnemy(ninjaRes, 0, 0, 2, phys);
+		NewEnemy ninj = new NewEnemy(null, ninjaRes, 0, 0, 2, phys);
 		
 		mGameObjList.add(ninj);
 
-		ninj = new NewEnemy(ninjaRes, 700, 0, 2, phys);
+		ninj = new NewEnemy(null, ninjaRes, 700, 0, 2, phys);
 				
 		mGameObjList.add(ninj);
 		
