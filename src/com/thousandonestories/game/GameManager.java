@@ -3,8 +3,6 @@ package com.thousandonestories.game;
 import android.content.Context;
 import android.content.res.Resources;
 import android.graphics.Canvas;
-
-import com.thousandonestories.game.gameobjects.Block;
 import com.thousandonestories.game.gameobjects.NewHeroSprite;
 import com.thousandonestories.game.states.GameState;
 import com.thousandonestories.game.states.GameState_Menu;

@@ -88,6 +88,7 @@ public class BitmapCache {
 			};
 			
 			int imgs2[]={
+					
 				R.drawable.ninjajump_0,
 				R.drawable.ninjajump_1,
 				R.drawable.ninjajump_2,
