@@ -11,7 +11,7 @@ import android.view.SurfaceView;
 
 import com.thousandonestories.game.GameManager;
 import com.thousandonestories.game.ViewThread;
-import com.thousandonestories.game.bitmap.BitmapCache;
+import com.thousandonestories.game.graphics.BitmapCache;
 
 public class NewPanel extends SurfaceView implements SurfaceHolder.Callback, GestureDetector.OnGestureListener {
 

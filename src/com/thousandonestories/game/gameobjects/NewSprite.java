@@ -1,6 +1,6 @@
 package com.thousandonestories.game.gameobjects;
 
-import com.thousandonestories.game.SpriteResources;
+import com.thousandonestories.game.graphics.SpriteResources;
 import com.thousandonestories.game.ui.Camera;
 
 import android.graphics.Bitmap;

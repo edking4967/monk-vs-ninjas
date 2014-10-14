@@ -7,11 +7,11 @@ import android.graphics.Canvas;
 import android.graphics.Color;
 
 import com.thousandonestories.game.GameManager;
-import com.thousandonestories.game.SpriteResources;
 import com.thousandonestories.game.background.BackgroundScenery;
 import com.thousandonestories.game.gameobjects.Block;
 import com.thousandonestories.game.gameobjects.GameObject;
 import com.thousandonestories.game.gameobjects.enemies.Ninja;
+import com.thousandonestories.game.graphics.SpriteResources;
 import com.thousandonestories.game.states.GameState_Play;
 import com.thousandonestories.game.ui.Camera;
 

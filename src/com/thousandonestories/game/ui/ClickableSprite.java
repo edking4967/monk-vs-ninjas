@@ -5,10 +5,10 @@ import android.graphics.Bitmap;
 import android.util.Log;
 import com.thousandonestories.game.GameManager;
 import com.thousandonestories.game.GameTimer;
-import com.thousandonestories.game.bitmap.BitmapCache;
 import com.thousandonestories.game.gameobjects.HeroSprite;
 import com.thousandonestories.game.gameobjects.OldPanel;
 import com.thousandonestories.game.gameobjects.Sprite;
+import com.thousandonestories.game.graphics.BitmapCache;
 
 
 public class ClickableSprite extends Sprite

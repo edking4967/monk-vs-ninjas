@@ -16,12 +16,12 @@ import android.view.SurfaceView;
 import java.util.concurrent.CopyOnWriteArrayList;
 import com.thousandonestories.game.PhysicsStuff;
 import com.thousandonestories.game.R;
-import com.thousandonestories.game.SpriteResources;
 import com.thousandonestories.game.background.BackgroundScenery;
 import com.thousandonestories.game.background.BackgroundSprite;
 import com.thousandonestories.game.background.InteractiveScenery;
 import com.thousandonestories.game.background.Mountain;
 import com.thousandonestories.game.gameobjects.enemies.NewEnemy;
+import com.thousandonestories.game.graphics.SpriteResources;
 import com.thousandonestories.game.ui.ClickableSprite;
 
 //gravity stuff does not go in panel

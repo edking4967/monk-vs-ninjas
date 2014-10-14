@@ -3,9 +3,11 @@ package com.thousandonestories.game.gameobjects;
 import java.util.concurrent.CopyOnWriteArrayList;
 
 import android.graphics.Canvas;
+import android.graphics.Color;
 
 import com.thousandonestories.game.PhysicsStuff;
-import com.thousandonestories.game.SpriteResources;
+import com.thousandonestories.game.graphics.AnimationHandler;
+import com.thousandonestories.game.graphics.SpriteResources;
 import com.thousandonestories.game.states.GameState_Play;
 import com.thousandonestories.game.ui.NewPanel;
 
@@ -39,6 +41,7 @@ public class NewPhysicsSprite extends NewSprite
 	private boolean canJump;
 	private CopyOnWriteArrayList<Projectile> projectileList;
 
+	private AnimationHandler ah;
 
 	/**
 	 * The block that this sprite is currently standing on.
@@ -61,6 +64,8 @@ public class NewPhysicsSprite extends NewSprite
 		
 		setOnBlock(null);
 		projectileList = new CopyOnWriteArrayList<Projectile>();
+		
+		ah=new AnimationHandler();
 
 	}
 
@@ -114,7 +119,6 @@ public class NewPhysicsSprite extends NewSprite
 			 * Animation:
 			 */
 			this.stopOnFrame(0, 6);
-
 			
 			/*
 			 * Check for landing on a block:
@@ -153,7 +157,10 @@ public class NewPhysicsSprite extends NewSprite
 		/*
 		 * Animation:
 		 */
-		stopOnFrame(0,0);
+		if(mDx == 0)
+			stopOnFrame(0,0);
+		else
+			setRunning(true);
 
 	}
 
@@ -337,7 +344,5 @@ public class NewPhysicsSprite extends NewSprite
 	{
 		return projectileList;
 	}
-
-
 
 }

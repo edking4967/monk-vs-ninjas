@@ -2,8 +2,8 @@ package com.thousandonestories.game.gameobjects.enemies;
 
 import com.thousandonestories.game.GameManager;
 import com.thousandonestories.game.PhysicsStuff;
-import com.thousandonestories.game.SpriteResources;
-import com.thousandonestories.game.bitmap.BitmapCache;
+import com.thousandonestories.game.graphics.BitmapCache;
+import com.thousandonestories.game.graphics.SpriteResources;
 
 public class Ninja extends NewEnemy{
 

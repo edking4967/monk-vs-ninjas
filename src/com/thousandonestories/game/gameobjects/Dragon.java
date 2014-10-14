@@ -3,8 +3,8 @@ package com.thousandonestories.game.gameobjects;
 import java.util.concurrent.CopyOnWriteArrayList;
 
 import com.thousandonestories.game.GameTimer;
-import com.thousandonestories.game.SpriteResources;
 import com.thousandonestories.game.ai.AIState;
+import com.thousandonestories.game.graphics.SpriteResources;
 
 
 import android.graphics.Canvas;

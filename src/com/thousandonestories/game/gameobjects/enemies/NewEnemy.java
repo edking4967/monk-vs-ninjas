@@ -4,13 +4,13 @@ package com.thousandonestories.game.gameobjects.enemies;
 import com.thousandonestories.game.GameManager;
 import com.thousandonestories.game.GameTimer;
 import com.thousandonestories.game.PhysicsStuff;
-import com.thousandonestories.game.SpriteResources;
 import com.thousandonestories.game.ai.AIState;
-import com.thousandonestories.game.bitmap.BitmapCache;
 import com.thousandonestories.game.gameobjects.Block;
 import com.thousandonestories.game.gameobjects.NewPhysicsSprite;
 import com.thousandonestories.game.gameobjects.OldPanel;
 import com.thousandonestories.game.gameobjects.Projectile;
+import com.thousandonestories.game.graphics.BitmapCache;
+import com.thousandonestories.game.graphics.SpriteResources;
 
 import android.graphics.Color;
 
