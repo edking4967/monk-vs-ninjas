@@ -9,7 +9,15 @@ MVN is a standard Android project with no external dependencies. Go wild!
 
 ### Contribution guidelines ###
 
-TBD. The main branch that's being worked on right now is "new-panel."
+If you want to contribute, the best thing to do first is to play the game. You can do this by compiling the game manually using:
+    
+		ant debug
+
+and then installing it to a connected Android device using:
+
+    adb -d install -r bin/Monk*.apk
+
+You will find that if you are on the master branch, things will be buggier but there will be more to play around with--a hovering indestructible dragon, for instance!
 
 ### Who do I talk to? ###
 
