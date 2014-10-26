@@ -13,7 +13,7 @@ public abstract class Level {
 	private CopyOnWriteArrayList<Block> blockList;
 	private CopyOnWriteArrayList<GameObject> gameObjList;
 	private Resources mRes;
-	private TextBlock textBlock;
+	//private TextBlock textBlock;
 
 	public Level(Resources res)
 	{

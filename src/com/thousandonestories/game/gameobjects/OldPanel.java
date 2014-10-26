@@ -829,7 +829,7 @@ public class OldPanel extends SurfaceView implements SurfaceHolder.Callback {
 		gameStartTime = System.currentTimeMillis();
 		crocSpawnTime = gameStartTime;
 
-		flyingHero = new FlyingSprite(flyingResources, 100, 100, 1);
+		//flyingHero = new FlyingSprite(flyingResources, 100, 100, 1);
 		//mGameObjList.add(flyingHero);
 		door = new InteractiveScenery(res, 500, 500, door_b, door_b, 4, true);
 		mGameObjList.add(door);
@@ -1123,8 +1123,8 @@ public class OldPanel extends SurfaceView implements SurfaceHolder.Callback {
 		//newMonkRes = new SpriteResources(mRes, imgs, monk_med);
 
 		int [] flyingBmps = new int[1];
-		flyingBmps[0] = R.drawable.flyer_remove;
-		flyingResources = new SpriteResources(mRes, true, 1, flyingBmps);
+		//flyingBmps[0] = R.drawable.flyer_remove;
+		//flyingResources = new SpriteResources(mRes, true, 1, flyingBmps);
 
 		door_b = new Bitmap[1];
 
