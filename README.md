@@ -9,7 +9,15 @@ MVN is a standard Android project with no external dependencies. Go wild!
 
 ### Contribution guidelines ###
 
-TBD. The main branch that's being worked on right now is "new-panel."
+If you would like to contribute, the best first step is to play the game. You can do this by compiling the game manually using:
+
+    ant debug
+
+and then installing it to a connected Android device using:
+
+    adb -d install -r bin/Monk*.apk
+
+The "master" branch is the feature branch and the "new-panel" branch is more stable and well-structured. The gdx branch is for eventually porting the game to libgdx.
 
 ### Who do I talk to? ###
 
