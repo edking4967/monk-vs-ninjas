@@ -971,7 +971,7 @@ public class OldPanel extends SurfaceView implements SurfaceHolder.Callback {
 		//newMonkRes = new SpriteResources(mRes, imgs, monk_med);
 
 		int [] flyingBmps = new int[1];
-		flyingBmps[0] = R.drawable.flyer_remove;
+		//flyingBmps[0] = R.drawable.flyer_remove;
 		flyingResources = new SpriteResources(mRes, true, 1, flyingBmps);
 
 		door_b = new Bitmap[1];
