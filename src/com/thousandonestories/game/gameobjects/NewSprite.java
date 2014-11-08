@@ -36,6 +36,11 @@ public class NewSprite implements GameObject
 	private Paint paint;
 
 	/**
+	 * health of this sprite 
+	 */
+	private int health;
+
+	/**
 	 * Amount the sprite will be rotated when drawn.
 	 */
 	private float rotation;
@@ -315,6 +320,14 @@ public class NewSprite implements GameObject
 	public Paint getPaint()
 	{
 		return paint;
+	}
+	
+	public int getHealth() {
+		return health;
+	}
+
+	public void setHealth(int health) {
+		this.health = health;
 	}
 
 }

@@ -37,9 +37,13 @@ public class Dragon implements GameObject {
 	private long snakeLike_timesave;
 
 	/**
-	 *  length of one frame of "snakelike motion" animation, in ms.
+ 	 *  length of one frame of "snakelike motion" animation, in ms.
 	 */
 	private long snakeLike_animSpeed = 20;
+
+	/**
+	 * 
+	 */
 
 	/**
 	 * 
@@ -75,6 +79,7 @@ public class Dragon implements GameObject {
 					y + bodyOffset * i + initialOffset , 	// add a y offset for each additional body part
 					scalefactor 							// retain scaleFactor of Dragon as a whole 
 					) ;
+			bodyPart.setHealth(5);
 			//bodyPart.setVelocity( __ );
 			bodyPartsList.add(bodyPart);
 		}
