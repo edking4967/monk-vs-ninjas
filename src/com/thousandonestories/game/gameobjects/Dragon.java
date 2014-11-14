@@ -135,6 +135,20 @@ public class Dragon implements GameObject {
 					if(proj.getType() == Projectile.TYPE_HERO)
 					{
 						bp.flash(Color.RED, 500);
+
+						//TODO: gets called multiple times
+						bp.decrementHealth();
+						//bp.decrementHealthOnce();
+						//The problem is the projectile doesn't get deleted once it does 
+						//damage. 
+						
+						proj.
+
+						if(bp.getHealth()<=0) 
+						{
+							bp.hide();
+							bp.flash(Color.BLUE, 3000);
+						}
 						
 						OldPanel.blip2.start();
 

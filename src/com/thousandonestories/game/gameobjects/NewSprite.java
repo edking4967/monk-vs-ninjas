@@ -330,5 +330,10 @@ public class NewSprite implements GameObject
 		this.health = health;
 	}
 
+	public void decrementHealth()
+	{
+		this.health--;
+	}
+
 }
 
