@@ -142,12 +142,11 @@ public class Dragon implements GameObject {
 						//The problem is the projectile doesn't get deleted once it does 
 						//damage. 
 						
-						proj.
+						proj.hide();
 
 						if(bp.getHealth()<=0) 
 						{
-							bp.hide();
-							bp.flash(Color.BLUE, 3000);
+						    bodyPartsList.remove(bp);
 						}
 						
 						OldPanel.blip2.start();
