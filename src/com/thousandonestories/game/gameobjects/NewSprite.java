@@ -172,12 +172,21 @@ public class NewSprite implements GameObject
 
 	}
 
+	/**
+	 * Effects:
+	 */
+
 	public void flash(int color, long duration)
 	{
 		ColorFilter cf = new PorterDuffColorFilter( color, Mode.MULTIPLY);
 		paint.setColorFilter(cf);
 		tintDuration = duration;
 		tintStartTime = System.currentTimeMillis();
+	}
+
+	public void fade(long duration )
+	{
+		//does nothing yet
 	}
 
 	public void setTint(int color)

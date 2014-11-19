@@ -134,22 +134,23 @@ public class Dragon implements GameObject {
 				{
 					if(proj.getType() == Projectile.TYPE_HERO)
 					{
+						proj.hide();  //remove?
+
 						bp.flash(Color.RED, 500);
 
-						//TODO: gets called multiple times
+						//TODO: gets called multiple times (?)
 						bp.decrementHealth();
-						//bp.decrementHealthOnce();
-						//The problem is the projectile doesn't get deleted once it does 
-						//damage. 
-						
-						proj.hide();
 
 						if(bp.getHealth()<=0) 
 						{
+								//remove body part;
+
+								bp.fade(500);
+
 						    bodyPartsList.remove(bp);
 						}
 						
-						OldPanel.blip2.start();
+						OldPanel.blip2.start(); // play damage sound
 
 						if(!spewingFire) 
 						{

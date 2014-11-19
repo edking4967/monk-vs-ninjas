@@ -14,11 +14,11 @@
     <application
         android:allowBackup="true"
         android:icon="@drawable/output"
-        android:label="@string/app_name"
+        android:label="MVN dragon boss"
         android:theme="@style/AppTheme" >
         <activity
             android:name="com.thousandonestories.game.MainActivity"
-            android:label="@string/app_name" >
+            android:label="MVN dragon boss" >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
