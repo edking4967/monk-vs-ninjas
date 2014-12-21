@@ -79,5 +79,11 @@ public class MainActivity extends Activity {
 		setContentView(panel);
 	}
 
+    @Override
+    public void onBackPressed() {
+        Log.d("CDA", "onBackPressed Called");
+        panel.restartGame(this);
+    }
+
 }
 
