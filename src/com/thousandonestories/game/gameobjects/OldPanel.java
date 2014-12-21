@@ -875,7 +875,7 @@ public class OldPanel extends SurfaceView implements SurfaceHolder.Callback {
 		logos = new BackgroundSprite(logos_b, (float) mWidth - logos_b.getWidth()*12, (float) 150, 12);
 		bgSceneryList.add(1, logos);
 
-		dragon = new Dragon( dragonHeadRes, dragonBodyRes, mWidth-200, 0, 2, 5 );
+		dragon = new Dragon( dragonHeadRes, dragonBodyRes, mWidth-200, 0, 2, 1 );
 		mGameObjList.add(dragon);
 
 		addBlock(  0,  400,600,700, Color.WHITE);

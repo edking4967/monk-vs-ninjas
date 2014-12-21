@@ -26,7 +26,7 @@ public class MainActivity extends Activity {
 	    Log.d("bleh", "onCreate called");
 
 		
-	    setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE);      
+	    setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);      
 		//Remove title bar
 	    this.requestWindowFeature(Window.FEATURE_NO_TITLE);
 

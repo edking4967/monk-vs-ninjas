@@ -1,8 +1,11 @@
 package com.thousandonestories.game.levels;
 
+//import com.badlogic.gdx.JsonWriter;
+
 import java.util.concurrent.CopyOnWriteArrayList;
 
 import android.content.res.Resources;
+import org.json.JSONObject;
 
 import com.thousandonestories.game.SpriteResources;
 import com.thousandonestories.game.gameobjects.Block;
@@ -20,6 +23,7 @@ public abstract class Level {
 		blockList = new CopyOnWriteArrayList<Block>();
 		gameObjList = new CopyOnWriteArrayList<GameObject>();
 		mRes = res;
+
 	}
 
 	public CopyOnWriteArrayList<Block> getBlockList()
