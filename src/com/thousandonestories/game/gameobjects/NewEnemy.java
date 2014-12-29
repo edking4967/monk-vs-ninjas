@@ -1,11 +1,11 @@
 package com.thousandonestories.game.gameobjects;
 
 
+import com.thousandonestories.ai.AIState;
 import com.thousandonestories.game.GameTimer;
 import com.thousandonestories.game.PhysicsStuff;
 import com.thousandonestories.game.SpriteResources;
 
-import ai.AIState;
 import android.graphics.Color;
 
 

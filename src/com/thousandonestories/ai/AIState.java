@@ -1,4 +1,4 @@
-package ai;
+package com.thousandonestories.ai;
 
 public abstract class AIState<InstanceType>
 {
