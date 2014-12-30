@@ -16,6 +16,7 @@ public class HeroSprite extends GravitySprite {
 	public static final int WEAPON_PROJECTILE=0;
 	public static final int WEAPON_SWORD = 1;
 	
+	
 	//private BluetoothSynth synth;
 	
 	/**
@@ -85,10 +86,17 @@ public class HeroSprite extends GravitySprite {
 		this.weapon= weapon;
 	}
 	
+	int toneIndex = 0;	
 	@Override
 	public void jump()
 	{
 		super.jump();
-		synth.addNote(440, 8000, 100, 1000, false, 0);
+		synth.addNote(synth.getTone(toneIndex), 8000, 100, 1000, false, 0);
+		
+		if(toneIndex < synth.getNumTones()-1)
+			toneIndex++;
+		else 
+			toneIndex = 0;
 	}
+	
 }

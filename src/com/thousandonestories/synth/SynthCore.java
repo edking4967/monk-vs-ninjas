@@ -19,13 +19,15 @@ public class SynthCore {
 	private Thread t;  					// thread to synthesize audio
 	private boolean isRunning = false;	// whether the thread is running
 	private short[] samples; 			// array to store audio samples
+	
+
+	private double[] tones = {440, 493.88, 554.37, 659.25, 739.99}; 		// tones in the A pentatonic scale
 
 	private int wf=SIN;  				// initial waveform
 	
 	public SynthCore()
 	{
-		//SET UP BUFFER:
-
+		//Set up buffer:
 		mainBuff = new MainBuffer( 40 ); //buffer size 40 frames, note size 1000 buffers
 
 		// start a new thread to synthesize audio        
@@ -71,5 +73,14 @@ public class SynthCore {
 	{
 		mainBuff.addNote(fr, ampl, attack, notelength, choke, waveform);
 	}
+	
+	public double getTone(int toneIndex)
+	{
+		return tones[toneIndex];
+	}
 
+	public int getNumTones()
+	{
+		return tones.length;
+	}
 }
