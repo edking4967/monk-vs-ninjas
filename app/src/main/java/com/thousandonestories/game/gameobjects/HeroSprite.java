@@ -9,6 +9,7 @@ import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
 import android.util.Log;
+import com.thousandonestories.synth.SynthCore;
 
 public class HeroSprite extends GravitySprite {
 	
@@ -24,6 +25,8 @@ public class HeroSprite extends GravitySprite {
 	private int weapon; 
 	
 	private Bitmap swordBmp;
+
+    private SynthCore synth;
 	
 	public HeroSprite(Resources res, int x, int y, Bitmap bmps[], Bitmap reversebmps[], CopyOnWriteArrayList<Projectile> projList, float scalefactor) {
 		super(res, x, y, bmps, reversebmps, scalefactor);
@@ -36,6 +39,8 @@ public class HeroSprite extends GravitySprite {
 		Log.d("bleh", "hero constructor called");
 		
 		this.swordBmp = OldPanel.swordBmp;
+
+        synth = new SynthCore();
 	}
 
 	
@@ -81,4 +86,16 @@ public class HeroSprite extends GravitySprite {
 	{
 		this.weapon= weapon;
 	}
+
+    int toneIndex = 0;
+    @Override
+    public void jump()
+    {
+        super.jump();
+        synth.addNote(synth.getTone(toneIndex), 8000, 100, 1000, false, 0);
+        if(toneIndex < synth.getNumTones()-1)
+            toneIndex++;
+        else
+            toneIndex = 0;
+    }
 }
