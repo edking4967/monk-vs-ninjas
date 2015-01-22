@@ -202,7 +202,8 @@ public class GravitySprite extends Sprite {
 		savedImg = currentImg; //save img to go back to
 		currentImg=BMP_FIRE;
 		timeSave_Fire=System.currentTimeMillis();		
-		Log.d("blah", ""+System.currentTimeMillis());
+		Log.d("fire", ""+System.currentTimeMillis());
+
 	}
 
 	public void saveBoundaries(int leftBound, int rightBound) {

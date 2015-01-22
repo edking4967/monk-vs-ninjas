@@ -745,11 +745,13 @@ public class OldPanel extends SurfaceView implements SurfaceHolder.Callback {
 		menuItemList = new CopyOnWriteArrayList<ClickableSprite>();
 
 		Bitmap menuimg = BitmapFactory.decodeResource(getResources(), R.drawable.menuimg);
+        Bitmap menuimg2 = BitmapFactory.decodeResource(getResources(), R.drawable.menuimg2);
 		Bitmap [] mimgarray = { menuimg };
+        Bitmap [] mimgarray_2 = {menuimg2};
 		menuSprite = new ClickableSprite(getResources(), (int) 100, (int) 200, mimgarray, mimgarray, 1);
 		menuSprite.setAction(ClickableSprite.START_LEVEL_ONE);
 
-		ClickableSprite menuSprite2 = new ClickableSprite(getResources(), (int) 400, (int) 200, mimgarray, mimgarray, 1);
+		ClickableSprite menuSprite2 = new ClickableSprite(getResources(), (int) 400, (int) 200, mimgarray_2, mimgarray_2, 1);
 		menuSprite2.setAction(ClickableSprite.START_LEVEL_TWO);
 		
 		ClickableSprite menuSprite3 = new ClickableSprite(getResources(), (int) 600, (int) 200, mimgarray, mimgarray, 1);
