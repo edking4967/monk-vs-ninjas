@@ -49,7 +49,8 @@ public class SpriteAnimation {
 
 		o.inScaled = false;
 		
-		o.inSampleSize = sampleSize;
+		if(sampleSize!=1)
+            o.inSampleSize = sampleSize;
 		
 		if(pixelart)
 		{

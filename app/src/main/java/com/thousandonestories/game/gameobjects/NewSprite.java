@@ -112,19 +112,9 @@ public class NewSprite implements GameObject
 			return;
 		}
 
-		if(sf !=1 )
-		{
+		canvas.drawBitmap( spriteResources.getCurrentFrame(), null, drawRect, paint );
 
-			canvas.drawBitmap( spriteResources.getCurrentFrame(), null, drawRect, paint );
 
-		}
-		else
-		{
-			Paint aPaint = new Paint();
-			aPaint.setColor(Color.WHITE);
-			canvas.drawRect(drawRect, aPaint );
-			canvas.drawBitmap( spriteResources.getCurrentFrame(), getLeftBound(), getTopBound(), paint );
-		}
 
 	}
 
