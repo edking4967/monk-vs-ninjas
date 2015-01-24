@@ -137,6 +137,8 @@ public class OldPanel extends SurfaceView implements SurfaceHolder.Callback {
 
 	SpriteResources ninjaRes;
 
+    SpriteResources goalOrbRes;
+
 	ClickableSprite gameOverSprite;
 	ClickableSprite menuSprite;
 
@@ -827,6 +829,9 @@ public class OldPanel extends SurfaceView implements SurfaceHolder.Callback {
 		mGravSpriteList.add(croc);
 
 
+        GoalOrb goalOrb = new GoalOrb(goalOrbRes, 2000, 200, 2);
+        mGameObjList.add(goalOrb);
+        goalOrb.startAnimation(0, 5);
 
 		gameStartTime = System.currentTimeMillis();
 		crocSpawnTime = gameStartTime;
@@ -1085,7 +1090,7 @@ public class OldPanel extends SurfaceView implements SurfaceHolder.Callback {
 
 		qiBmp[0]= BitmapFactory.decodeResource(mRes, R.drawable.qi);
 
-		int tomatoman_imgs[]= { R.drawable.tomatoman_1, R.drawable.tomatoman_2 };
+		int[] tomatoman_imgs= { R.drawable.tomatoman_1, R.drawable.tomatoman_2};
 		int speechbubble[] = { R.drawable.speech_bubble };
 
 		tomatomanRes = new SpriteResources( mRes, true, 1, tomatoman_imgs, speechbubble ); 
@@ -1154,6 +1159,26 @@ public class OldPanel extends SurfaceView implements SurfaceHolder.Callback {
 			};
 
 		ninjaRes = new SpriteResources(mRes, false, 4, ninjaBmps, ninjaJumpBmp );
+
+        int goalOrbBmp[] =
+                {
+                        drawable.drawing1,
+                        R.drawable.drawing2,
+                        R.drawable.drawing3,
+                        R.drawable.drawing4,
+                        R.drawable.drawing5,
+                        R.drawable.drawing6,
+                        R.drawable.drawing7,
+                        R.drawable.drawing6,
+                        R.drawable.drawing5,
+                        R.drawable.drawing4,
+                        R.drawable.drawing3,
+                        R.drawable.drawing2,
+                        R.drawable.drawing1
+
+                };
+        goalOrbRes = new SpriteResources(mRes,true, 1, goalOrbBmp);
+
 	}
 
 	public static void removeFromLists( GameObject mObj )

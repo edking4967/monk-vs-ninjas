@@ -46,7 +46,7 @@ public class SpriteAnimation {
 		width = new float[length];
 		
 		BitmapFactory.Options o = new BitmapFactory.Options();
-		
+
 		o.inScaled = false;
 		
 		o.inSampleSize = sampleSize;
