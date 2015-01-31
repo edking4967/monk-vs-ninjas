@@ -30,7 +30,7 @@ public class SpriteAnimation {
 	 */
 	private boolean repeat;
 	
-	public SpriteAnimation(int[] bmp_nums, Resources res, boolean pixelart, int sampleSize )
+	public SpriteAnimation(int[] bmp_nums, Resources res, boolean pixelart, float sampleSize )
 	{
 		int i;
 		//import bitmaps designated in bmp_nums
@@ -49,8 +49,10 @@ public class SpriteAnimation {
 
 		o.inScaled = false;
 		
-		if(sampleSize!=1)
-            o.inSampleSize = sampleSize;
+		if(sampleSize>=1)
+            o.inSampleSize = (int) sampleSize;
+        else
+            sampleSize = 1;
 		
 		if(pixelart)
 		{
@@ -62,8 +64,13 @@ public class SpriteAnimation {
 			bmps[i] = BitmapFactory.decodeResource( res, bmp_nums[i], o);
 			height[i] = bmps[i].getHeight();
 			width[i] = bmps[i].getWidth();
+            if(sampleSize < 1)
+            {
+               bmps[i] = Bitmap.createScaledBitmap(bmps[i],(int) (width[i]*sampleSize),
+                       (int) (height[i]*sampleSize),false);
+            }
 		}
-		
+
 		currentFrameNum=0;
 		
 		currentFrame = bmps[0];

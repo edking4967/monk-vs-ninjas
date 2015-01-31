@@ -11,7 +11,7 @@ public class SpriteResources{
 	private SpriteAnimation currentAnimation;
 	private Resources mRes;
 	
-	public SpriteResources( Resources res, boolean pixelart, int sampleFactor, int[]... animations )
+	public SpriteResources( Resources res, boolean pixelart, float sampleFactor, int[]... animations )
 	{
 		anims = new SpriteAnimation[animations.length];
 		int i;

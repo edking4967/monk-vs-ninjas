@@ -27,7 +27,7 @@ public class NewSprite implements GameObject
 	
 	private Rect drawRect;
 	
-	private int sf;
+	private float sf;
 
 	private boolean hidden;
 	private boolean persistent;
@@ -55,7 +55,7 @@ public class NewSprite implements GameObject
 	 */
 	private long tintDuration;
 
-	public NewSprite( SpriteResources spriteRes, float x, float y, int scalefactor )
+	public NewSprite( SpriteResources spriteRes, float x, float y, float scalefactor )
 	{
 		spriteResources=spriteRes;
 		setLeftBound(x);

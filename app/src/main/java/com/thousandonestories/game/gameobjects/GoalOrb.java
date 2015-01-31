@@ -1,4 +1,7 @@
 package com.thousandonestories.game.gameobjects;
+import android.graphics.Color;
+
+import com.thousandonestories.game.GameManager;
 import com.thousandonestories.game.SpriteResources;
 import com.thousandonestories.game.ai.Goal;
 /**
@@ -8,7 +11,7 @@ public class GoalOrb extends NewSprite {
     private Sprite img;
     private Goal goal;
 
-    public GoalOrb(SpriteResources res, float x, float y, int scaleFactor)
+    public GoalOrb(SpriteResources res, float x, float y, float scaleFactor)
     {
         super(res,x,y,scaleFactor);
     }
@@ -16,5 +19,14 @@ public class GoalOrb extends NewSprite {
     public void setGoal(Goal goal)
     {
         this.goal = goal;
+    }
+
+    @Override
+    public void update(long elapsedTime)
+    {
+        if(OldPanel.checkCollision(this, OldPanel.hero))
+        {
+            this.flash(Color.RED,5000);
+        }
     }
 }

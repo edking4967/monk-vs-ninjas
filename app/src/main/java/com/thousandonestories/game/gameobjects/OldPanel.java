@@ -829,7 +829,7 @@ public class OldPanel extends SurfaceView implements SurfaceHolder.Callback {
 		mGravSpriteList.add(croc);
 
 
-        GoalOrb goalOrb = new GoalOrb(goalOrbRes, 2000, 200, 1);
+        GoalOrb goalOrb = new GoalOrb(goalOrbRes, 2000, 200, .5f);
         mGameObjList.add(goalOrb);
         goalOrb.startAnimation(0, 5);
 
