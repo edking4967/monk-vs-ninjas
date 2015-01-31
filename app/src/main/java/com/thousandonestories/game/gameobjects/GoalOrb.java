@@ -21,6 +21,19 @@ public class GoalOrb extends NewSprite {
         this.goal = goal;
     }
 
+    class BlehTask implements Runnable
+    {
+        @Override
+        public void run() {
+            try {
+                wait(2000);
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
+            //OldPanel.gameOver();
+        }
+    }
+
     @Override
     public void update(long elapsedTime)
     {
@@ -28,6 +41,7 @@ public class GoalOrb extends NewSprite {
         if(OldPanel.checkCollision(this, OldPanel.hero))
         {
             this.flash(Color.RED,5000);
+            goal.complete();
         }
     }
 }

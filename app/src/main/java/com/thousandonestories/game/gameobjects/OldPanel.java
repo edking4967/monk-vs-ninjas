@@ -1,5 +1,4 @@
 package com.thousandonestories.game.gameobjects; 
-
 import android.content.Context;
 import android.content.res.Resources;
 import android.graphics.Bitmap;
@@ -27,6 +26,7 @@ import com.thousandonestories.game.SpriteResources;
 import com.thousandonestories.game.ViewThread;
 import com.thousandonestories.game.R.drawable;
 import com.thousandonestories.game.R.raw;
+import com.thousandonestories.game.ai.Goal;
 import com.thousandonestories.game.ui.ClickableSprite;
 
 //gravity stuff does not go in panel
@@ -828,8 +828,21 @@ public class OldPanel extends SurfaceView implements SurfaceHolder.Callback {
 		mGameObjList.add(croc);
 		mGravSpriteList.add(croc);
 
+        class LvlOneGoal extends Goal
+        {
+            public void complete()
+            {
+
+            }
+
+            Runnable r ;
+        }
+
+        LvlOneGoal lvlOneGoal = new LvlOneGoal();
 
         GoalOrb goalOrb = new GoalOrb(goalOrbRes, 2000, 200, .5f);
+        goalOrb.setGoal(lvlOneGoal);
+
         mGameObjList.add(goalOrb);
         goalOrb.startAnimation(0, 5);
 
@@ -981,8 +994,6 @@ public class OldPanel extends SurfaceView implements SurfaceHolder.Callback {
 		}
 
 	}
-
-
 
 	public void restartGame(Context context)
 	{

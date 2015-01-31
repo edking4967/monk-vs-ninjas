@@ -81,7 +81,6 @@ public class MainActivity extends Activity {
 
     @Override
     public void onBackPressed() {
-        Log.d("CDA", "onBackPressed Called");
         panel.restartGame(this);
     }
 
