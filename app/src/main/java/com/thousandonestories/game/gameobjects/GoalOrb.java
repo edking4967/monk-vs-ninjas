@@ -21,12 +21,12 @@ public class GoalOrb extends NewSprite {
         this.goal = goal;
     }
 
-    @Override
-    public void update(long elapsedTime)
-    {
-        if(OldPanel.checkCollision(this, OldPanel.hero))
-        {
-            this.flash(Color.RED,5000);
-        }
-    }
+//    @Override
+//    public void update(long elapsedTime)
+//    {
+//        if(OldPanel.checkCollision(this, OldPanel.hero))
+//        {
+//            this.flash(Color.RED,5000);
+//        }
+//    }
 }
