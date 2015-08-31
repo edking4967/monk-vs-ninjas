@@ -39,7 +39,6 @@ public class MainActivity extends Activity {
 	    
 
 		setContentView(panel);
-	
 	}
 	
 	protected void onResume()

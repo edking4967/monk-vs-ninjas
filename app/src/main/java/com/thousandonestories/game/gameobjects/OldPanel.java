@@ -249,6 +249,7 @@ public class OldPanel extends SurfaceView implements SurfaceHolder.Callback {
 
 			int moveBox = 100; // amount hero can move before camera locks to him again
 
+            scrollLock = true;
 
 			if(!scrollLock) // scroll lock off: screen fixed, hero moves
 			{
@@ -271,7 +272,6 @@ public class OldPanel extends SurfaceView implements SurfaceHolder.Callback {
 			}
 			//end camera control
 
-			scrollLock = true;
 
 			//TODO: fold these checks into one main GameObject loop.
 			//Check sprite collisions with blocks:
@@ -287,6 +287,7 @@ public class OldPanel extends SurfaceView implements SurfaceHolder.Callback {
 
 			for(BackgroundScenery bgObj: bgSceneryList)
 			{
+                scrollLock=true;
 				if(scrollLock)
 				{
 					bgObj.scroll( scrollSpeed/ ( 20f + 10*offset ) ,  elapsedTime );
@@ -302,6 +303,7 @@ public class OldPanel extends SurfaceView implements SurfaceHolder.Callback {
 			for (GameObject mObj : mGameObjList) {
 
 				mObj.update(elapsedTime); //update object's position etc
+                scrollLock=true;
 				if( scrollLock) 
 				{
 					mObj.scroll(scrollSpeed/20f,  elapsedTime ) ; // scroll object as necessary
@@ -800,7 +802,7 @@ public class OldPanel extends SurfaceView implements SurfaceHolder.Callback {
 
 
 		scrollSpeed=0;
-		scrollLock = false;
+		scrollLock = true;
 
 
 		Resources res = getResources();
@@ -816,7 +818,7 @@ public class OldPanel extends SurfaceView implements SurfaceHolder.Callback {
 		// add platforms:
 		for(int i =0; i<10; i++)
 		{
-			addBlock( i * 600, i* 600 + 400,600,700, Color.WHITE);
+			addBlock( i * 600, i* 600 + 400,450,550, Color.WHITE);
 
 		}
 
@@ -898,7 +900,7 @@ public class OldPanel extends SurfaceView implements SurfaceHolder.Callback {
 		dragon = new Dragon( dragonHeadRes, dragonBodyRes, mWidth-200, 0, 2, 5 );
 		mGameObjList.add(dragon);
 
-		addBlock(  0,  400,600,700, Color.WHITE);
+		addBlock(  0,  400,450,550, Color.WHITE);
 
 
 		setGameState(STATE_GAME_RUNNING);
@@ -911,9 +913,9 @@ public class OldPanel extends SurfaceView implements SurfaceHolder.Callback {
 		initializeHero();
 		
 		
-		addBlock(  0,  400,600,700, Color.WHITE);
+		addBlock(  0,  400,450,550, Color.WHITE);
 		
-		addBlock(  600,  1000,600,700, Color.WHITE);
+		addBlock(  600,  1000,450,550, Color.WHITE);
 		
 		PhysicsStuff phys = new PhysicsStuff(1, 20);
 		
@@ -1269,7 +1271,12 @@ public class OldPanel extends SurfaceView implements SurfaceHolder.Callback {
 
 		}
 	}
-	
+
+    public void loadBitmapsLevelOneTwo()
+    {
+
+    }
+
 	public void updateHealthBar()
 	{
 		int numHealthBars = hero.getHealth()/25;

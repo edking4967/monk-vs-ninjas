@@ -40,7 +40,7 @@ public class HeroSprite extends GravitySprite {
 		
 		this.swordBmp = OldPanel.swordBmp;
 
-        synth = new SynthCore();
+        //synth = new SynthCore();
 	}
 
 	
@@ -92,10 +92,12 @@ public class HeroSprite extends GravitySprite {
     public void jump()
     {
         super.jump();
+        /*
         synth.addNote(synth.getTone(toneIndex), 8000, 100, 1000, false, 0);
         if(toneIndex < synth.getNumTones()-1)
             toneIndex++;
         else
             toneIndex = 0;
+            */
     }
 }
