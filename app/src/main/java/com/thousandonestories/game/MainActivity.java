@@ -51,7 +51,7 @@ public class MainActivity extends Activity {
 	protected void onPause()
 	{
 		super.onPause();
-		Log.d("bleh", "onPause called");
+		Log.d("bleh", "onPause was called");
 		panel.getThread().setRunning(false);
 	}
 	
