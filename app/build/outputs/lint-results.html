@@ -18,8 +18,8 @@ document.getElementById(id+'Link').style.display = 'none';
 <body>
 <h1>Lint Report</h1>
 <div class="titleSeparator"></div>
-Check performed at Thu Apr 28 16:06:58 CST 2016.<br/>
-0 errors and 39 warnings found:<br/><br/>
+Check performed at Mon May 09 01:39:05 CST 2016.<br/>
+0 errors and 42 warnings found:<br/><br/>
 <table class="overview">
 <tr><td></td><td class="categoryColumn"><a href="#Correctness">Correctness</a>
 </td></tr>
@@ -60,7 +60,7 @@ Check performed at Thu Apr 28 16:06:58 CST 2016.<br/>
 <a href="#IconDensities">IconDensities: Icon densities validation</a>
 </td></tr>
 <tr>
-<td class="countColumn">7</td><td class="issueColumn"><img border="0" align="top" src="lint-results_files/lint-warning.png" alt="Warning" />
+<td class="countColumn">10</td><td class="issueColumn"><img border="0" align="top" src="lint-results_files/lint-warning.png" alt="Warning" />
 <a href="#IconDuplicates">IconDuplicates: Duplicated icons under different names</a>
 </td></tr>
 <tr>
@@ -318,9 +318,9 @@ The <code>.gif</code> file format is discouraged. Consider using <code>.png</cod
 <div class="id"><a href="#" title="Return to top">IconDensities: Icon densities validation</a><div class="issueSeparator"></div>
 </div>
 <div class="warningslist">
-<span class="location"><a href="../../src/main/res/drawable-mdpi">../../src/main/res/drawable-mdpi</a></span>: <span class="message">Missing the following drawables in <code>drawable-mdpi</code>: amonk_med0001.png, amonk_med0002.png, amonk_med0003.png, amonk_med0004.png, amonk_med0005.png... (106 more)</span><br />
-<span class="location"><a href="../../src/main/res/drawable-xhdpi">../../src/main/res/drawable-xhdpi</a></span>: <span class="message">Missing the following drawables in <code>drawable-xhdpi</code>: amonk_med0001.png, amonk_med0002.png, amonk_med0003.png, amonk_med0004.png, amonk_med0005.png... (106 more)</span><br />
-<span class="location"><a href="../../src/main/res/drawable-xxhdpi">../../src/main/res/drawable-xxhdpi</a></span>: <span class="message">Missing the following drawables in <code>drawable-xxhdpi</code>: amonk_med0001.png, amonk_med0002.png, amonk_med0003.png, amonk_med0004.png, amonk_med0005.png... (106 more)</span><br />
+<span class="location"><a href="../../src/main/res/drawable-mdpi">../../src/main/res/drawable-mdpi</a></span>: <span class="message">Missing the following drawables in <code>drawable-mdpi</code>: amonk_med0001.png, amonk_med0002.png, amonk_med0003.png, amonk_med0004.png, amonk_med0005.png... (131 more)</span><br />
+<span class="location"><a href="../../src/main/res/drawable-xhdpi">../../src/main/res/drawable-xhdpi</a></span>: <span class="message">Missing the following drawables in <code>drawable-xhdpi</code>: amonk_med0001.png, amonk_med0002.png, amonk_med0003.png, amonk_med0004.png, amonk_med0005.png... (131 more)</span><br />
+<span class="location"><a href="../../src/main/res/drawable-xxhdpi">../../src/main/res/drawable-xxhdpi</a></span>: <span class="message">Missing the following drawables in <code>drawable-xxhdpi</code>: amonk_med0001.png, amonk_med0002.png, amonk_med0003.png, amonk_med0004.png, amonk_med0005.png... (131 more)</span><br />
 </div>
 <div class="metadata">Priority: 4 / 10<br/>
 Category: Usability:Icons</div>
@@ -339,9 +339,52 @@ Low density is not really used much anymore, so this check ignores the ldpi dens
 <div class="id"><a href="#" title="Return to top">IconDuplicates: Duplicated icons under different names</a><div class="issueSeparator"></div>
 </div>
 <div class="warningslist">
-<span class="location"><a href="../../src/main/res/drawable-hdpi/monk10.png">../../src/main/res/drawable-hdpi/monk10.png</a></span>: <span class="message">The following unrelated icon files have identical contents: monk01.png, monk10.png</span><br />
-<ul></ul><button id="Location1DivLink" onclick="reveal('Location1Div');" />+ 1 Additional Locations...</button>
+<span class="location"><a href="../../src/main/res/drawable-hdpi/coffeecup15.png">../../src/main/res/drawable-hdpi/coffeecup15.png</a></span>: <span class="message">The following unrelated icon files have identical contents: coffeecup10.png, coffeecup11.png, coffeecup15.png</span><br />
+<ul></ul><button id="Location1DivLink" onclick="reveal('Location1Div');" />+ 2 Additional Locations...</button>
 <div id="Location1Div" style="display: none">
+Additional locations: <ul>
+<li> <span class="location"><a href="../../src/main/res/drawable-hdpi/coffeecup11.png">../../src/main/res/drawable-hdpi/coffeecup11.png</a></span>
+<li> <span class="location"><a href="../../src/main/res/drawable-hdpi/coffeecup10.png">../../src/main/res/drawable-hdpi/coffeecup10.png</a></span>
+</ul>
+</div><br/><br/>
+<table><tr><td><a href="../../src/main/res/drawable-hdpi/coffeecup15.png"><img border="0" align="top" src="../../src/main/res/drawable-hdpi/coffeecup15.png" /></a>
+</td><td><a href="../../src/main/res/drawable-hdpi/coffeecup11.png"><img border="0" align="top" src="../../src/main/res/drawable-hdpi/coffeecup11.png" /></a>
+</td><td><a href="../../src/main/res/drawable-hdpi/coffeecup10.png"><img border="0" align="top" src="../../src/main/res/drawable-hdpi/coffeecup10.png" /></a>
+</td></tr><tr><th>hdpi</th><th>hdpi</th><th>hdpi</th></tr>
+</table>
+<span class="location"><a href="../../src/main/res/drawable-hdpi/coffeecup20.png">../../src/main/res/drawable-hdpi/coffeecup20.png</a></span>: <span class="message">The following unrelated icon files have identical contents: coffeecup16.png, coffeecup17.png, coffeecup18.png, coffeecup19.png, coffeecup20.png</span><br />
+<ul></ul><button id="Location2DivLink" onclick="reveal('Location2Div');" />+ 4 Additional Locations...</button>
+<div id="Location2Div" style="display: none">
+Additional locations: <ul>
+<li> <span class="location"><a href="../../src/main/res/drawable-hdpi/coffeecup19.png">../../src/main/res/drawable-hdpi/coffeecup19.png</a></span>
+<li> <span class="location"><a href="../../src/main/res/drawable-hdpi/coffeecup18.png">../../src/main/res/drawable-hdpi/coffeecup18.png</a></span>
+<li> <span class="location"><a href="../../src/main/res/drawable-hdpi/coffeecup17.png">../../src/main/res/drawable-hdpi/coffeecup17.png</a></span>
+<li> <span class="location"><a href="../../src/main/res/drawable-hdpi/coffeecup16.png">../../src/main/res/drawable-hdpi/coffeecup16.png</a></span>
+</ul>
+</div><br/><br/>
+<table><tr><td><a href="../../src/main/res/drawable-hdpi/coffeecup20.png"><img border="0" align="top" src="../../src/main/res/drawable-hdpi/coffeecup20.png" /></a>
+</td><td><a href="../../src/main/res/drawable-hdpi/coffeecup19.png"><img border="0" align="top" src="../../src/main/res/drawable-hdpi/coffeecup19.png" /></a>
+</td><td><a href="../../src/main/res/drawable-hdpi/coffeecup18.png"><img border="0" align="top" src="../../src/main/res/drawable-hdpi/coffeecup18.png" /></a>
+</td><td><a href="../../src/main/res/drawable-hdpi/coffeecup17.png"><img border="0" align="top" src="../../src/main/res/drawable-hdpi/coffeecup17.png" /></a>
+</td><td><a href="../../src/main/res/drawable-hdpi/coffeecup16.png"><img border="0" align="top" src="../../src/main/res/drawable-hdpi/coffeecup16.png" /></a>
+</td></tr><tr><th>hdpi</th><th>hdpi</th><th>hdpi</th><th>hdpi</th><th>hdpi</th></tr>
+</table>
+<span class="location"><a href="../../src/main/res/drawable-hdpi/coffeecup23.png">../../src/main/res/drawable-hdpi/coffeecup23.png</a></span>: <span class="message">The following unrelated icon files have identical contents: coffeecup21.png, coffeecup22.png, coffeecup23.png</span><br />
+<ul></ul><button id="Location3DivLink" onclick="reveal('Location3Div');" />+ 2 Additional Locations...</button>
+<div id="Location3Div" style="display: none">
+Additional locations: <ul>
+<li> <span class="location"><a href="../../src/main/res/drawable-hdpi/coffeecup22.png">../../src/main/res/drawable-hdpi/coffeecup22.png</a></span>
+<li> <span class="location"><a href="../../src/main/res/drawable-hdpi/coffeecup21.png">../../src/main/res/drawable-hdpi/coffeecup21.png</a></span>
+</ul>
+</div><br/><br/>
+<table><tr><td><a href="../../src/main/res/drawable-hdpi/coffeecup23.png"><img border="0" align="top" src="../../src/main/res/drawable-hdpi/coffeecup23.png" /></a>
+</td><td><a href="../../src/main/res/drawable-hdpi/coffeecup22.png"><img border="0" align="top" src="../../src/main/res/drawable-hdpi/coffeecup22.png" /></a>
+</td><td><a href="../../src/main/res/drawable-hdpi/coffeecup21.png"><img border="0" align="top" src="../../src/main/res/drawable-hdpi/coffeecup21.png" /></a>
+</td></tr><tr><th>hdpi</th><th>hdpi</th><th>hdpi</th></tr>
+</table>
+<span class="location"><a href="../../src/main/res/drawable-hdpi/monk10.png">../../src/main/res/drawable-hdpi/monk10.png</a></span>: <span class="message">The following unrelated icon files have identical contents: monk01.png, monk10.png</span><br />
+<ul></ul><button id="Location4DivLink" onclick="reveal('Location4Div');" />+ 1 Additional Locations...</button>
+<div id="Location4Div" style="display: none">
 Additional locations: <ul>
 <li> <span class="location"><a href="../../src/main/res/drawable-hdpi/monk01.png">../../src/main/res/drawable-hdpi/monk01.png</a></span>
 </ul>
@@ -351,8 +394,8 @@ Additional locations: <ul>
 </td></tr><tr><th>hdpi</th><th>hdpi</th></tr>
 </table>
 <span class="location"><a href="../../src/main/res/drawable-hdpi/ninja_13.png">../../src/main/res/drawable-hdpi/ninja_13.png</a></span>: <span class="message">The following unrelated icon files have identical contents: ninja_0.png, ninja_13.png</span><br />
-<ul></ul><button id="Location2DivLink" onclick="reveal('Location2Div');" />+ 1 Additional Locations...</button>
-<div id="Location2Div" style="display: none">
+<ul></ul><button id="Location5DivLink" onclick="reveal('Location5Div');" />+ 1 Additional Locations...</button>
+<div id="Location5Div" style="display: none">
 Additional locations: <ul>
 <li> <span class="location"><a href="../../src/main/res/drawable-hdpi/ninja_0.png">../../src/main/res/drawable-hdpi/ninja_0.png</a></span>
 </ul>
@@ -361,9 +404,11 @@ Additional locations: <ul>
 </td><td><a href="../../src/main/res/drawable-hdpi/ninja_0.png"><img border="0" align="top" src="../../src/main/res/drawable-hdpi/ninja_0.png" /></a>
 </td></tr><tr><th>hdpi</th><th>hdpi</th></tr>
 </table>
+<button id="IconDuplicatesDivLink" onclick="reveal('IconDuplicatesDiv');" />+ 5 More Occurrences...</button>
+<div id="IconDuplicatesDiv" style="display: none">
 <span class="location"><a href="../../src/main/res/drawable-hdpi/ninja_2.png">../../src/main/res/drawable-hdpi/ninja_2.png</a></span>: <span class="message">The following unrelated icon files have identical contents: ninja_11.png, ninja_2.png</span><br />
-<ul></ul><button id="Location3DivLink" onclick="reveal('Location3Div');" />+ 1 Additional Locations...</button>
-<div id="Location3Div" style="display: none">
+<ul></ul><button id="Location6DivLink" onclick="reveal('Location6Div');" />+ 1 Additional Locations...</button>
+<div id="Location6Div" style="display: none">
 Additional locations: <ul>
 <li> <span class="location"><a href="../../src/main/res/drawable-hdpi/ninja_11.png">../../src/main/res/drawable-hdpi/ninja_11.png</a></span>
 </ul>
@@ -373,8 +418,8 @@ Additional locations: <ul>
 </td></tr><tr><th>hdpi</th><th>hdpi</th></tr>
 </table>
 <span class="location"><a href="../../src/main/res/drawable-hdpi/ninja_3.png">../../src/main/res/drawable-hdpi/ninja_3.png</a></span>: <span class="message">The following unrelated icon files have identical contents: ninja_10.png, ninja_3.png</span><br />
-<ul></ul><button id="Location4DivLink" onclick="reveal('Location4Div');" />+ 1 Additional Locations...</button>
-<div id="Location4Div" style="display: none">
+<ul></ul><button id="Location7DivLink" onclick="reveal('Location7Div');" />+ 1 Additional Locations...</button>
+<div id="Location7Div" style="display: none">
 Additional locations: <ul>
 <li> <span class="location"><a href="../../src/main/res/drawable-hdpi/ninja_10.png">../../src/main/res/drawable-hdpi/ninja_10.png</a></span>
 </ul>
@@ -384,8 +429,8 @@ Additional locations: <ul>
 </td></tr><tr><th>hdpi</th><th>hdpi</th></tr>
 </table>
 <span class="location"><a href="../../src/main/res/drawable-hdpi/ninja_8.png">../../src/main/res/drawable-hdpi/ninja_8.png</a></span>: <span class="message">The following unrelated icon files have identical contents: ninja_5.png, ninja_8.png</span><br />
-<ul></ul><button id="Location5DivLink" onclick="reveal('Location5Div');" />+ 1 Additional Locations...</button>
-<div id="Location5Div" style="display: none">
+<ul></ul><button id="Location8DivLink" onclick="reveal('Location8Div');" />+ 1 Additional Locations...</button>
+<div id="Location8Div" style="display: none">
 Additional locations: <ul>
 <li> <span class="location"><a href="../../src/main/res/drawable-hdpi/ninja_5.png">../../src/main/res/drawable-hdpi/ninja_5.png</a></span>
 </ul>
@@ -395,8 +440,8 @@ Additional locations: <ul>
 </td></tr><tr><th>hdpi</th><th>hdpi</th></tr>
 </table>
 <span class="location"><a href="../../src/main/res/drawable-hdpi/ninja_9.png">../../src/main/res/drawable-hdpi/ninja_9.png</a></span>: <span class="message">The following unrelated icon files have identical contents: ninja_4.png, ninja_9.png</span><br />
-<ul></ul><button id="Location6DivLink" onclick="reveal('Location6Div');" />+ 1 Additional Locations...</button>
-<div id="Location6Div" style="display: none">
+<ul></ul><button id="Location9DivLink" onclick="reveal('Location9Div');" />+ 1 Additional Locations...</button>
+<div id="Location9Div" style="display: none">
 Additional locations: <ul>
 <li> <span class="location"><a href="../../src/main/res/drawable-hdpi/ninja_4.png">../../src/main/res/drawable-hdpi/ninja_4.png</a></span>
 </ul>
@@ -406,8 +451,8 @@ Additional locations: <ul>
 </td></tr><tr><th>hdpi</th><th>hdpi</th></tr>
 </table>
 <span class="location"><a href="../../src/main/res/drawable-hdpi/pagoda_2.png">../../src/main/res/drawable-hdpi/pagoda_2.png</a></span>: <span class="message">The following unrelated icon files have identical contents: pagoda.png, pagoda_2.png</span><br />
-<ul></ul><button id="Location7DivLink" onclick="reveal('Location7Div');" />+ 1 Additional Locations...</button>
-<div id="Location7Div" style="display: none">
+<ul></ul><button id="Location10DivLink" onclick="reveal('Location10Div');" />+ 1 Additional Locations...</button>
+<div id="Location10Div" style="display: none">
 Additional locations: <ul>
 <li> <span class="location"><a href="../../src/main/res/drawable-hdpi/pagoda.png">../../src/main/res/drawable-hdpi/pagoda.png</a></span>
 </ul>
@@ -416,6 +461,7 @@ Additional locations: <ul>
 </td><td><a href="../../src/main/res/drawable-hdpi/pagoda.png"><img border="0" align="top" src="../../src/main/res/drawable-hdpi/pagoda.png" /></a>
 </td></tr><tr><th>hdpi</th><th>hdpi</th></tr>
 </table>
+</div>
 </div>
 <div class="metadata">Priority: 3 / 10<br/>
 Category: Usability:Icons</div>

@@ -9,7 +9,7 @@ import com.thousandonestories.game.ai.AIState;
 import android.graphics.Color;
 
 
-public class NewEnemy extends NewPhysicsSprite {
+public class Ninja extends NewPhysicsSprite {
 
 	/**
 	 * Animation numbers:
@@ -29,9 +29,9 @@ public class NewEnemy extends NewPhysicsSprite {
 	private GameTimer tintTimer;
 
 	
-	private AIState<NewEnemy> currentState;
+	private AIState<Ninja> currentState;
 	
-	public NewEnemy(SpriteResources spriteRes, float x, float y,
+	public Ninja(SpriteResources spriteRes, float x, float y,
 			int scalefactor, PhysicsStuff phys) {
 		super(spriteRes, x, y, scalefactor, phys);
 		projectileTimer = new GameTimer();
@@ -166,20 +166,18 @@ public class NewEnemy extends NewPhysicsSprite {
 		canSlash = false;
 	}
 	
-	public void setState(AIState<NewEnemy> s)
+	public void setState(AIState<Ninja> s)
 	{
 		this.currentState = s;
 	}
-		
-	
 
 	/*
 	 * STATES:
 	 */
 	
-	class InitialState extends AIState<NewEnemy>
+	class InitialState extends AIState<Ninja>
 	{
-		public InitialState(NewEnemy e) {
+		public InitialState(Ninja e) {
 			super(e);
 		}
 
@@ -204,9 +202,9 @@ public class NewEnemy extends NewPhysicsSprite {
 		}
 		
 	}
-	class Running extends AIState<NewEnemy>
+	class Running extends AIState<Ninja>
 	{
-		public Running(NewEnemy e) {
+		public Running(Ninja e) {
 			super(e);
 			// TODO Auto-generated constructor stub
 		}
@@ -235,9 +233,9 @@ public class NewEnemy extends NewPhysicsSprite {
 
 	
 	}
-	class Jumping extends AIState<NewEnemy>
+	class Jumping extends AIState<Ninja>
 	{
-		public Jumping(NewEnemy e) {
+		public Jumping(Ninja e) {
 			super(e);
 		}
 
@@ -262,9 +260,9 @@ public class NewEnemy extends NewPhysicsSprite {
 			getInstance().setState( new Slashing( getInstance() ) );
 		}
 	}
-	class Slashing extends AIState<NewEnemy>
+	class Slashing extends AIState<Ninja>
 	{
-		public Slashing(NewEnemy e) {
+		public Slashing(Ninja e) {
 			super(e);
 			// TODO Auto-generated constructor stub
 		}

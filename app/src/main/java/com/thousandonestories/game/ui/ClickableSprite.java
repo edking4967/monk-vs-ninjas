@@ -22,6 +22,7 @@ public class ClickableSprite extends Sprite
 	public static final int START_LEVEL_THREE = 3;
 	public static final int CHOOSE_PROJECTILE = 4;
 	public static final int CHOOSE_SWORD = 5;
+	public static final int START_LEVEL_FOUR = 6;
 
 	GameTimer clickTimer;
 	
@@ -95,6 +96,10 @@ public class ClickableSprite extends Sprite
 				break;
 			case START_LEVEL_THREE:
 				OldPanel.setLevel(3);
+				panel.leaveMenu();
+				break;
+            case START_LEVEL_FOUR:
+				OldPanel.setLevel(4);
 				panel.leaveMenu();
 				break;
 			case CHOOSE_PROJECTILE:

@@ -388,7 +388,7 @@ Note: This check does not only apply to attributes. For example, some tags can b
     <issue
         id="IconDensities"
         severity="Warning"
-        message="Missing the following drawables in `drawable-mdpi`: amonk_med0001.png, amonk_med0002.png, amonk_med0003.png, amonk_med0004.png, amonk_med0005.png... (106 more)"
+        message="Missing the following drawables in `drawable-mdpi`: amonk_med0001.png, amonk_med0002.png, amonk_med0003.png, amonk_med0004.png, amonk_med0005.png... (131 more)"
         category="Usability:Icons"
         priority="4"
         summary="Icon densities validation"
@@ -404,7 +404,7 @@ Low density is not really used much anymore, so this check ignores the ldpi dens
     <issue
         id="IconDensities"
         severity="Warning"
-        message="Missing the following drawables in `drawable-xhdpi`: amonk_med0001.png, amonk_med0002.png, amonk_med0003.png, amonk_med0004.png, amonk_med0005.png... (106 more)"
+        message="Missing the following drawables in `drawable-xhdpi`: amonk_med0001.png, amonk_med0002.png, amonk_med0003.png, amonk_med0004.png, amonk_med0005.png... (131 more)"
         category="Usability:Icons"
         priority="4"
         summary="Icon densities validation"
@@ -420,7 +420,7 @@ Low density is not really used much anymore, so this check ignores the ldpi dens
     <issue
         id="IconDensities"
         severity="Warning"
-        message="Missing the following drawables in `drawable-xxhdpi`: amonk_med0001.png, amonk_med0002.png, amonk_med0003.png, amonk_med0004.png, amonk_med0005.png... (106 more)"
+        message="Missing the following drawables in `drawable-xxhdpi`: amonk_med0001.png, amonk_med0002.png, amonk_med0003.png, amonk_med0004.png, amonk_med0005.png... (131 more)"
         category="Usability:Icons"
         priority="4"
         summary="Icon densities validation"
@@ -431,6 +431,58 @@ Low density is not really used much anymore, so this check ignores the ldpi dens
         urls="http://developer.android.com/guide/practices/screens_support.html">
         <location
             file="/Users/edk/AndroidstudioProjects/mvn/app/src/main/res/drawable-xxhdpi"/>
+    </issue>
+
+    <issue
+        id="IconDuplicates"
+        severity="Warning"
+        message="The following unrelated icon files have identical contents: coffeecup10.png, coffeecup11.png, coffeecup15.png"
+        category="Usability:Icons"
+        priority="3"
+        summary="Duplicated icons under different names"
+        explanation="If an icon is repeated under different names, you can consolidate and just use one of the icons and delete the others to make your application smaller. However, duplicated icons usually are not intentional and can sometimes point to icons that were accidentally overwritten or accidentally not updated.">
+        <location
+            file="/Users/edk/AndroidstudioProjects/mvn/app/src/main/res/drawable-hdpi/coffeecup15.png"/>
+        <location
+            file="/Users/edk/AndroidstudioProjects/mvn/app/src/main/res/drawable-hdpi/coffeecup11.png"/>
+        <location
+            file="/Users/edk/AndroidstudioProjects/mvn/app/src/main/res/drawable-hdpi/coffeecup10.png"/>
+    </issue>
+
+    <issue
+        id="IconDuplicates"
+        severity="Warning"
+        message="The following unrelated icon files have identical contents: coffeecup16.png, coffeecup17.png, coffeecup18.png, coffeecup19.png, coffeecup20.png"
+        category="Usability:Icons"
+        priority="3"
+        summary="Duplicated icons under different names"
+        explanation="If an icon is repeated under different names, you can consolidate and just use one of the icons and delete the others to make your application smaller. However, duplicated icons usually are not intentional and can sometimes point to icons that were accidentally overwritten or accidentally not updated.">
+        <location
+            file="/Users/edk/AndroidstudioProjects/mvn/app/src/main/res/drawable-hdpi/coffeecup20.png"/>
+        <location
+            file="/Users/edk/AndroidstudioProjects/mvn/app/src/main/res/drawable-hdpi/coffeecup19.png"/>
+        <location
+            file="/Users/edk/AndroidstudioProjects/mvn/app/src/main/res/drawable-hdpi/coffeecup18.png"/>
+        <location
+            file="/Users/edk/AndroidstudioProjects/mvn/app/src/main/res/drawable-hdpi/coffeecup17.png"/>
+        <location
+            file="/Users/edk/AndroidstudioProjects/mvn/app/src/main/res/drawable-hdpi/coffeecup16.png"/>
+    </issue>
+
+    <issue
+        id="IconDuplicates"
+        severity="Warning"
+        message="The following unrelated icon files have identical contents: coffeecup21.png, coffeecup22.png, coffeecup23.png"
+        category="Usability:Icons"
+        priority="3"
+        summary="Duplicated icons under different names"
+        explanation="If an icon is repeated under different names, you can consolidate and just use one of the icons and delete the others to make your application smaller. However, duplicated icons usually are not intentional and can sometimes point to icons that were accidentally overwritten or accidentally not updated.">
+        <location
+            file="/Users/edk/AndroidstudioProjects/mvn/app/src/main/res/drawable-hdpi/coffeecup23.png"/>
+        <location
+            file="/Users/edk/AndroidstudioProjects/mvn/app/src/main/res/drawable-hdpi/coffeecup22.png"/>
+        <location
+            file="/Users/edk/AndroidstudioProjects/mvn/app/src/main/res/drawable-hdpi/coffeecup21.png"/>
     </issue>
 
     <issue

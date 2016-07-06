@@ -127,6 +127,8 @@ public class OldPanel extends SurfaceView implements SurfaceHolder.Callback {
 
 	SpriteResources newMonkRes;
 
+	SpriteResources coffeeCupRes;
+
 	SpriteResources flyingResources;
 
 	SpriteResources tomatomanRes;
@@ -166,7 +168,7 @@ public class OldPanel extends SurfaceView implements SurfaceHolder.Callback {
 
 		setGameState(STATE_UNINITIALIZED);
 		
-		level = 2;
+		level = 2; // why?
 
 		Log.d("bleh", "Panel constructor called");
 
@@ -174,11 +176,9 @@ public class OldPanel extends SurfaceView implements SurfaceHolder.Callback {
 
 		menuItemList = new CopyOnWriteArrayList<ClickableSprite>();
 
-
-		showMenu();
-
 		loadBitmapsLevelOne();
 
+		showMenu();
 
 		mThread = new ViewThread(this);
 
@@ -761,10 +761,12 @@ public class OldPanel extends SurfaceView implements SurfaceHolder.Callback {
 		ClickableSprite menuSprite3 = new ClickableSprite(getResources(), (int) 600, (int) 200, mimgarray, mimgarray, 1);
 		menuSprite3.setAction(ClickableSprite.START_LEVEL_THREE);		
 
-
+		ClickableSprite menuSprite4 = new ClickableSprite(getResources(), (int) 800, (int) 200, mimgarray, mimgarray, 1);
+		menuSprite4.setAction(ClickableSprite.START_LEVEL_FOUR);		
 		menuItemList.add(menuSprite);
 		menuItemList.add(menuSprite2);
 		menuItemList.add(menuSprite3);
+		menuItemList.add(menuSprite4);
 		
 		setGameState(STATE_MENU);
 	}
@@ -786,6 +788,32 @@ public class OldPanel extends SurfaceView implements SurfaceHolder.Callback {
 	public static void setLevel(int level) {
 		OldPanel.level = level;
 	}
+
+
+    private void setupUI()
+    {
+	    // Setup UI:	
+		ClickableSprite ns = new ClickableSprite( getResources(), 100, 200, projBmp, projBmp, 3);
+		ns.setAction(ClickableSprite.CHOOSE_PROJECTILE);
+		ns.setPersistent(true);
+		gameUIList.add(ns);
+		
+		Bitmap[] sb = {swordBmp};
+		ClickableSprite ss = new ClickableSprite( getResources(), 200, 200, sb, sb, 3);
+		ss.setAction(ClickableSprite.CHOOSE_SWORD);
+		ss.setPersistent(true);
+		gameUIList.add(ss);
+
+		Bitmap health[] = { BitmapFactory.decodeResource(getResources(), R.drawable.healthbox) };
+		int numHealthBars = hero.getHealth() / 25;
+		for(int i=0; i<numHealthBars; i++)
+		{
+			ClickableSprite hs = new ClickableSprite( getResources(), 100 + 100*i, 100, health, health, 2);
+			hs.setPersistent(true);
+			healthBarList.add(hs);
+
+		}
+    }
 
 	public void gameStartLevelOne(Context context)
 	{
@@ -821,9 +849,6 @@ public class OldPanel extends SurfaceView implements SurfaceHolder.Callback {
 			addBlock( i * 600, i* 600 + 400,450,550, Color.WHITE);
 
 		}
-
-
-
 
 		croc = new Enemy(res, 1000, 100, crocbitmap, crocbitmap_f, projBmp, mProjList, mBlockList, mGameObjList, 1 );
 		mEnemyList.add(croc);
@@ -911,47 +936,81 @@ public class OldPanel extends SurfaceView implements SurfaceHolder.Callback {
 		initializeLists();
 
 		initializeHero();
+
+        generateMountains();
 		
-		
+        // 
 		addBlock(  0,  400,450,550, Color.WHITE);
-		
+	    //	
 		addBlock(  600,  1000,450,550, Color.WHITE);
-		
+	    //	
 		PhysicsStuff phys = new PhysicsStuff(1, 20);
-		
-		NewEnemy ninj = new NewEnemy(ninjaRes, 0, 0, 2, phys);
-		
+	    //	
+		Ninja ninj = new Ninja(ninjaRes, 0, 0, 2, phys);
+	    //	
+		mGameObjList.add(ninj);
+        //
+		ninj = new Ninja(ninjaRes, 700, 0, 2, phys);
+		//
 		mGameObjList.add(ninj);
 
-		ninj = new NewEnemy(ninjaRes, 700, 0, 2, phys);
-				
-		mGameObjList.add(ninj);
+		PhysicsStuff physLight = new PhysicsStuff(0, 20);
+
+		Ninja floatingGuy = new Ninja(coffeeCupRes, 400, 0, 2, physLight);
+
+		mGameObjList.add(floatingGuy);
 		
+        floatingGuy.startAnimation(0);
+
+        setupUI();
+
 		setGameState(STATE_GAME_RUNNING);
-		
-		
-		ClickableSprite ns = new ClickableSprite( getResources(), 100, 200, projBmp, projBmp, 3);
-		ns.setAction(ClickableSprite.CHOOSE_PROJECTILE);
-		ns.setPersistent(true);
-		gameUIList.add(ns);
-		
-		Bitmap[] sb = {swordBmp};
-		ClickableSprite ss = new ClickableSprite( getResources(), 200, 200, sb, sb, 3);
-		ss.setAction(ClickableSprite.CHOOSE_SWORD);
-		ss.setPersistent(true);
-		gameUIList.add(ss);
-
-		Bitmap health[] = { BitmapFactory.decodeResource(getResources(), R.drawable.healthbox) };
-		int numHealthBars = hero.getHealth() / 25;
-		for(int i=0; i<numHealthBars; i++)
-		{
-			ClickableSprite hs = new ClickableSprite( getResources(), 100 + 100*i, 100, health, health, 2);
-			hs.setPersistent(true);
-			healthBarList.add(hs);
-
-		}
 
 	}
+
+    private void gameStartLevelFour(Context context)
+    {
+        /*
+		initializeLists();
+
+		initializeHero();
+		
+		addBlock(  0,  400,450,550, Color.WHITE);
+
+		PhysicsStuff phys = new PhysicsStuff(0, 20);
+
+		Ninja floatingGuy = new Ninja(coffeeCupRes, 0, 0, 2, phys);
+
+		mGameObjList.add(floatingGuy);
+
+        setupUI();
+
+		setGameState(STATE_GAME_RUNNING);
+*/
+        initializeLists();
+
+		initializeHero();
+		
+        // 
+		addBlock(  0,  400,450,550, Color.WHITE);
+	    //	
+		addBlock(  600,  1000,450,550, Color.WHITE);
+	    //	
+		PhysicsStuff phys = new PhysicsStuff(1, 20);
+	    //	
+		Ninja ninj = new Ninja(ninjaRes, 0, 0, 2, phys);
+	    //	
+		mGameObjList.add(ninj);
+        //
+		ninj = new Ninja(ninjaRes, 700, 0, 2, phys);
+		//
+		mGameObjList.add(ninj);
+		
+        setupUI();
+
+		setGameState(STATE_GAME_RUNNING);
+
+    }
 	
 	private void initializeHero() {
 
@@ -984,15 +1043,18 @@ public class OldPanel extends SurfaceView implements SurfaceHolder.Callback {
 	{
 		switch(level)
 		{
-		case 1:
+		case ClickableSprite.START_LEVEL_ONE:
 			gameStartLevelOne(getContext());
 			break;
-		case 2:
+		case ClickableSprite.START_LEVEL_TWO:
 			gameStartLevelTwo(getContext());
 			break;
-		case 3:
+		case ClickableSprite.START_LEVEL_THREE:
 			gameStartLevelThree(getContext());
 			break;
+        case ClickableSprite.START_LEVEL_FOUR:
+            gameStartLevelFour(getContext());
+            break;
 		}
 
 	}
@@ -1191,6 +1253,36 @@ public class OldPanel extends SurfaceView implements SurfaceHolder.Callback {
 
                 };
         goalOrbRes = new SpriteResources(mRes,true, 1, goalOrbBmp);
+
+		int ccup[] = {
+            R.drawable.coffeecup01,
+            R.drawable.coffeecup02,
+            R.drawable.coffeecup03,
+            R.drawable.coffeecup04,
+            R.drawable.coffeecup05,
+            R.drawable.coffeecup06,
+            R.drawable.coffeecup07,
+            R.drawable.coffeecup08,
+            R.drawable.coffeecup09,
+            R.drawable.coffeecup10,
+            R.drawable.coffeecup11,
+            R.drawable.coffeecup12,
+            R.drawable.coffeecup13,
+            R.drawable.coffeecup14,
+            R.drawable.coffeecup15,
+            R.drawable.coffeecup16,
+            R.drawable.coffeecup17,
+            R.drawable.coffeecup18,
+            R.drawable.coffeecup19,
+            R.drawable.coffeecup20,
+            R.drawable.coffeecup21,
+            R.drawable.coffeecup22,
+            R.drawable.coffeecup23,
+            R.drawable.coffeecup24,
+            R.drawable.coffeecup25
+        };
+
+        coffeeCupRes = new SpriteResources(mRes,true, 1, ccup);
 
 	}
 
