@@ -1,7 +1,7 @@
 package com.thousandonestories.game.gameobjects;
 import android.graphics.Color;
 
-import com.thousandonestories.game.GameManager;
+import com.thousandonestories.game.management.GameManager;
 import com.thousandonestories.game.SpriteResources;
 import com.thousandonestories.game.ai.Goal;
 /**

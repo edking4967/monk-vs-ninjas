@@ -1,4 +1,4 @@
-package com.thousandonestories.game;
+package com.thousandonestories.management.game;
 
 import com.thousandonestories.game.levels.Level;
 

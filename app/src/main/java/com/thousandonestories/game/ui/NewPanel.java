@@ -1,6 +1,6 @@
 package com.thousandonestories.game.ui;
 
-import com.thousandonestories.game.GameManager;
+import com.thousandonestories.game.management.GameManager;
 import com.thousandonestories.game.ViewThread;
 
 import android.content.Context;
