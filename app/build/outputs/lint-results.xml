@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<issues format="4" by="lint 24.0.2">
+<issues format="4" by="lint 25.2 rc1">
 
     <issue
         id="OldTargetApi"
@@ -17,7 +17,7 @@ To fix this issue, set the `targetSdkVersion` to the highest available value. Th
         errorLine2="        ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~"
         quickfix="studio">
         <location
-            file="/Users/edk/AndroidstudioProjects/mvn/app/src/main/AndroidManifest.xml"
+            file="/Users/edk/projects/mvn/mvn_android/mvn_ultra/app/src/main/AndroidManifest.xml"
             line="9"
             column="9"/>
     </issue>
@@ -38,7 +38,7 @@ To fix this issue, set the `targetSdkVersion` to the highest available value. Th
         errorLine2="        ~~~~~~~~~~~~~~~~~~~"
         quickfix="studio">
         <location
-            file="/Users/edk/AndroidstudioProjects/mvn/app/build.gradle"
+            file="/Users/edk/projects/mvn/mvn_android/mvn_ultra/app/build.gradle"
             line="10"
             column="9"/>
     </issue>
@@ -58,26 +58,9 @@ Note: This check does not only apply to attributes. For example, some tags can b
         errorLine1="        android:showAsAction=&quot;never&quot;"
         errorLine2="        ~~~~~~~~~~~~~~~~~~~~~~~~~~~~">
         <location
-            file="/Users/edk/AndroidstudioProjects/mvn/app/src/main/res/menu/main.xml"
+            file="/Users/edk/projects/mvn/mvn_android/mvn_ultra/app/src/main/res/menu/main.xml"
             line="6"
             column="9"/>
-    </issue>
-
-    <issue
-        id="GradleDependency"
-        severity="Warning"
-        message="A newer version of com.android.support:support-v4 than 19.+ is available: 21.0.3"
-        category="Correctness"
-        priority="4"
-        summary="Obsolete Gradle Dependency"
-        explanation="This detector looks for usages of libraries where the version you are using is not the current stable release. Using older versions is fine, and there are cases where you deliberately want to stick with an older version. However, you may simply not be aware that a more recent version is available, and that is what this lint check helps find."
-        errorLine1="    compile &apos;com.android.support:support-v4:19.+&apos;"
-        errorLine2="    ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~"
-        quickfix="studio">
-        <location
-            file="/Users/edk/AndroidstudioProjects/mvn/app/build.gradle"
-            line="22"
-            column="5"/>
     </issue>
 
     <issue
@@ -92,7 +75,7 @@ Note: This check does not only apply to attributes. For example, some tags can b
         errorLine2="    ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~"
         quickfix="studio">
         <location
-            file="/Users/edk/AndroidstudioProjects/mvn/app/build.gradle"
+            file="/Users/edk/projects/mvn/mvn_android/mvn_ultra/app/build.gradle"
             line="22"
             column="5"/>
     </issue>
@@ -108,7 +91,7 @@ Note: This check does not only apply to attributes. For example, some tags can b
         errorLine1="        android:minSdkVersion=&quot;8&quot;"
         errorLine2="        ~~~~~~~~~~~~~~~~~~~~~~~~~">
         <location
-            file="/Users/edk/AndroidstudioProjects/mvn/app/src/main/AndroidManifest.xml"
+            file="/Users/edk/projects/mvn/mvn_android/mvn_ultra/app/src/main/AndroidManifest.xml"
             line="8"
             column="9"/>
     </issue>
@@ -124,7 +107,7 @@ Note: This check does not only apply to attributes. For example, some tags can b
         errorLine1="        android:targetSdkVersion=&quot;18&quot; />"
         errorLine2="        ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~">
         <location
-            file="/Users/edk/AndroidstudioProjects/mvn/app/src/main/AndroidManifest.xml"
+            file="/Users/edk/projects/mvn/mvn_android/mvn_ultra/app/src/main/AndroidManifest.xml"
             line="9"
             column="9"/>
     </issue>
@@ -138,7 +121,7 @@ Note: This check does not only apply to attributes. For example, some tags can b
         summary="Unused resources"
         explanation="Unused resources make applications larger and slow down builds.">
         <location
-            file="/Users/edk/AndroidstudioProjects/mvn/app/src/main/res/layout/activity_main.xml"/>
+            file="/Users/edk/projects/mvn/mvn_android/mvn_ultra/app/src/main/res/layout/activity_main.xml"/>
     </issue>
 
     <issue
@@ -150,7 +133,7 @@ Note: This check does not only apply to attributes. For example, some tags can b
         summary="Unused resources"
         explanation="Unused resources make applications larger and slow down builds.">
         <location
-            file="/Users/edk/AndroidstudioProjects/mvn/app/src/main/res/drawable-hdpi/anim.gif"/>
+            file="/Users/edk/projects/mvn/mvn_android/mvn_ultra/app/src/main/res/drawable-hdpi/anim.gif"/>
     </issue>
 
     <issue
@@ -162,7 +145,7 @@ Note: This check does not only apply to attributes. For example, some tags can b
         summary="Unused resources"
         explanation="Unused resources make applications larger and slow down builds.">
         <location
-            file="/Users/edk/AndroidstudioProjects/mvn/app/src/main/res/drawable-hdpi/crocodile.png"/>
+            file="/Users/edk/projects/mvn/mvn_android/mvn_ultra/app/src/main/res/drawable-hdpi/crocodile.png"/>
     </issue>
 
     <issue
@@ -174,7 +157,7 @@ Note: This check does not only apply to attributes. For example, some tags can b
         summary="Unused resources"
         explanation="Unused resources make applications larger and slow down builds.">
         <location
-            file="/Users/edk/AndroidstudioProjects/mvn/app/src/main/res/raw/excellent.wav"/>
+            file="/Users/edk/projects/mvn/mvn_android/mvn_ultra/app/src/main/res/raw/excellent.wav"/>
     </issue>
 
     <issue
@@ -186,7 +169,7 @@ Note: This check does not only apply to attributes. For example, some tags can b
         summary="Unused resources"
         explanation="Unused resources make applications larger and slow down builds.">
         <location
-            file="/Users/edk/AndroidstudioProjects/mvn/app/src/main/res/drawable-hdpi/flyer_remove.png"/>
+            file="/Users/edk/projects/mvn/mvn_android/mvn_ultra/app/src/main/res/drawable-hdpi/flyer_remove.png"/>
     </issue>
 
     <issue
@@ -198,7 +181,7 @@ Note: This check does not only apply to attributes. For example, some tags can b
         summary="Unused resources"
         explanation="Unused resources make applications larger and slow down builds.">
         <location
-            file="/Users/edk/AndroidstudioProjects/mvn/app/src/main/res/drawable-hdpi/goku.png"/>
+            file="/Users/edk/projects/mvn/mvn_android/mvn_ultra/app/src/main/res/drawable-hdpi/goku.png"/>
     </issue>
 
     <issue
@@ -210,7 +193,7 @@ Note: This check does not only apply to attributes. For example, some tags can b
         summary="Unused resources"
         explanation="Unused resources make applications larger and slow down builds.">
         <location
-            file="/Users/edk/AndroidstudioProjects/mvn/app/src/main/res/drawable-hdpi/hero.jpg"/>
+            file="/Users/edk/projects/mvn/mvn_android/mvn_ultra/app/src/main/res/drawable-hdpi/hero.jpg"/>
     </issue>
 
     <issue
@@ -222,13 +205,13 @@ Note: This check does not only apply to attributes. For example, some tags can b
         summary="Unused resources"
         explanation="Unused resources make applications larger and slow down builds.">
         <location
-            file="/Users/edk/AndroidstudioProjects/mvn/app/src/main/res/drawable-hdpi/ic_launcher.png"/>
+            file="/Users/edk/projects/mvn/mvn_android/mvn_ultra/app/src/main/res/drawable-hdpi/ic_launcher.png"/>
         <location
-            file="/Users/edk/AndroidstudioProjects/mvn/app/src/main/res/drawable-mdpi/ic_launcher.png"/>
+            file="/Users/edk/projects/mvn/mvn_android/mvn_ultra/app/src/main/res/drawable-mdpi/ic_launcher.png"/>
         <location
-            file="/Users/edk/AndroidstudioProjects/mvn/app/src/main/res/drawable-xhdpi/ic_launcher.png"/>
+            file="/Users/edk/projects/mvn/mvn_android/mvn_ultra/app/src/main/res/drawable-xhdpi/ic_launcher.png"/>
         <location
-            file="/Users/edk/AndroidstudioProjects/mvn/app/src/main/res/drawable-xxhdpi/ic_launcher.png"/>
+            file="/Users/edk/projects/mvn/mvn_android/mvn_ultra/app/src/main/res/drawable-xxhdpi/ic_launcher.png"/>
     </issue>
 
     <issue
@@ -240,7 +223,7 @@ Note: This check does not only apply to attributes. For example, some tags can b
         summary="Unused resources"
         explanation="Unused resources make applications larger and slow down builds.">
         <location
-            file="/Users/edk/AndroidstudioProjects/mvn/app/src/main/res/drawable-hdpi/jump.jpg"/>
+            file="/Users/edk/projects/mvn/mvn_android/mvn_ultra/app/src/main/res/drawable-hdpi/jump.jpg"/>
     </issue>
 
     <issue
@@ -252,7 +235,7 @@ Note: This check does not only apply to attributes. For example, some tags can b
         summary="Unused resources"
         explanation="Unused resources make applications larger and slow down builds.">
         <location
-            file="/Users/edk/AndroidstudioProjects/mvn/app/src/main/res/drawable-hdpi/mtn.png"/>
+            file="/Users/edk/projects/mvn/mvn_android/mvn_ultra/app/src/main/res/drawable-hdpi/mtn.png"/>
     </issue>
 
     <issue
@@ -264,7 +247,7 @@ Note: This check does not only apply to attributes. For example, some tags can b
         summary="Unused resources"
         explanation="Unused resources make applications larger and slow down builds.">
         <location
-            file="/Users/edk/AndroidstudioProjects/mvn/app/src/main/res/drawable-hdpi/my_image.png"/>
+            file="/Users/edk/projects/mvn/mvn_android/mvn_ultra/app/src/main/res/drawable-hdpi/my_image.png"/>
     </issue>
 
     <issue
@@ -276,7 +259,7 @@ Note: This check does not only apply to attributes. For example, some tags can b
         summary="Unused resources"
         explanation="Unused resources make applications larger and slow down builds.">
         <location
-            file="/Users/edk/AndroidstudioProjects/mvn/app/src/main/res/drawable-hdpi/pagoda.png"/>
+            file="/Users/edk/projects/mvn/mvn_android/mvn_ultra/app/src/main/res/drawable-hdpi/pagoda.png"/>
     </issue>
 
     <issue
@@ -288,7 +271,7 @@ Note: This check does not only apply to attributes. For example, some tags can b
         summary="Unused resources"
         explanation="Unused resources make applications larger and slow down builds.">
         <location
-            file="/Users/edk/AndroidstudioProjects/mvn/app/src/main/res/drawable-hdpi/pagoda_2.png"/>
+            file="/Users/edk/projects/mvn/mvn_android/mvn_ultra/app/src/main/res/drawable-hdpi/pagoda_2.png"/>
     </issue>
 
     <issue
@@ -300,7 +283,7 @@ Note: This check does not only apply to attributes. For example, some tags can b
         summary="Unused resources"
         explanation="Unused resources make applications larger and slow down builds.">
         <location
-            file="/Users/edk/AndroidstudioProjects/mvn/app/src/main/res/drawable-hdpi/projectile.png"/>
+            file="/Users/edk/projects/mvn/mvn_android/mvn_ultra/app/src/main/res/drawable-hdpi/projectile.png"/>
     </issue>
 
     <issue
@@ -312,7 +295,7 @@ Note: This check does not only apply to attributes. For example, some tags can b
         summary="Unused resources"
         explanation="Unused resources make applications larger and slow down builds.">
         <location
-            file="/Users/edk/AndroidstudioProjects/mvn/app/src/main/res/drawable-hdpi/reddit_button.png"/>
+            file="/Users/edk/projects/mvn/mvn_android/mvn_ultra/app/src/main/res/drawable-hdpi/reddit_button.png"/>
     </issue>
 
     <issue
@@ -324,7 +307,7 @@ Note: This check does not only apply to attributes. For example, some tags can b
         summary="Unused resources"
         explanation="Unused resources make applications larger and slow down builds.">
         <location
-            file="/Users/edk/AndroidstudioProjects/mvn/app/src/main/res/drawable-hdpi/space_bg.png"/>
+            file="/Users/edk/projects/mvn/mvn_android/mvn_ultra/app/src/main/res/drawable-hdpi/space_bg.png"/>
     </issue>
 
     <issue
@@ -338,7 +321,7 @@ Note: This check does not only apply to attributes. For example, some tags can b
         errorLine1="    &lt;string name=&quot;app_name&quot;>Monk vs Ninjas&lt;/string>"
         errorLine2="            ~~~~~~~~~~~~~~~">
         <location
-            file="/Users/edk/AndroidstudioProjects/mvn/app/src/main/res/values/strings.xml"
+            file="/Users/edk/projects/mvn/mvn_android/mvn_ultra/app/src/main/res/values/strings.xml"
             line="4"
             column="13"/>
     </issue>
@@ -354,7 +337,7 @@ Note: This check does not only apply to attributes. For example, some tags can b
         errorLine1="    &lt;string name=&quot;hello_world&quot;>Hello world!&lt;/string>"
         errorLine2="            ~~~~~~~~~~~~~~~~~~">
         <location
-            file="/Users/edk/AndroidstudioProjects/mvn/app/src/main/res/values/strings.xml"
+            file="/Users/edk/projects/mvn/mvn_android/mvn_ultra/app/src/main/res/values/strings.xml"
             line="6"
             column="13"/>
     </issue>
@@ -368,7 +351,7 @@ Note: This check does not only apply to attributes. For example, some tags can b
         summary="Unused resources"
         explanation="Unused resources make applications larger and slow down builds.">
         <location
-            file="/Users/edk/AndroidstudioProjects/mvn/app/src/main/res/drawable-hdpi/tomato_man.png"/>
+            file="/Users/edk/projects/mvn/mvn_android/mvn_ultra/app/src/main/res/drawable-hdpi/tomato_man.png"/>
     </issue>
 
     <issue
@@ -382,7 +365,7 @@ Note: This check does not only apply to attributes. For example, some tags can b
         url="http://developer.android.com/guide/topics/resources/drawable-resource.html#Bitmap"
         urls="http://developer.android.com/guide/topics/resources/drawable-resource.html#Bitmap">
         <location
-            file="/Users/edk/AndroidstudioProjects/mvn/app/src/main/res/drawable-hdpi/anim.gif"/>
+            file="/Users/edk/projects/mvn/mvn_android/mvn_ultra/app/src/main/res/drawable-hdpi/anim.gif"/>
     </issue>
 
     <issue
@@ -398,7 +381,7 @@ Low density is not really used much anymore, so this check ignores the ldpi dens
         url="http://developer.android.com/guide/practices/screens_support.html"
         urls="http://developer.android.com/guide/practices/screens_support.html">
         <location
-            file="/Users/edk/AndroidstudioProjects/mvn/app/src/main/res/drawable-mdpi"/>
+            file="/Users/edk/projects/mvn/mvn_android/mvn_ultra/app/src/main/res/drawable-mdpi"/>
     </issue>
 
     <issue
@@ -414,7 +397,7 @@ Low density is not really used much anymore, so this check ignores the ldpi dens
         url="http://developer.android.com/guide/practices/screens_support.html"
         urls="http://developer.android.com/guide/practices/screens_support.html">
         <location
-            file="/Users/edk/AndroidstudioProjects/mvn/app/src/main/res/drawable-xhdpi"/>
+            file="/Users/edk/projects/mvn/mvn_android/mvn_ultra/app/src/main/res/drawable-xhdpi"/>
     </issue>
 
     <issue
@@ -430,7 +413,7 @@ Low density is not really used much anymore, so this check ignores the ldpi dens
         url="http://developer.android.com/guide/practices/screens_support.html"
         urls="http://developer.android.com/guide/practices/screens_support.html">
         <location
-            file="/Users/edk/AndroidstudioProjects/mvn/app/src/main/res/drawable-xxhdpi"/>
+            file="/Users/edk/projects/mvn/mvn_android/mvn_ultra/app/src/main/res/drawable-xxhdpi"/>
     </issue>
 
     <issue
@@ -442,11 +425,11 @@ Low density is not really used much anymore, so this check ignores the ldpi dens
         summary="Duplicated icons under different names"
         explanation="If an icon is repeated under different names, you can consolidate and just use one of the icons and delete the others to make your application smaller. However, duplicated icons usually are not intentional and can sometimes point to icons that were accidentally overwritten or accidentally not updated.">
         <location
-            file="/Users/edk/AndroidstudioProjects/mvn/app/src/main/res/drawable-hdpi/coffeecup15.png"/>
+            file="/Users/edk/projects/mvn/mvn_android/mvn_ultra/app/src/main/res/drawable-hdpi/coffeecup15.png"/>
         <location
-            file="/Users/edk/AndroidstudioProjects/mvn/app/src/main/res/drawable-hdpi/coffeecup11.png"/>
+            file="/Users/edk/projects/mvn/mvn_android/mvn_ultra/app/src/main/res/drawable-hdpi/coffeecup11.png"/>
         <location
-            file="/Users/edk/AndroidstudioProjects/mvn/app/src/main/res/drawable-hdpi/coffeecup10.png"/>
+            file="/Users/edk/projects/mvn/mvn_android/mvn_ultra/app/src/main/res/drawable-hdpi/coffeecup10.png"/>
     </issue>
 
     <issue
@@ -458,15 +441,15 @@ Low density is not really used much anymore, so this check ignores the ldpi dens
         summary="Duplicated icons under different names"
         explanation="If an icon is repeated under different names, you can consolidate and just use one of the icons and delete the others to make your application smaller. However, duplicated icons usually are not intentional and can sometimes point to icons that were accidentally overwritten or accidentally not updated.">
         <location
-            file="/Users/edk/AndroidstudioProjects/mvn/app/src/main/res/drawable-hdpi/coffeecup20.png"/>
+            file="/Users/edk/projects/mvn/mvn_android/mvn_ultra/app/src/main/res/drawable-hdpi/coffeecup20.png"/>
         <location
-            file="/Users/edk/AndroidstudioProjects/mvn/app/src/main/res/drawable-hdpi/coffeecup19.png"/>
+            file="/Users/edk/projects/mvn/mvn_android/mvn_ultra/app/src/main/res/drawable-hdpi/coffeecup19.png"/>
         <location
-            file="/Users/edk/AndroidstudioProjects/mvn/app/src/main/res/drawable-hdpi/coffeecup18.png"/>
+            file="/Users/edk/projects/mvn/mvn_android/mvn_ultra/app/src/main/res/drawable-hdpi/coffeecup18.png"/>
         <location
-            file="/Users/edk/AndroidstudioProjects/mvn/app/src/main/res/drawable-hdpi/coffeecup17.png"/>
+            file="/Users/edk/projects/mvn/mvn_android/mvn_ultra/app/src/main/res/drawable-hdpi/coffeecup17.png"/>
         <location
-            file="/Users/edk/AndroidstudioProjects/mvn/app/src/main/res/drawable-hdpi/coffeecup16.png"/>
+            file="/Users/edk/projects/mvn/mvn_android/mvn_ultra/app/src/main/res/drawable-hdpi/coffeecup16.png"/>
     </issue>
 
     <issue
@@ -478,11 +461,11 @@ Low density is not really used much anymore, so this check ignores the ldpi dens
         summary="Duplicated icons under different names"
         explanation="If an icon is repeated under different names, you can consolidate and just use one of the icons and delete the others to make your application smaller. However, duplicated icons usually are not intentional and can sometimes point to icons that were accidentally overwritten or accidentally not updated.">
         <location
-            file="/Users/edk/AndroidstudioProjects/mvn/app/src/main/res/drawable-hdpi/coffeecup23.png"/>
+            file="/Users/edk/projects/mvn/mvn_android/mvn_ultra/app/src/main/res/drawable-hdpi/coffeecup23.png"/>
         <location
-            file="/Users/edk/AndroidstudioProjects/mvn/app/src/main/res/drawable-hdpi/coffeecup22.png"/>
+            file="/Users/edk/projects/mvn/mvn_android/mvn_ultra/app/src/main/res/drawable-hdpi/coffeecup22.png"/>
         <location
-            file="/Users/edk/AndroidstudioProjects/mvn/app/src/main/res/drawable-hdpi/coffeecup21.png"/>
+            file="/Users/edk/projects/mvn/mvn_android/mvn_ultra/app/src/main/res/drawable-hdpi/coffeecup21.png"/>
     </issue>
 
     <issue
@@ -494,9 +477,9 @@ Low density is not really used much anymore, so this check ignores the ldpi dens
         summary="Duplicated icons under different names"
         explanation="If an icon is repeated under different names, you can consolidate and just use one of the icons and delete the others to make your application smaller. However, duplicated icons usually are not intentional and can sometimes point to icons that were accidentally overwritten or accidentally not updated.">
         <location
-            file="/Users/edk/AndroidstudioProjects/mvn/app/src/main/res/drawable-hdpi/monk10.png"/>
+            file="/Users/edk/projects/mvn/mvn_android/mvn_ultra/app/src/main/res/drawable-hdpi/monk10.png"/>
         <location
-            file="/Users/edk/AndroidstudioProjects/mvn/app/src/main/res/drawable-hdpi/monk01.png"/>
+            file="/Users/edk/projects/mvn/mvn_android/mvn_ultra/app/src/main/res/drawable-hdpi/monk01.png"/>
     </issue>
 
     <issue
@@ -508,9 +491,9 @@ Low density is not really used much anymore, so this check ignores the ldpi dens
         summary="Duplicated icons under different names"
         explanation="If an icon is repeated under different names, you can consolidate and just use one of the icons and delete the others to make your application smaller. However, duplicated icons usually are not intentional and can sometimes point to icons that were accidentally overwritten or accidentally not updated.">
         <location
-            file="/Users/edk/AndroidstudioProjects/mvn/app/src/main/res/drawable-hdpi/ninja_13.png"/>
+            file="/Users/edk/projects/mvn/mvn_android/mvn_ultra/app/src/main/res/drawable-hdpi/ninja_13.png"/>
         <location
-            file="/Users/edk/AndroidstudioProjects/mvn/app/src/main/res/drawable-hdpi/ninja_0.png"/>
+            file="/Users/edk/projects/mvn/mvn_android/mvn_ultra/app/src/main/res/drawable-hdpi/ninja_0.png"/>
     </issue>
 
     <issue
@@ -522,9 +505,9 @@ Low density is not really used much anymore, so this check ignores the ldpi dens
         summary="Duplicated icons under different names"
         explanation="If an icon is repeated under different names, you can consolidate and just use one of the icons and delete the others to make your application smaller. However, duplicated icons usually are not intentional and can sometimes point to icons that were accidentally overwritten or accidentally not updated.">
         <location
-            file="/Users/edk/AndroidstudioProjects/mvn/app/src/main/res/drawable-hdpi/ninja_2.png"/>
+            file="/Users/edk/projects/mvn/mvn_android/mvn_ultra/app/src/main/res/drawable-hdpi/ninja_2.png"/>
         <location
-            file="/Users/edk/AndroidstudioProjects/mvn/app/src/main/res/drawable-hdpi/ninja_11.png"/>
+            file="/Users/edk/projects/mvn/mvn_android/mvn_ultra/app/src/main/res/drawable-hdpi/ninja_11.png"/>
     </issue>
 
     <issue
@@ -536,9 +519,9 @@ Low density is not really used much anymore, so this check ignores the ldpi dens
         summary="Duplicated icons under different names"
         explanation="If an icon is repeated under different names, you can consolidate and just use one of the icons and delete the others to make your application smaller. However, duplicated icons usually are not intentional and can sometimes point to icons that were accidentally overwritten or accidentally not updated.">
         <location
-            file="/Users/edk/AndroidstudioProjects/mvn/app/src/main/res/drawable-hdpi/ninja_3.png"/>
+            file="/Users/edk/projects/mvn/mvn_android/mvn_ultra/app/src/main/res/drawable-hdpi/ninja_3.png"/>
         <location
-            file="/Users/edk/AndroidstudioProjects/mvn/app/src/main/res/drawable-hdpi/ninja_10.png"/>
+            file="/Users/edk/projects/mvn/mvn_android/mvn_ultra/app/src/main/res/drawable-hdpi/ninja_10.png"/>
     </issue>
 
     <issue
@@ -550,9 +533,9 @@ Low density is not really used much anymore, so this check ignores the ldpi dens
         summary="Duplicated icons under different names"
         explanation="If an icon is repeated under different names, you can consolidate and just use one of the icons and delete the others to make your application smaller. However, duplicated icons usually are not intentional and can sometimes point to icons that were accidentally overwritten or accidentally not updated.">
         <location
-            file="/Users/edk/AndroidstudioProjects/mvn/app/src/main/res/drawable-hdpi/ninja_8.png"/>
+            file="/Users/edk/projects/mvn/mvn_android/mvn_ultra/app/src/main/res/drawable-hdpi/ninja_8.png"/>
         <location
-            file="/Users/edk/AndroidstudioProjects/mvn/app/src/main/res/drawable-hdpi/ninja_5.png"/>
+            file="/Users/edk/projects/mvn/mvn_android/mvn_ultra/app/src/main/res/drawable-hdpi/ninja_5.png"/>
     </issue>
 
     <issue
@@ -564,9 +547,9 @@ Low density is not really used much anymore, so this check ignores the ldpi dens
         summary="Duplicated icons under different names"
         explanation="If an icon is repeated under different names, you can consolidate and just use one of the icons and delete the others to make your application smaller. However, duplicated icons usually are not intentional and can sometimes point to icons that were accidentally overwritten or accidentally not updated.">
         <location
-            file="/Users/edk/AndroidstudioProjects/mvn/app/src/main/res/drawable-hdpi/ninja_9.png"/>
+            file="/Users/edk/projects/mvn/mvn_android/mvn_ultra/app/src/main/res/drawable-hdpi/ninja_9.png"/>
         <location
-            file="/Users/edk/AndroidstudioProjects/mvn/app/src/main/res/drawable-hdpi/ninja_4.png"/>
+            file="/Users/edk/projects/mvn/mvn_android/mvn_ultra/app/src/main/res/drawable-hdpi/ninja_4.png"/>
     </issue>
 
     <issue
@@ -578,9 +561,9 @@ Low density is not really used much anymore, so this check ignores the ldpi dens
         summary="Duplicated icons under different names"
         explanation="If an icon is repeated under different names, you can consolidate and just use one of the icons and delete the others to make your application smaller. However, duplicated icons usually are not intentional and can sometimes point to icons that were accidentally overwritten or accidentally not updated.">
         <location
-            file="/Users/edk/AndroidstudioProjects/mvn/app/src/main/res/drawable-hdpi/pagoda_2.png"/>
+            file="/Users/edk/projects/mvn/mvn_android/mvn_ultra/app/src/main/res/drawable-hdpi/pagoda_2.png"/>
         <location
-            file="/Users/edk/AndroidstudioProjects/mvn/app/src/main/res/drawable-hdpi/pagoda.png"/>
+            file="/Users/edk/projects/mvn/mvn_android/mvn_ultra/app/src/main/res/drawable-hdpi/pagoda.png"/>
     </issue>
 
     <issue
@@ -595,7 +578,7 @@ Low density is not really used much anymore, so this check ignores the ldpi dens
         url="http://developer.android.com/guide/practices/screens_support.html"
         urls="http://developer.android.com/guide/practices/screens_support.html">
         <location
-            file="/Users/edk/AndroidstudioProjects/mvn/app/src/main/res"/>
+            file="/Users/edk/projects/mvn/mvn_android/mvn_ultra/app/src/main/res"/>
     </issue>
 
     <issue
@@ -611,7 +594,7 @@ Low density is not really used much anymore, so this check ignores the ldpi dens
         errorLine1="    public class MainBuffer implements Parcelable "
         errorLine2="                 ~~~~~~~~~~">
         <location
-            file="/Users/edk/AndroidstudioProjects/mvn/app/src/main/java/com/thousandonestories/synth/MainBuffer.java"
+            file="/Users/edk/projects/mvn/mvn_android/mvn_ultra/app/src/main/java/com/thousandonestories/synth/MainBuffer.java"
             line="11"
             column="18"/>
     </issue>

@@ -17,4 +17,4 @@
         android:text="@string/startgame"
         android:onClick="startButtonListener" />
 
-</RelativeLayout><!-- From: file:/Users/edk/AndroidstudioProjects/mvn/app/src/main/res/layout/activity_main.xml -->
+</RelativeLayout><!-- From: file:/Users/edk/projects/mvn/mvn_android/mvn_ultra/app/src/main/res/layout/activity_main.xml -->

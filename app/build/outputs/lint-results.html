@@ -18,8 +18,8 @@ document.getElementById(id+'Link').style.display = 'none';
 <body>
 <h1>Lint Report</h1>
 <div class="titleSeparator"></div>
-Check performed at Mon May 09 01:39:05 CST 2016.<br/>
-0 errors and 42 warnings found:<br/><br/>
+Check performed at Fri Sep 30 11:24:44 MDT 2016.<br/>
+0 errors and 41 warnings found:<br/><br/>
 <table class="overview">
 <tr><td></td><td class="categoryColumn"><a href="#Correctness">Correctness</a>
 </td></tr>
@@ -30,10 +30,6 @@ Check performed at Mon May 09 01:39:05 CST 2016.<br/>
 <tr>
 <td class="countColumn">1</td><td class="issueColumn"><img border="0" align="top" src="lint-results_files/lint-warning.png" alt="Warning" />
 <a href="#UnusedAttribute">UnusedAttribute: Attribute unused on older versions</a>
-</td></tr>
-<tr>
-<td class="countColumn">1</td><td class="issueColumn"><img border="0" align="top" src="lint-results_files/lint-warning.png" alt="Warning" />
-<a href="#GradleDependency">GradleDependency: Obsolete Gradle Dependency</a>
 </td></tr>
 <tr>
 <td class="countColumn">1</td><td class="issueColumn"><img border="0" align="top" src="lint-results_files/lint-warning.png" alt="Warning" />
@@ -141,31 +137,6 @@ This is not an error; the application will simply ignore the attribute. However,
 Note: This check does not only apply to attributes. For example, some tags can be unused too, such as the new <code>&lt;tag></code> element in layouts introduced in API 21.
 </div>
 <br/><div class="moreinfo">More info: </div><br/>To suppress this error, use the issue id "UnusedAttribute" as explained in the <a href="#SuppressInfo">Suppressing Warnings and Errors</a> section.<br/>
-</div>
-<a name="GradleDependency"></a>
-<div class="issue">
-<div class="id"><a href="#" title="Return to top">GradleDependency: Obsolete Gradle Dependency</a><div class="issueSeparator"></div>
-</div>
-<div class="warningslist">
-<span class="location"><a href="../../build.gradle">../../build.gradle</a>:22</span>: <span class="message">A newer version of com.android.support:support-v4 than 19.+ is available: 21.0.3</span><br /><pre class="errorlines">
-<span class="lineno">  19</span> }
-<span class="lineno">  20</span> 
-<span class="lineno">  21</span> dependencies {
-<span class="lineno">  22</span>     <span class="errorspan">compile 'com.android.support:support-v4:19.+'</span>
-<span class="lineno">  23</span> }
-<span class="lineno">  24</span> 
-</pre>
-</div>
-<div class="metadata">Note: This issue has an associated quickfix operation in Android Studio/IntelliJ&nbsp;<img alt="Fix" border="0" align="top" src="lint-results_files/lint-run.png" />
-<br>
-Priority: 4 / 10<br/>
-Category: Correctness</div>
-Severity: <span class="warning">Warning</span><div class="summary">
-Explanation: Obsolete Gradle Dependency.</div>
-<div class="explanation">
-This detector looks for usages of libraries where the version you are using is not the current stable release. Using older versions is fine, and there are cases where you deliberately want to stick with an older version. However, you may simply not be aware that a more recent version is available, and that is what this lint check helps find.
-</div>
-<br/><div class="moreinfo">More info: </div><br/>To suppress this error, use the issue id "GradleDependency" as explained in the <a href="#SuppressInfo">Suppressing Warnings and Errors</a> section.<br/>
 </div>
 <a name="GradleDynamicVersion"></a>
 <div class="issue">
