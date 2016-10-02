@@ -1,5 +1,6 @@
 .DS_Store
 *.swp
-.gradle
-app/build
-build
+.gradle/
+.idea/
+app/build/
+build/
