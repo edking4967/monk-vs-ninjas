@@ -1,6 +1,6 @@
-package com.thousandonestories.management.game;
-
+package com.thousandonestories.game.management;
 import com.thousandonestories.game.levels.Level;
+import com.thousandonestories.game.GameState;
 
 public class GameManager {
 	

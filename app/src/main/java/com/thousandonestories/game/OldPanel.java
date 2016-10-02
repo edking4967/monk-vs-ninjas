@@ -1047,8 +1047,9 @@ public class OldPanel extends SurfaceView implements SurfaceHolder.Callback {
 
         platformBitmap = BitmapFactory.decodeResource(mRes, R.drawable.platform, options_pixellated);
 
-        //CopyOnWriteArrayList<int> imgs = new CopyOnWriteArrayList(2)
         //load monk animation frames:
+        int imgs[] = ResourceGetter.getResourceList(getContext(), "monk");
+        /*
         int imgs[] = new int[22];
         imgs[0]=R.drawable.monk01;
         imgs[1]=R.drawable.monk02;
@@ -1072,6 +1073,7 @@ public class OldPanel extends SurfaceView implements SurfaceHolder.Callback {
         imgs[19]=R.drawable.monk20;
         imgs[20]=R.drawable.monk21;
         imgs[21]=R.drawable.monk06;  // jump image
+        */
 
         BitmapFactory.Options o = new BitmapFactory.Options();
 
