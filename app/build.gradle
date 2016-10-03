@@ -1,8 +1,8 @@
 apply plugin: 'com.android.application'
 
 android {
-    compileSdkVersion 19
-    buildToolsVersion "19.1.0"
+    compileSdkVersion 21
+    buildToolsVersion "21.0.0"
 
     defaultConfig {
         applicationId "com.thousandonestories.game"
@@ -12,10 +12,15 @@ android {
 
     buildTypes {
         release {
-						minifyEnabled false
+			minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.txt'
         }
     }
+  lintOptions {
+      abortOnError false
+  }
+
+
 }
 
 dependencies {
