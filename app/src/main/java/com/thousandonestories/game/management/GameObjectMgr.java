@@ -6,7 +6,7 @@ import com.thousandonestories.game.BackgroundScenery;
 import com.thousandonestories.game.InteractiveScenery;
 import java.util.concurrent.CopyOnWriteArrayList;
 
-public class ListManager {
+public class GameObjectMgr {
 
     //Lists containing different game objects: 
     public static CopyOnWriteArrayList<GameObject> mGameObjList;
@@ -20,6 +20,7 @@ public class ListManager {
     public static CopyOnWriteArrayList<ClickableSprite> gameUIList;
     public static CopyOnWriteArrayList<ClickableSprite> healthBarList;
     public static CopyOnWriteArrayList<BackgroundSprite> m3dPlatformList;
+    public static HeroSprite hero;
 
     /**
      * Holds bitmaps that will be drawn to the menu screen
@@ -28,17 +29,17 @@ public class ListManager {
 
     public static void initializeLists() {
 
-        ListManager.mGameObjList = new CopyOnWriteArrayList<GameObject>();
-        ListManager.mGravSpriteList = new CopyOnWriteArrayList<GravitySprite>();
-        ListManager.mBlockList = new CopyOnWriteArrayList<Block>();
-        ListManager.mProjList = new CopyOnWriteArrayList<Projectile>();
-        ListManager.mEnemyList = new CopyOnWriteArrayList<Enemy>();
-        ListManager.mNPCList = new CopyOnWriteArrayList<NPC>();
-        ListManager.iSceneryList = new CopyOnWriteArrayList<InteractiveScenery>();
-        ListManager.bgSceneryList = new CopyOnWriteArrayList<BackgroundScenery>();
-        ListManager.m3dPlatformList = new CopyOnWriteArrayList<BackgroundSprite>();		
-        ListManager.menuItemList = new CopyOnWriteArrayList<ClickableSprite>();		
-        ListManager.gameUIList = new CopyOnWriteArrayList<ClickableSprite>();
-        ListManager.healthBarList = new CopyOnWriteArrayList<ClickableSprite>();
+        GameObjectMgr.mGameObjList = new CopyOnWriteArrayList<GameObject>();
+        GameObjectMgr.mGravSpriteList = new CopyOnWriteArrayList<GravitySprite>();
+        GameObjectMgr.mBlockList = new CopyOnWriteArrayList<Block>();
+        GameObjectMgr.mProjList = new CopyOnWriteArrayList<Projectile>();
+        GameObjectMgr.mEnemyList = new CopyOnWriteArrayList<Enemy>();
+        GameObjectMgr.mNPCList = new CopyOnWriteArrayList<NPC>();
+        GameObjectMgr.iSceneryList = new CopyOnWriteArrayList<InteractiveScenery>();
+        GameObjectMgr.bgSceneryList = new CopyOnWriteArrayList<BackgroundScenery>();
+        GameObjectMgr.m3dPlatformList = new CopyOnWriteArrayList<BackgroundSprite>();
+        GameObjectMgr.menuItemList = new CopyOnWriteArrayList<ClickableSprite>();
+        GameObjectMgr.gameUIList = new CopyOnWriteArrayList<ClickableSprite>();
+        GameObjectMgr.healthBarList = new CopyOnWriteArrayList<ClickableSprite>();
     }
 }

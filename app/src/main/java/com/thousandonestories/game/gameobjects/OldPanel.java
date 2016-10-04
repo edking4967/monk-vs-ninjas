@@ -1,4 +1,4 @@
-package com.thousandonestories.game.gameobjects; 
+package com.thousandonestories.game.gameobjects;
 import android.content.Context;
 import android.content.res.Resources;
 import android.graphics.Bitmap;
@@ -16,8 +16,7 @@ import android.view.SurfaceHolder;
 import android.view.SurfaceView;
 import java.util.concurrent.CopyOnWriteArrayList;
 
-import com.thousandonestories.game.management.ResourceGetter;
-import com.thousandonestories.game.management.ListManager;
+import com.thousandonestories.game.management.GameObjectMgr;
 import com.thousandonestories.game.BackgroundScenery;
 import com.thousandonestories.game.BackgroundSprite;
 import com.thousandonestories.game.InteractiveScenery;
@@ -27,7 +26,6 @@ import com.thousandonestories.game.R;
 import com.thousandonestories.game.SpriteResources;
 import com.thousandonestories.game.ViewThread;
 import com.thousandonestories.game.R.drawable;
-import com.thousandonestories.game.R.raw;
 import com.thousandonestories.game.ai.Goal;
 import com.thousandonestories.game.ui.ClickableSprite;
 
@@ -40,7 +38,7 @@ public class OldPanel extends SurfaceView implements SurfaceHolder.Callback {
     /*
      * Game states:
      */
-
+    //TODO: use enum
     public static final int STATE_UNINITIALIZED=0;
     public static final int STATE_GAMEOVER = 1;
     public static final int STATE_GAME_RUNNING= 2;
@@ -63,9 +61,9 @@ public class OldPanel extends SurfaceView implements SurfaceHolder.Callback {
     public static final boolean SAVE_BITMAPS =false;
 
     /**
-     * The level that the player is currently on.
+     * The currentLevel that the player is currently on.
      */
-    private static int level;
+    private static int currentLevel;
     //private 	DiskLruCache mDiskLruCache;
 
     public static float mWidth;
@@ -81,7 +79,6 @@ public class OldPanel extends SurfaceView implements SurfaceHolder.Callback {
     private Paint mPaint;
     private ViewThread mThread;
 
-    public static HeroSprite hero; 
     private Enemy croc;
 
     private FlyingSprite flyingHero;
@@ -150,13 +147,13 @@ public class OldPanel extends SurfaceView implements SurfaceHolder.Callback {
 
         setGameState(STATE_UNINITIALIZED);
 
-        level = 2; // why?
+        currentLevel = 2; // why?
 
         Log.d("bleh", "Panel constructor called");
 
         getHolder().addCallback(this);
 
-        ListManager.menuItemList = new CopyOnWriteArrayList<ClickableSprite>();
+        GameObjectMgr.menuItemList = new CopyOnWriteArrayList<ClickableSprite>();
 
         loadBitmapsLevelOne();
 
@@ -217,6 +214,7 @@ public class OldPanel extends SurfaceView implements SurfaceHolder.Callback {
     /* Goes in GameManager ? */
     // Update position and velocity of all sprites in list
     public void update(long elapsedTime) {
+        HeroSprite hero = GameObjectMgr.hero;
 
         if(hero==null) return;
 
@@ -270,7 +268,7 @@ public class OldPanel extends SurfaceView implements SurfaceHolder.Callback {
 
         float offset = 1;
 
-        for(BackgroundScenery bgObj: ListManager.bgSceneryList)
+        for(BackgroundScenery bgObj: GameObjectMgr.bgSceneryList)
         {
             scrollLock=true;
             if(scrollLock)
@@ -280,12 +278,12 @@ public class OldPanel extends SurfaceView implements SurfaceHolder.Callback {
             }
         }
 
-        for( BackgroundSprite platform: ListManager.m3dPlatformList)
+        for( BackgroundSprite platform: GameObjectMgr.m3dPlatformList)
         {
             platform.scroll( scrollSpeed/ ( 20f ) ,  elapsedTime );
         }
 
-        for (GameObject mObj : ListManager.mGameObjList) {
+        for (GameObject mObj : GameObjectMgr.mGameObjList) {
 
             mObj.update(elapsedTime); //update object's position etc
             scrollLock=true;
@@ -301,49 +299,49 @@ public class OldPanel extends SurfaceView implements SurfaceHolder.Callback {
 
                 mObj.hide();
 
-                ListManager.mGameObjList.remove( mObj );
+                GameObjectMgr.mGameObjList.remove( mObj );
 
                 if( mObj instanceof Enemy )
                 {
-                    ListManager.mEnemyList.remove(mObj);
+                    GameObjectMgr.mEnemyList.remove(mObj);
                 }
 
                 if( mObj instanceof Block )
                 {
-                    ListManager.mBlockList.remove(mObj);
+                    GameObjectMgr.mBlockList.remove(mObj);
                 }
 
                 if( mObj instanceof Projectile )
                 {
-                    ListManager.mProjList.remove(mObj);
+                    GameObjectMgr.mProjList.remove(mObj);
                 }
 
             }
 
             if( mObj.getTopBound() >= this.getHeight() && mObj instanceof Enemy)
             {
-                ListManager.mGameObjList.remove( mObj );
-                ListManager.mEnemyList.remove( mObj );
+                GameObjectMgr.mGameObjList.remove( mObj );
+                GameObjectMgr.mEnemyList.remove( mObj );
             }
 
         }
 
         //Make more enemies:
         if( ( System.currentTimeMillis() - crocSpawnTime >= 5000) //enough time has passed
-                && (ListManager.mEnemyList.size() < 10 ) )  // we're not saturated with enemies 
+                && (GameObjectMgr.mEnemyList.size() < 10 ) )  // we're not saturated with enemies
         {
-            Enemy newCroc = new Enemy(getResources(), 1100, 100, crocbitmap, crocbitmap_f, projBmp, ListManager.mProjList, ListManager.mBlockList, ListManager.mGameObjList, 1 );
-            ListManager.mEnemyList.add(newCroc);
-            ListManager.mGameObjList.add(newCroc);
-            ListManager.mGravSpriteList.add(newCroc);
+            Enemy newCroc = new Enemy(getResources(), 1100, 100, crocbitmap, crocbitmap_f, projBmp, GameObjectMgr.mProjList, GameObjectMgr.mBlockList, GameObjectMgr.mGameObjList, 1 );
+            GameObjectMgr.mEnemyList.add(newCroc);
+            GameObjectMgr.mGameObjList.add(newCroc);
+            GameObjectMgr.mGravSpriteList.add(newCroc);
 
             crocSpawnTime = System.currentTimeMillis();
 
         }
 
-        for (InteractiveScenery iScenery: ListManager.iSceneryList)
+        for (InteractiveScenery iScenery: GameObjectMgr.iSceneryList)
         {
-            if( checkCollision( hero, iScenery ) )
+            if( checkCollision( GameObjectMgr.hero, iScenery ) )
             {
                 iScenery.hide();
             }
@@ -351,7 +349,7 @@ public class OldPanel extends SurfaceView implements SurfaceHolder.Callback {
 
 
         //check if hero has fallen below the screen:
-        if(hero.getTopBound() >= OldPanel.mHeight)
+        if(GameObjectMgr.hero.getTopBound() >= OldPanel.mHeight)
         {
             gameOver();
         }
@@ -393,7 +391,7 @@ public class OldPanel extends SurfaceView implements SurfaceHolder.Callback {
             helveticaPaint.setTextSize(50);
             helveticaPaint.setFlags(Paint.ANTI_ALIAS_FLAG);
 
-            for(ClickableSprite menuSprite : ListManager.menuItemList)
+            for(ClickableSprite menuSprite : GameObjectMgr.menuItemList)
             {
                 menuSprite.doDraw(canvas);
             }
@@ -414,7 +412,7 @@ public class OldPanel extends SurfaceView implements SurfaceHolder.Callback {
              * Background Scenery: paths
              */
 
-            for( BackgroundScenery bgObj: ListManager.bgSceneryList )
+            for( BackgroundScenery bgObj: GameObjectMgr.bgSceneryList )
             {
                 bgObj.doDraw(canvas);
 
@@ -424,7 +422,7 @@ public class OldPanel extends SurfaceView implements SurfaceHolder.Callback {
              * Background Sprites: bitmaps
              */	
 
-            for( BackgroundSprite bSprite: ListManager.m3dPlatformList)
+            for( BackgroundSprite bSprite: GameObjectMgr.m3dPlatformList)
             {
                 bSprite.doDraw(canvas);
             }
@@ -433,7 +431,7 @@ public class OldPanel extends SurfaceView implements SurfaceHolder.Callback {
              *  GameObjects: objects in the game world you can interact with.
              */
 
-            for( GameObject object: ListManager.mGameObjList)
+            for( GameObject object: GameObjectMgr.mGameObjList)
             {
                 if(object instanceof Block && !DRAW_BLOCKS)
                     continue;
@@ -445,12 +443,12 @@ public class OldPanel extends SurfaceView implements SurfaceHolder.Callback {
 
             }
 
-            for( ClickableSprite ui: ListManager.gameUIList )
+            for( ClickableSprite ui: GameObjectMgr.gameUIList )
             {
                 ui.doDraw(canvas);
             }
 
-            for( ClickableSprite healthBar: ListManager.healthBarList )
+            for( ClickableSprite healthBar: GameObjectMgr.healthBarList )
             {
                 healthBar.doDraw(canvas);
             }
@@ -459,7 +457,7 @@ public class OldPanel extends SurfaceView implements SurfaceHolder.Callback {
             //Debugging stuff:
 
             /*
-            if(level == 1)
+            if(currentLevel == 1)
             {
                 canvas.drawText(" CrocLB: " + croc.blockLB + " crocRB: " + croc.blockRB + 
                         " LandCount "+hero.db_landcount+" density: "+  getResources().getDisplayMetrics().density + " elapsed: " 
@@ -477,22 +475,19 @@ public class OldPanel extends SurfaceView implements SurfaceHolder.Callback {
     public void addBlock(int left, int right, int top, int bottom, int color)
     {
         Block block = new Block(left, top, right, bottom, color);
-        ListManager.mBlockList.add( block );
-        ListManager.mGameObjList.add( block);
+        GameObjectMgr.mBlockList.add( block );
+        GameObjectMgr.mGameObjList.add( block);
 
         //Add platform image:
-        ListManager.m3dPlatformList.add(
-                new BackgroundSprite(platformBitmap,left, top - 30, 6) );
-
+        GameObjectMgr.m3dPlatformList.add(
+                new BackgroundSprite(platformBitmap,left, top - 30, 6) ); //TODO: keeps loading bmps!
     }
-
-
 
     @Override
         public boolean onTouchEvent(MotionEvent event) {
 
 
-            for( ClickableSprite clickSprite : ListManager.menuItemList)
+            for( ClickableSprite clickSprite : GameObjectMgr.menuItemList)
             {
                 if( clickSprite.checkClick(event.getX(), event.getY()) )
                 {
@@ -504,7 +499,7 @@ public class OldPanel extends SurfaceView implements SurfaceHolder.Callback {
                 }
             }
 
-            for( ClickableSprite uiSprite : ListManager.gameUIList)
+            for( ClickableSprite uiSprite : GameObjectMgr.gameUIList)
             {
                 if( uiSprite.checkClick(event.getX(), event.getY()) )
                 {
@@ -516,7 +511,7 @@ public class OldPanel extends SurfaceView implements SurfaceHolder.Callback {
                 }
             }
 
-            if( hero != null && gameState==STATE_GAME_RUNNING )
+            if( GameObjectMgr.hero != null && gameState==STATE_GAME_RUNNING )
             {
                 //touchHandleFlying(event);
                 return touchHandlePlatformerMode(event);
@@ -534,6 +529,9 @@ public class OldPanel extends SurfaceView implements SurfaceHolder.Callback {
 
     public boolean touchHandlePlatformerMode(MotionEvent event)
     {
+        HeroSprite hero = GameObjectMgr.hero;
+        int jumpY = 200; // y amount above which will be a jump
+
         // check orientation of the hero:
         if( (int) (event.getX()-OldPanel.mWidth/2) < 0 )
         {
@@ -547,7 +545,7 @@ public class OldPanel extends SurfaceView implements SurfaceHolder.Callback {
         Projectile proj;
 
         // touch at top of screen:
-        if(event.getY()< 200) 
+        if(event.getY()< jumpY)
         {
             if(event.getAction() == MotionEvent.ACTION_DOWN)
                 hero.jump();
@@ -573,8 +571,8 @@ public class OldPanel extends SurfaceView implements SurfaceHolder.Callback {
                 hero.fire(System.currentTimeMillis());
                 proj = new Projectile(getResources(), startpt, (int) ( (hero.bY+hero.mY)/2), vel, 
                         projBmp, Projectile.TYPE_HERO, 4);
-                ListManager.mProjList.add( proj);
-                ListManager.mGameObjList.add(proj);
+                GameObjectMgr.mProjList.add( proj);
+                GameObjectMgr.mGameObjList.add(proj);
             }
         }
         else
@@ -610,10 +608,9 @@ public class OldPanel extends SurfaceView implements SurfaceHolder.Callback {
 
     }
 
-
-
     public void moveHero(float speed)
     {
+        HeroSprite hero = GameObjectMgr.hero;
         hero.mDx = speed;
 
         scrollLock = true;
@@ -627,15 +624,15 @@ public class OldPanel extends SurfaceView implements SurfaceHolder.Callback {
 
     public void checkBlocks(long mElapsed) {
         //check for new collisions between GravitySprites and Blocks or a fall() event
-        for( GravitySprite sprite : ListManager.mGravSpriteList)
+        for( GravitySprite sprite : GameObjectMgr.mGravSpriteList)
         {
             if( sprite.getState() == GravitySprite.STATE_INAIR )
             {
-                sprite.checkLanded(ListManager.mBlockList, mElapsed);
+                sprite.checkLanded(GameObjectMgr.mBlockList, mElapsed);
             }
             else // sprite is on a block
             {
-                for (Block block: ListManager.mBlockList)
+                for (Block block: GameObjectMgr.mBlockList)
                 {
                     if( ! sprite.checkFallFromBlock() ) 
                     {
@@ -655,7 +652,7 @@ public class OldPanel extends SurfaceView implements SurfaceHolder.Callback {
 
     public void updateEnemyAI()
     {
-        for( Enemy enemy: ListManager.mEnemyList )
+        for( Enemy enemy: GameObjectMgr.mEnemyList )
         {
             if( enemy.getState() != GravitySprite.STATE_INAIR ) //enemy is on the ground
             {
@@ -668,16 +665,16 @@ public class OldPanel extends SurfaceView implements SurfaceHolder.Callback {
     }
 
     public void checkEnemyProjectiles(long mElapsed) {
-        for( Enemy enemy: ListManager.mEnemyList)
+        for( Enemy enemy: GameObjectMgr.mEnemyList)
         {
             //check for hits by projectiles:
-            if( enemy.checkProjectile( ListManager.mProjList ) )
+            if( enemy.checkProjectile( GameObjectMgr.mProjList ) )
             {
                 enemy.die( System.currentTimeMillis() );
             }
 
             //check if it's time to hide:
-            enemy.checkHide( System.currentTimeMillis(), ListManager.mEnemyList );
+            enemy.checkHide( System.currentTimeMillis(), GameObjectMgr.mEnemyList );
 
         }
     }
@@ -703,18 +700,18 @@ public class OldPanel extends SurfaceView implements SurfaceHolder.Callback {
     {
         Log.d("red", "gameOver() function started");
 
-        for( GameObject object: ListManager.mGameObjList )
+        for( GameObject object: GameObjectMgr.mGameObjList )
         {
             object.hide();
         }
 
-        ListManager.mGravSpriteList.clear();
-        ListManager.mBlockList.clear();
-        ListManager.mEnemyList.clear();
-        ListManager.mProjList.clear(); 
-        ListManager.mGameObjList.clear();
+        GameObjectMgr.mGravSpriteList.clear();
+        GameObjectMgr.mBlockList.clear();
+        GameObjectMgr.mEnemyList.clear();
+        GameObjectMgr.mProjList.clear();
+        GameObjectMgr.mGameObjList.clear();
 
-        ListManager.menuItemList = new CopyOnWriteArrayList<ClickableSprite>();
+        GameObjectMgr.menuItemList = new CopyOnWriteArrayList<ClickableSprite>();
 
         Bitmap gameoverbitmap[] = new Bitmap[1];
         Bitmap gameoverbitmap_r[] = new Bitmap[1];
@@ -724,9 +721,9 @@ public class OldPanel extends SurfaceView implements SurfaceHolder.Callback {
         gameOverSprite= new ClickableSprite( getResources(), (int) OldPanel.mWidth/2, (int) OldPanel.mHeight/2, gameoverbitmap, gameoverbitmap_r, 1 );
         gameOverSprite.setAction(ClickableSprite.RESTART_GAME);
 
-        ListManager.menuItemList.add(gameOverSprite);
+        GameObjectMgr.menuItemList.add(gameOverSprite);
 
-        Log.d("red", "menuitemlist size = " + ListManager.menuItemList.size() );
+        Log.d("red", "menuitemlist size = " + GameObjectMgr.menuItemList.size() );
 
         setGameState(STATE_GAMEOVER);
 
@@ -734,7 +731,7 @@ public class OldPanel extends SurfaceView implements SurfaceHolder.Callback {
 
     public void showMenu()
     {
-        ListManager.menuItemList = new CopyOnWriteArrayList<ClickableSprite>();
+        GameObjectMgr.menuItemList = new CopyOnWriteArrayList<ClickableSprite>();
 
         Bitmap menuimg = BitmapFactory.decodeResource(getResources(), R.drawable.menuimg);
         Bitmap menuimg2 = BitmapFactory.decodeResource(getResources(), R.drawable.menuimg2);
@@ -751,10 +748,10 @@ public class OldPanel extends SurfaceView implements SurfaceHolder.Callback {
 
         ClickableSprite menuSprite4 = new ClickableSprite(getResources(), (int) 800, (int) 200, mimgarray, mimgarray, 1);
         menuSprite4.setAction(ClickableSprite.START_LEVEL_FOUR);		
-        ListManager.menuItemList.add(menuSprite);
-        ListManager.menuItemList.add(menuSprite2);
-        ListManager.menuItemList.add(menuSprite3);
-        ListManager.menuItemList.add(menuSprite4);
+        GameObjectMgr.menuItemList.add(menuSprite);
+        GameObjectMgr.menuItemList.add(menuSprite2);
+        GameObjectMgr.menuItemList.add(menuSprite3);
+        GameObjectMgr.menuItemList.add(menuSprite4);
 
         setGameState(STATE_MENU);
     }
@@ -769,12 +766,12 @@ public class OldPanel extends SurfaceView implements SurfaceHolder.Callback {
         return getGameState()==STATE_MENU;
     }
 
-    public static int getLevel() {
-        return level;
+    public static int getCurrentLevel() {
+        return currentLevel;
     }
 
-    public static void setLevel(int level) {
-        OldPanel.level = level;
+    public static void setCurrentLevel(int currentLevel) {
+        OldPanel.currentLevel = currentLevel;
     }
 
 
@@ -784,21 +781,22 @@ public class OldPanel extends SurfaceView implements SurfaceHolder.Callback {
         ClickableSprite ns = new ClickableSprite( getResources(), 100, 200, projBmp, projBmp, 3);
         ns.setAction(ClickableSprite.CHOOSE_PROJECTILE);
         ns.setPersistent(true);
-        ListManager.gameUIList.add(ns);
+        GameObjectMgr.gameUIList.add(ns);
 
         Bitmap[] sb = {swordBmp};
         ClickableSprite ss = new ClickableSprite( getResources(), 200, 200, sb, sb, 3);
         ss.setAction(ClickableSprite.CHOOSE_SWORD);
         ss.setPersistent(true);
-        ListManager.gameUIList.add(ss);
+        GameObjectMgr.gameUIList.add(ss);
 
         Bitmap health[] = { BitmapFactory.decodeResource(getResources(), R.drawable.healthbox) };
-        int numHealthBars = hero.getHealth() / 25;
+        int numHealthBars = GameObjectMgr.hero.getHealth() / 25;
         for(int i=0; i<numHealthBars; i++)
         {
-            ClickableSprite hs = new ClickableSprite( getResources(), 100 + 100*i, 100, health, health, 2);
+            ClickableSprite hs = new ClickableSprite( getResources(), 100 + 100*i, 100, health,
+                    health, 2);
             hs.setPersistent(true);
-            ListManager.healthBarList.add(hs);
+            GameObjectMgr.healthBarList.add(hs);
 
         }
     }
@@ -807,7 +805,7 @@ public class OldPanel extends SurfaceView implements SurfaceHolder.Callback {
     {
         Log.d("red", "start of gamestartlevelone" );
 
-        ListManager.initializeLists();
+        GameObjectMgr.initializeLists();
 
         initializeHero();
 
@@ -825,23 +823,16 @@ public class OldPanel extends SurfaceView implements SurfaceHolder.Callback {
         // setup game:
         // mp = MediaPlayer.create(context, R.raw.excellent);
 
-
-
-        //background (TODO: experimental)
-
-        //TODO: fix this--less lists
-
         // add platforms:
         for(int i =0; i<10; i++)
         {
             addBlock( i * 600, i* 600 + 400,450,550, Color.WHITE);
-
         }
 
-        croc = new Enemy(res, 1000, 100, crocbitmap, crocbitmap_f, projBmp, ListManager.mProjList, ListManager.mBlockList, ListManager.mGameObjList, 1 );
-        ListManager.mEnemyList.add(croc);
-        ListManager.mGameObjList.add(croc);
-        ListManager.mGravSpriteList.add(croc);
+        croc = new Enemy(res, 1000, 100, crocbitmap, crocbitmap_f, projBmp, GameObjectMgr.mProjList, GameObjectMgr.mBlockList, GameObjectMgr.mGameObjList, 1 );
+        GameObjectMgr.mEnemyList.add(croc);
+        GameObjectMgr.mGameObjList.add(croc);
+        GameObjectMgr.mGravSpriteList.add(croc);
 
         class LvlOneGoal extends Goal
         {
@@ -858,7 +849,7 @@ public class OldPanel extends SurfaceView implements SurfaceHolder.Callback {
         GoalOrb goalOrb = new GoalOrb(goalOrbRes, 2000, 200, .5f);
         goalOrb.setGoal(lvlOneGoal);
 
-        ListManager.mGameObjList.add(goalOrb);
+        GameObjectMgr.mGameObjList.add(goalOrb);
         goalOrb.startAnimation(0, 5);
 
         gameStartTime = System.currentTimeMillis();
@@ -867,15 +858,15 @@ public class OldPanel extends SurfaceView implements SurfaceHolder.Callback {
         //flyingHero = new FlyingSprite(flyingResources, 100, 100, 1);
         //ListManager.mGameObjList.add(flyingHero);
         door = new InteractiveScenery(res, 500, 500, door_b, door_b, 4, true);
-        ListManager.mGameObjList.add(door);
-        ListManager.iSceneryList.add(door);
+        GameObjectMgr.mGameObjList.add(door);
+        GameObjectMgr.iSceneryList.add(door);
 
 
 
         blebleguy = new NPC( tomatomanRes, 500,500, 2 );
         blebleguy.startAnimation(0, 20);
         blebleguy.speak("hello", 9000);
-        ListManager.mGameObjList.add(blebleguy);
+        GameObjectMgr.mGameObjList.add(blebleguy);
 
         //		    dragontest = new NPC( dragonHeadRes, mWidth-200, 0, 3 );
         //		    dragontest.startAnimation(0, 20);
@@ -901,17 +892,17 @@ public class OldPanel extends SurfaceView implements SurfaceHolder.Callback {
     {
         Log.d("bloh", "start of gamestartlevelone" );
 
-        ListManager.initializeLists();
+        GameObjectMgr.initializeLists();
 
         initializeHero();
 
         generateMountains();
 
         logos = new BackgroundSprite(logos_b, (float) mWidth - logos_b.getWidth()*12, (float) 150, 12);
-        ListManager.bgSceneryList.add(1, logos);
+        GameObjectMgr.bgSceneryList.add(1, logos);
 
         dragon = new Dragon( dragonHeadRes, dragonBodyRes, mWidth-200, 0, 2, 5 );
-        ListManager.mGameObjList.add(dragon);
+        GameObjectMgr.mGameObjList.add(dragon);
 
         addBlock(  0,  400,450,550, Color.WHITE);
 
@@ -921,7 +912,7 @@ public class OldPanel extends SurfaceView implements SurfaceHolder.Callback {
     }
 
     private void gameStartLevelThree(Context context) {
-        ListManager.initializeLists();
+        GameObjectMgr.initializeLists();
 
         initializeHero();
 
@@ -936,17 +927,17 @@ public class OldPanel extends SurfaceView implements SurfaceHolder.Callback {
         //	
         Ninja ninj = new Ninja(ninjaRes, 0, 0, 2, phys);
         //	
-        ListManager.mGameObjList.add(ninj);
+        GameObjectMgr.mGameObjList.add(ninj);
         //
         ninj = new Ninja(ninjaRes, 700, 0, 2, phys);
         //
-        ListManager.mGameObjList.add(ninj);
+        GameObjectMgr.mGameObjList.add(ninj);
 
         PhysicsStuff physLight = new PhysicsStuff(0, 20);
 
         Ninja floatingGuy = new Ninja(coffeeCupRes, 400, 0, 2, physLight);
 
-        ListManager.mGameObjList.add(floatingGuy);
+        GameObjectMgr.mGameObjList.add(floatingGuy);
 
         floatingGuy.startAnimation(0);
 
@@ -975,7 +966,7 @@ public class OldPanel extends SurfaceView implements SurfaceHolder.Callback {
 
            setGameState(STATE_GAME_RUNNING);
            */
-        ListManager.initializeLists();
+        GameObjectMgr.initializeLists();
 
         initializeHero();
 
@@ -988,11 +979,11 @@ public class OldPanel extends SurfaceView implements SurfaceHolder.Callback {
         //	
         Ninja ninj = new Ninja(ninjaRes, 0, 0, 2, phys);
         //	
-        ListManager.mGameObjList.add(ninj);
+        GameObjectMgr.mGameObjList.add(ninj);
         //
         ninj = new Ninja(ninjaRes, 700, 0, 2, phys);
         //
-        ListManager.mGameObjList.add(ninj);
+        GameObjectMgr.mGameObjList.add(ninj);
 
         setupUI();
 
@@ -1002,16 +993,18 @@ public class OldPanel extends SurfaceView implements SurfaceHolder.Callback {
 
     private void initializeHero() {
 
-        hero = new HeroSprite(getResources(), 250, 100, heroBmps, heroReverseBmps, ListManager.mProjList, 1);
+        HeroSprite hero = GameObjectMgr.hero;
 
-        ListManager.mGravSpriteList.add(hero);
-        ListManager.mGameObjList.add(hero);
+        hero = new HeroSprite(getResources(), 250, 100, heroBmps, heroReverseBmps, GameObjectMgr.mProjList, 1);
+
+        GameObjectMgr.mGravSpriteList.add(hero);
+        GameObjectMgr.mGameObjList.add(hero);
         heroSavedPos = (hero.bX+hero.mX)/2 ; 		
     }
 
     public void leaveMenu()
     {
-        switch(level)
+        switch(currentLevel)
         {
             case ClickableSprite.START_LEVEL_ONE:
                 gameStartLevelOne(getContext());
@@ -1034,6 +1027,7 @@ public class OldPanel extends SurfaceView implements SurfaceHolder.Callback {
         showMenu();
     }
 
+    // move out to somewhere else
     public void loadBitmapsLevelOne()
     {
         int i;
@@ -1258,22 +1252,22 @@ public class OldPanel extends SurfaceView implements SurfaceHolder.Callback {
 
     public static void removeFromLists( GameObject mObj )
     {
-        ListManager.mGameObjList.remove(mObj);
+        GameObjectMgr.mGameObjList.remove(mObj);
 
         if(mObj instanceof Enemy)
-            ListManager.mEnemyList.remove(mObj);
+            GameObjectMgr.mEnemyList.remove(mObj);
 
         if(mObj instanceof GravitySprite)
-            ListManager.mGravSpriteList.remove(mObj);
+            GameObjectMgr.mGravSpriteList.remove(mObj);
 
         if(mObj instanceof Projectile)
-            ListManager.mProjList.remove(mObj);
+            GameObjectMgr.mProjList.remove(mObj);
 
         if(mObj instanceof Block)
-            ListManager.mBlockList.remove(mObj);
+            GameObjectMgr.mBlockList.remove(mObj);
 
         if(mObj instanceof NPC)
-            ListManager.mNPCList.remove(mObj);
+            GameObjectMgr.mNPCList.remove(mObj);
     }
 
 
@@ -1328,8 +1322,8 @@ public class OldPanel extends SurfaceView implements SurfaceHolder.Callback {
 
             cloud = new BackgroundSprite(cloudBitmap, OldPanel.mWidth * k /4, OldPanel.mHeight/3, 1 );
 
-            ListManager.bgSceneryList.add((BackgroundScenery) mountain);
-            ListManager.bgSceneryList.add((BackgroundScenery) cloud);
+            GameObjectMgr.bgSceneryList.add((BackgroundScenery) mountain);
+            GameObjectMgr.bgSceneryList.add((BackgroundScenery) cloud);
 
         }
     }
@@ -1341,9 +1335,9 @@ public class OldPanel extends SurfaceView implements SurfaceHolder.Callback {
 
     public void updateHealthBar()
     {
-        int numHealthBars = hero.getHealth()/25;
-        if(numHealthBars < ListManager.healthBarList.size())
-            ListManager.healthBarList.remove(numHealthBars);
+        int numHealthBars = GameObjectMgr.hero.getHealth()/25;
+        if(numHealthBars < GameObjectMgr.healthBarList.size())
+            GameObjectMgr.healthBarList.remove(numHealthBars);
 
     }
 
@@ -1353,15 +1347,15 @@ public class OldPanel extends SurfaceView implements SurfaceHolder.Callback {
     }
 
     public static CopyOnWriteArrayList<Projectile> getProjList() {
-        return ListManager.mProjList;
+        return GameObjectMgr.mProjList;
     }
 
     public static CopyOnWriteArrayList<Block> getBlockList() {
-        return ListManager.mBlockList;
+        return GameObjectMgr.mBlockList;
     }
 
     public static CopyOnWriteArrayList<GameObject> getGameObjList() {
-        return ListManager.mGameObjList;
+        return GameObjectMgr.mGameObjList;
     }
 
     public static int getGameState() {

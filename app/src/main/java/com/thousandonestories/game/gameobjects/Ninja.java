@@ -6,6 +6,8 @@ import com.thousandonestories.game.PhysicsStuff;
 import com.thousandonestories.game.SpriteResources;
 
 import com.thousandonestories.game.ai.AIState;
+import com.thousandonestories.game.management.GameObjectMgr;
+
 import android.graphics.Color;
 
 
@@ -244,7 +246,7 @@ public class Ninja extends NewPhysicsSprite {
 		 */
 		@Override
 		public boolean doChecks() {
-			return ( getInstance().getLeftBound() - OldPanel.hero.getRightBound() <= 15 );
+			return ( getInstance().getLeftBound() - GameObjectMgr.hero.getRightBound() <= 15 );
 		}
 
 		@Override

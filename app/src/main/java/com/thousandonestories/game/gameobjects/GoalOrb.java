@@ -1,9 +1,10 @@
 package com.thousandonestories.game.gameobjects;
 import android.graphics.Color;
 
-import com.thousandonestories.game.management.GameManager;
 import com.thousandonestories.game.SpriteResources;
 import com.thousandonestories.game.ai.Goal;
+import com.thousandonestories.game.management.GameObjectMgr;
+
 /**
  * Created by edk on 1/21/15.
  */
@@ -38,7 +39,7 @@ public class GoalOrb extends NewSprite {
     public void update(long elapsedTime)
     {
         super.update(elapsedTime);
-        if(OldPanel.checkCollision(this, OldPanel.hero))
+        if(OldPanel.checkCollision(this, GameObjectMgr.hero))
         {
             this.flash(Color.RED,5000);
             goal.complete();

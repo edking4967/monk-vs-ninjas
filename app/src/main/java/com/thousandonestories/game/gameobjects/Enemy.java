@@ -3,6 +3,7 @@ package com.thousandonestories.game.gameobjects;
 import java.util.concurrent.CopyOnWriteArrayList;
 
 import com.thousandonestories.game.GameTimer;
+import com.thousandonestories.game.management.GameObjectMgr;
 
 
 import android.content.res.Resources;
@@ -251,12 +252,12 @@ public class Enemy extends GravitySprite
 	 */
 	public boolean isVulnerable()
 	{
-		if(OldPanel.hero == null)
+		if(GameObjectMgr.hero == null)
 			return false;
 		else
 		{
 			float y = ( this.getTopBound() + this.getBottomBound() ) / 2;
-			return ( y >= OldPanel.hero.getTopBound() && y <= OldPanel.hero.getBottomBound() ) ;
+			return ( y >= GameObjectMgr.hero.getTopBound() && y <= GameObjectMgr.hero.getBottomBound() ) ;
 		}
 	}
 	
@@ -319,7 +320,7 @@ public class Enemy extends GravitySprite
 	}
 
 	private void updateAISleep() {
-		float heroX = ( OldPanel.hero.getLeftBound() + OldPanel.hero.getRightBound()  ) / 2;
+		float heroX = ( GameObjectMgr.hero.getLeftBound() + GameObjectMgr.hero.getRightBound()  ) / 2;
 		
 		float thisX = ( this.getLeftBound() + this.getRightBound() ) / 2;
 		
@@ -346,7 +347,7 @@ public class Enemy extends GravitySprite
 		/*
 		 *  to other states:
 		 */
-		float heroX = ( OldPanel.hero.getLeftBound() + OldPanel.hero.getRightBound()  ) / 2;
+		float heroX = ( GameObjectMgr.hero.getLeftBound() + GameObjectMgr.hero.getRightBound()  ) / 2;
 		
 		float thisX = ( this.getLeftBound() + this.getRightBound() ) / 2;
 		

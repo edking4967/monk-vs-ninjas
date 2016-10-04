@@ -4,7 +4,6 @@ import java.io.File;
 import java.io.FileOutputStream;
 
 import com.thousandonestories.game.gameobjects.OldPanel;
-import com.thousandonestories.game.ui.NewPanel;
 
 
 import android.graphics.Bitmap;

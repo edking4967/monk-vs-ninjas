@@ -4,6 +4,7 @@ import com.thousandonestories.game.GameTimer;
 import com.thousandonestories.game.gameobjects.HeroSprite;
 import com.thousandonestories.game.gameobjects.OldPanel;
 import com.thousandonestories.game.gameobjects.Sprite;
+import com.thousandonestories.game.management.GameObjectMgr;
 
 import android.content.res.Resources;
 import android.graphics.Bitmap;
@@ -87,26 +88,26 @@ public class ClickableSprite extends Sprite
 				panel.restartGame( panel.getContext() );
 				break;
 			case START_LEVEL_ONE:
-				OldPanel.setLevel(1);
+				OldPanel.setCurrentLevel(1);
 				panel.leaveMenu();
 				break;
 			case START_LEVEL_TWO:
-				OldPanel.setLevel(2);
+				OldPanel.setCurrentLevel(2);
 				panel.leaveMenu();
 				break;
 			case START_LEVEL_THREE:
-				OldPanel.setLevel(3);
+				OldPanel.setCurrentLevel(3);
 				panel.leaveMenu();
 				break;
             case START_LEVEL_FOUR:
-				OldPanel.setLevel(4);
+				OldPanel.setCurrentLevel(4);
 				panel.leaveMenu();
 				break;
 			case CHOOSE_PROJECTILE:
-				OldPanel.hero.setWeapon( HeroSprite.WEAPON_PROJECTILE );
+				GameObjectMgr.hero.setWeapon( HeroSprite.WEAPON_PROJECTILE );
 				break;
 			case CHOOSE_SWORD:
-				OldPanel.hero.setWeapon( HeroSprite.WEAPON_SWORD );
+                GameObjectMgr.hero.setWeapon( HeroSprite.WEAPON_SWORD );
 				break;
 		}
 	}
