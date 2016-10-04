@@ -27,7 +27,7 @@ public class NewPanel extends SurfaceView implements SurfaceHolder.Callback{
 
 		
 		ui = new UIOverlay();
-		gm = new GameManager(); 
+		gm = new GameManager(getResources());
 	}
 
 	@Override

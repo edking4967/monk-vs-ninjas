@@ -8,6 +8,8 @@ import com.thousandonestories.game.SpriteResources;
 
 
 import com.thousandonestories.game.ai.AIState;
+import com.thousandonestories.game.management.GameObjectMgr;
+
 import android.graphics.Canvas;
 import android.graphics.Color;
 
@@ -131,7 +133,7 @@ public class Dragon implements GameObject {
 
 			for( Projectile proj: OldPanel.getProjList() )
 			{
-				if( OldPanel.checkCollision(bp, proj) )
+				if( GameObjectMgr.checkCollision(bp, proj) )
 				{
 					if(proj.getType() == Projectile.TYPE_HERO)
 					{

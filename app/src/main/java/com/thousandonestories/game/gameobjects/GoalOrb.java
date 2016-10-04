@@ -40,7 +40,7 @@ public class GoalOrb extends NewSprite {
     public void update(long elapsedTime)
     {
         super.update(elapsedTime);
-        if(OldPanel.checkCollision(this, GameObjectMgr.hero))
+        if(GameObjectMgr.checkCollision(this, GameObjectMgr.hero))
         {
             this.flash(Color.RED,5000);
             goal.complete();

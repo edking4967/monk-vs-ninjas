@@ -7,8 +7,10 @@ import com.thousandonestories.game.PhysicsStuff;
 import com.thousandonestories.game.SpriteResources;
 
 import com.thousandonestories.game.ai.AIState;
+import com.thousandonestories.game.graphics.BitmapMgr;
 import com.thousandonestories.game.management.GameObjectMgr;
 
+import android.graphics.Bitmap;
 import android.graphics.Color;
 
 
@@ -94,7 +96,7 @@ public class Ninja extends NewPhysicsSprite {
 		{
 			if(p.getType() == Projectile.TYPE_HERO)
 			{
-				if( OldPanel.checkCollision(this, p) )
+				if( GameObjectMgr.checkCollision(this, p) )
 				{
 					OldPanel.removeFromLists(p); //delete projectile
 					die();
@@ -122,7 +124,7 @@ public class Ninja extends NewPhysicsSprite {
 		}
 
 		Projectile proj = new Projectile( getSpriteResources().getAndroidResources() , startX,  ( getTopBound() + getBottomBound() )/2, 10 * dir, 
-				OldPanel.projBmp, Projectile.TYPE_ENEMY, 2 );
+				BitmapMgr.projBmp, Projectile.TYPE_ENEMY, 2 );
 
 		OldPanel.getProjList().add( proj);
 		OldPanel.getGameObjList().add(proj);
