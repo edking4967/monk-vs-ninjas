@@ -14,7 +14,7 @@ import com.thousandonestories.game.utils.ImageUtils;
 import java.util.concurrent.CopyOnWriteArrayList;
 
 public class GameStateMgr {
-    public enum GameState { RUNNING, MENU, GAMEOVER };
+    public enum GameState { UNINITIALIZED, RUNNING, MENU, GAMEOVER };
     public static GameState currentState;
     GameManager gm;
     Resources r;
@@ -54,8 +54,8 @@ public class GameStateMgr {
         GameObjectMgr.menuItemList.add(gameOverSprite);
 
         Log.d("red", "menuitemlist size = " + GameObjectMgr.menuItemList.size() );
-
+        
+        OldPanel.gameState = OldPanel.STATE_GAMEOVER;
         currentState = GameState.GAMEOVER;
-
     }
 }
