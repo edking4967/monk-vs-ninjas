@@ -1,8 +1,6 @@
 package com.thousandonestories.game;
 
 
-import com.thousandonestories.game.gameobjects.OldPanel;
-
 import android.os.Bundle;
 import android.app.Activity;
 import android.content.pm.ActivityInfo;
@@ -25,13 +23,13 @@ public class MainActivity extends Activity {
 		
 	    Log.d("bleh", "onCreate called");
 
-		
 	    setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE);      
 		//Remove title bar
 	    this.requestWindowFeature(Window.FEATURE_NO_TITLE);
 
 	    //Remove notification bar
-	    this.getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN);
+	    this.getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN,
+				WindowManager.LayoutParams.FLAG_FULLSCREEN);
 
 	    // setContentView(R.layout.activity_main);
 	    

@@ -8,6 +8,8 @@ import android.content.res.Resources;
 import android.graphics.Bitmap;
 import android.graphics.Canvas;
 import android.util.Log;
+
+import com.thousandonestories.game.OldPanel;
 import com.thousandonestories.synth.SynthCore;
 
 public class HeroSprite extends GravitySprite {

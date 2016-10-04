@@ -1,8 +1,5 @@
 package com.thousandonestories.game.gameobjects;
-
 import java.util.concurrent.CopyOnWriteArrayList;
-
-
 import android.content.res.Resources;
 import android.graphics.Bitmap;
 import android.graphics.Canvas;
@@ -12,7 +9,7 @@ import android.util.Log;
 
 public class GravitySprite extends Sprite {
 
-
+	// TODO Why is this in GravitySprite :(
 	//Bitmaps: 
 	public static final int BMP_JUMP = 5;
 	public static final int BMP_REST = 0;
@@ -34,7 +31,7 @@ public class GravitySprite extends Sprite {
 	protected int currentImg;
 	private int savedImg;
 
-	protected boolean flipBmp;
+	public boolean flipBmp;
 	public long runStart;
 
 	/**
@@ -45,7 +42,7 @@ public class GravitySprite extends Sprite {
 	private int gravity = 2;
 	protected float blockLB;
 	protected float blockRB;
-	protected Block onBlock;
+	protected Block currentBlock;
 	protected int jumpVel; // velocity of jump.
 
 	private long timeSave_Fire;
@@ -75,7 +72,6 @@ public class GravitySprite extends Sprite {
 		mDx = 0;
 		mDy = 5;
 		r = res;
-
 	}
 
 	public void flipSprite() {
@@ -95,14 +91,13 @@ public class GravitySprite extends Sprite {
 		{
 			canvas.drawBitmap(mReversedBitmaps[currentImg], mX, mY, null); // goes by top left
 		}
-
 	}
-
 
 	//int frame_counter;
 	public void update(long elapsedTime)  //TODO: need to pass "scrollPos"?
 	{
 		super.update(elapsedTime);
+
 		if(movementState==STATE_RUN)
 		{
 			if(t - runStart >= 2)
@@ -127,16 +122,15 @@ public class GravitySprite extends Sprite {
 		if( currentImg == BMP_FIRE  ) // don't want to be stuck in pose
 		{
 
-			if( (System.currentTimeMillis() - timeSave_Fire) >= 100) // 100ms has passed since we struck the "fire" pose. TODO: triggers always.
+			if( (System.currentTimeMillis() - timeSave_Fire) >= 100) // 100ms has passed since we struck the "fire" pose. TODO: triggers always. (?)
 			{
 				this.currentImg=savedImg;
-				Log.d("blah", " Current: "+ System.currentTimeMillis() + " Timesave: " + timeSave_Fire );
 			}
 		}
 		if(movementState != STATE_INAIR) // sprite is on a block
 		{
-			blockLB = onBlock.getLeftBound();
-			blockRB = onBlock.getRightBound();
+			blockLB = currentBlock.getLeftBound();
+			blockRB = currentBlock.getRightBound();
 		}
 	}
 
@@ -155,7 +149,6 @@ public class GravitySprite extends Sprite {
 			mD2y = gravity;
 			movementState=STATE_INAIR;
 			fallcount++;
-
 		}
 	}
 
@@ -202,8 +195,6 @@ public class GravitySprite extends Sprite {
 		savedImg = currentImg; //save img to go back to
 		currentImg=BMP_FIRE;
 		timeSave_Fire=System.currentTimeMillis();		
-		Log.d("fire", ""+System.currentTimeMillis());
-
 	}
 
 	public void saveBoundaries(int leftBound, int rightBound) {
@@ -252,9 +243,7 @@ public class GravitySprite extends Sprite {
 			}			
 
 		}
-
 		return false;
-
 	}
 
 
@@ -332,17 +321,15 @@ public class GravitySprite extends Sprite {
 				break;
 
 			}
-
-		}		 
-
+		}
 	}
 
 	public void updateBlock( Block mBlock )
 	{
 		//update the sprite's block
-		onBlock = mBlock;
-		blockRB = onBlock.getRightBound(); 
-		blockLB = onBlock.getLeftBound();	
+		currentBlock = mBlock;
+		blockRB = currentBlock.getRightBound();
+		blockLB = currentBlock.getLeftBound();
 	}
 
 	public void land( Block mBlock) {
@@ -350,10 +337,10 @@ public class GravitySprite extends Sprite {
 		// in air >> on ground
 		// triggers when: collision with block is detected
 
-		onBlock = mBlock;  //save the block that we landed on.
+		currentBlock = mBlock;  //save the block that we landed on.
 
-		blockRB = onBlock.getRightBound(); //TODO: is it bad to pass a block? (memory) 
-		blockLB = onBlock.getLeftBound();
+		blockRB = currentBlock.getRightBound(); //TODO: is it bad to pass a block? (memory)
+		blockLB = currentBlock.getLeftBound();
 
 		mDy=0;
 		mD2y=0;
@@ -368,8 +355,6 @@ public class GravitySprite extends Sprite {
 		{
 			movementState=STATE_RUN;
 		}
-
-
 	}
 
 	public void setState( int newstate )

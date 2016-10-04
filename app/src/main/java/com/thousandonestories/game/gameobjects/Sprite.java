@@ -8,10 +8,10 @@ import android.graphics.Paint;
 import android.graphics.Rect;
 
 public class Sprite implements GameObject{
-   protected float mX;
-   protected float mY;
-   protected float bX;
-   protected float bY;
+   public float mX;
+   public float mY;
+   public float bX;
+   public float bY;
    public float mDx;
    public float mDy;
    public float mD2x;

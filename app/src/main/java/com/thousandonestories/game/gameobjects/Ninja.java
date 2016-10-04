@@ -2,6 +2,7 @@ package com.thousandonestories.game.gameobjects;
 
 
 import com.thousandonestories.game.GameTimer;
+import com.thousandonestories.game.OldPanel;
 import com.thousandonestories.game.PhysicsStuff;
 import com.thousandonestories.game.SpriteResources;
 

@@ -1,4 +1,4 @@
-package com.thousandonestories.game.gameobjects;
+package com.thousandonestories.game;
 import android.content.Context;
 import android.content.res.Resources;
 import android.graphics.Bitmap;
@@ -16,15 +16,18 @@ import android.view.SurfaceHolder;
 import android.view.SurfaceView;
 import java.util.concurrent.CopyOnWriteArrayList;
 
+import com.thousandonestories.game.gameobjects.Block;
+import com.thousandonestories.game.gameobjects.Dragon;
+import com.thousandonestories.game.gameobjects.Enemy;
+import com.thousandonestories.game.gameobjects.FlyingSprite;
+import com.thousandonestories.game.gameobjects.GameObject;
+import com.thousandonestories.game.gameobjects.GoalOrb;
+import com.thousandonestories.game.gameobjects.GravitySprite;
+import com.thousandonestories.game.gameobjects.HeroSprite;
+import com.thousandonestories.game.gameobjects.NPC;
+import com.thousandonestories.game.gameobjects.Ninja;
+import com.thousandonestories.game.gameobjects.Projectile;
 import com.thousandonestories.game.management.GameObjectMgr;
-import com.thousandonestories.game.BackgroundScenery;
-import com.thousandonestories.game.BackgroundSprite;
-import com.thousandonestories.game.InteractiveScenery;
-import com.thousandonestories.game.Mountain;
-import com.thousandonestories.game.PhysicsStuff;
-import com.thousandonestories.game.R;
-import com.thousandonestories.game.SpriteResources;
-import com.thousandonestories.game.ViewThread;
 import com.thousandonestories.game.R.drawable;
 import com.thousandonestories.game.ai.Goal;
 import com.thousandonestories.game.ui.ClickableSprite;
@@ -134,7 +137,6 @@ public class OldPanel extends SurfaceView implements SurfaceHolder.Callback {
     NPC dragontest;
 
     Dragon dragon;
-
     MediaPlayer bgSong;
 
     public static MediaPlayer blip;
@@ -185,8 +187,6 @@ public class OldPanel extends SurfaceView implements SurfaceHolder.Callback {
                 mThread.setRunning(true);
                 mThread.start();
             }
-
-
         }
 
     @Override
@@ -196,7 +196,6 @@ public class OldPanel extends SurfaceView implements SurfaceHolder.Callback {
             // Store new extents
             mWidth = width;
             mHeight = height;
-
         }
 
     @Override
@@ -214,13 +213,12 @@ public class OldPanel extends SurfaceView implements SurfaceHolder.Callback {
     /* Goes in GameManager ? */
     // Update position and velocity of all sprites in list
     public void update(long elapsedTime) {
-        HeroSprite hero = GameObjectMgr.hero;
 
-        if(hero==null) return;
+        if(GameObjectMgr.hero==null) return;
 
         if(isMenu() ) return;
 
-        if(hero.getHealth() <= 0)
+        if(GameObjectMgr.hero.getHealth() <= 0)
         {
             gameOver();
 
@@ -236,19 +234,19 @@ public class OldPanel extends SurfaceView implements SurfaceHolder.Callback {
 
         if(!scrollLock) // scroll lock off: screen fixed, hero moves
         {
-            float heroX = (hero.bX+hero.mX) / 2; //center of the hero
+            float heroX = (GameObjectMgr.hero.bX+GameObjectMgr.hero.mX) / 2; //center of the hero
             if( heroX >= heroSavedPos + moveBox  || heroX <= heroSavedPos-moveBox  )
             {
                 scrollLock = true;
-                heroSavedPos = (hero.bX+hero.mX)/2; //save hero's position
-                heroSavedDir=hero.getDirection(); //save hero's direction
+                heroSavedPos = (GameObjectMgr.hero.bX+GameObjectMgr.hero.mX)/2; //save hero's position
+                heroSavedDir=GameObjectMgr.hero.getDirection(); //save hero's direction
             }
         }
         else // scroll lock is on: hero fixed, screen scrolling
         {
-            if(heroSavedDir != hero.getDirection() ) // hero direction has changed
+            if(heroSavedDir != GameObjectMgr.hero.getDirection() ) // hero direction has changed
             {
-                heroSavedDir = hero.getDirection();
+                heroSavedDir = GameObjectMgr.hero.getDirection();
 
                 scrollLock=false;
             }
@@ -282,7 +280,6 @@ public class OldPanel extends SurfaceView implements SurfaceHolder.Callback {
         {
             platform.scroll( scrollSpeed/ ( 20f ) ,  elapsedTime );
         }
-
         for (GameObject mObj : GameObjectMgr.mGameObjList) {
 
             mObj.update(elapsedTime); //update object's position etc
@@ -306,12 +303,12 @@ public class OldPanel extends SurfaceView implements SurfaceHolder.Callback {
                     GameObjectMgr.mEnemyList.remove(mObj);
                 }
 
-                if( mObj instanceof Block )
+                if( mObj instanceof Block)
                 {
                     GameObjectMgr.mBlockList.remove(mObj);
                 }
 
-                if( mObj instanceof Projectile )
+                if( mObj instanceof Projectile)
                 {
                     GameObjectMgr.mProjList.remove(mObj);
                 }
@@ -368,7 +365,6 @@ public class OldPanel extends SurfaceView implements SurfaceHolder.Callback {
     //int color = 0;
     String color = "#7ec0ee";
     public void doDraw(Canvas canvas) {
-
 
         canvas.drawColor( Color.parseColor(color) );
 
@@ -513,7 +509,6 @@ public class OldPanel extends SurfaceView implements SurfaceHolder.Callback {
 
             if( GameObjectMgr.hero != null && gameState==STATE_GAME_RUNNING )
             {
-                //touchHandleFlying(event);
                 return touchHandlePlatformerMode(event);
             }
             else return true;
@@ -529,16 +524,15 @@ public class OldPanel extends SurfaceView implements SurfaceHolder.Callback {
 
     public boolean touchHandlePlatformerMode(MotionEvent event)
     {
-        HeroSprite hero = GameObjectMgr.hero;
         int jumpY = 200; // y amount above which will be a jump
 
         // check orientation of the hero:
         if( (int) (event.getX()-OldPanel.mWidth/2) < 0 )
         {
-            hero.flipBmp=true;
+            GameObjectMgr.hero.flipBmp=true;
         }
         else
-            hero.flipBmp=false;
+            GameObjectMgr.hero.flipBmp=false;
 
         int vel;
         int startpt;
@@ -548,7 +542,7 @@ public class OldPanel extends SurfaceView implements SurfaceHolder.Callback {
         if(event.getY()< jumpY)
         {
             if(event.getAction() == MotionEvent.ACTION_DOWN)
-                hero.jump();
+                GameObjectMgr.hero.jump();
         }
         else if(event.getY()< 400)
         {
@@ -557,19 +551,19 @@ public class OldPanel extends SurfaceView implements SurfaceHolder.Callback {
             if(event.getAction()==MotionEvent.ACTION_DOWN)
             {
                 // check hero orientation:
-                if(!hero.flipBmp)
+                if(!GameObjectMgr.hero.flipBmp)
                 {
                     vel = 100;
-                    startpt = (int) hero.getRightBound();
+                    startpt = (int) GameObjectMgr.hero.getRightBound();
                 }
                 else
                 {
                     vel= -100;
-                    startpt = (int) hero.getLeftBound();
+                    startpt = (int) GameObjectMgr.hero.getLeftBound();
                 }
 
-                hero.fire(System.currentTimeMillis());
-                proj = new Projectile(getResources(), startpt, (int) ( (hero.bY+hero.mY)/2), vel, 
+                GameObjectMgr.hero.fire(System.currentTimeMillis());
+                proj = new Projectile(getResources(), startpt, (int) ( (GameObjectMgr.hero.bY+GameObjectMgr.hero.mY)/2), vel, 
                         projBmp, Projectile.TYPE_HERO, 4);
                 GameObjectMgr.mProjList.add( proj);
                 GameObjectMgr.mGameObjList.add(proj);
@@ -580,27 +574,27 @@ public class OldPanel extends SurfaceView implements SurfaceHolder.Callback {
 
             if(event.getAction() == MotionEvent.ACTION_DOWN)
             {
-                moveHero( (event.getX()-OldPanel.mWidth/2) /20 * hero.getScaleFactor() );
+                moveHero( (event.getX()-OldPanel.mWidth/2) /20 * GameObjectMgr.hero.getScaleFactor() );
                 //hero.mDx=(int) (event.getX()-Panel.mWidth/2) /20 * hero.getScaleFactor();
-                hero.run(System.currentTimeMillis());
+                GameObjectMgr.hero.run(System.currentTimeMillis());
 
             }
             if(event.getAction() == MotionEvent.ACTION_MOVE)
             {
-                moveHero(  (event.getX()-OldPanel.mWidth/2) /20 * hero.getScaleFactor() );
+                moveHero(  (event.getX()-OldPanel.mWidth/2) /20 * GameObjectMgr.hero.getScaleFactor() );
                 //hero.mDx=(int) (event.getX()-Panel.mWidth/2) /20 ;
             }
 
             if(event.getAction() == MotionEvent.ACTION_UP)
             {
                 moveHero(0);
-                hero.rest();
+                GameObjectMgr.hero.rest();
             }
         }
 
         if( event.getActionMasked()==MotionEvent.ACTION_POINTER_DOWN)
         {
-            hero.jump();
+            GameObjectMgr.hero.jump();
         }
 
         //return super.onTouchEvent(event);
@@ -610,8 +604,7 @@ public class OldPanel extends SurfaceView implements SurfaceHolder.Callback {
 
     public void moveHero(float speed)
     {
-        HeroSprite hero = GameObjectMgr.hero;
-        hero.mDx = speed;
+        GameObjectMgr.hero.mDx = speed;
 
         scrollLock = true;
 
@@ -992,14 +985,10 @@ public class OldPanel extends SurfaceView implements SurfaceHolder.Callback {
     }
 
     private void initializeHero() {
-
-        HeroSprite hero = GameObjectMgr.hero;
-
-        hero = new HeroSprite(getResources(), 250, 100, heroBmps, heroReverseBmps, GameObjectMgr.mProjList, 1);
-
-        GameObjectMgr.mGravSpriteList.add(hero);
-        GameObjectMgr.mGameObjList.add(hero);
-        heroSavedPos = (hero.bX+hero.mX)/2 ; 		
+        GameObjectMgr.hero = new HeroSprite(getResources(), 250, 100, heroBmps, heroReverseBmps, GameObjectMgr.mProjList, 1);
+        GameObjectMgr.mGravSpriteList.add(GameObjectMgr.hero);
+        GameObjectMgr.mGameObjList.add(GameObjectMgr.hero);
+        heroSavedPos = (GameObjectMgr.hero.bX+GameObjectMgr.hero.mX)/2 ;
     }
 
     public void leaveMenu()

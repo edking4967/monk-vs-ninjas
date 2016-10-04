@@ -3,8 +3,6 @@ package com.thousandonestories.game;
 import java.io.File;
 import java.io.FileOutputStream;
 
-import com.thousandonestories.game.gameobjects.OldPanel;
-
 
 import android.graphics.Bitmap;
 import android.graphics.Canvas;
@@ -84,10 +82,10 @@ public class ViewThread extends Thread {
 
 				mDrawTime = System.currentTimeMillis() - mUpdateTime - mStartTime;
 
-				Log.d("blah", "Draw Time = " + mDrawTime);
+				//Log.d("blah", "Draw Time = " + mDrawTime);
 
-				canvas.drawText("draw time =  " + mDrawTime + " update time = " + mUpdateTime
-						+ "framerate = " + 1000f/mElapsed  , 10, 60, mPaint);
+				//canvas.drawText("draw time =  " + mDrawTime + " update time = " + mUpdateTime
+				//		+ "framerate = " + 1000f/mElapsed  , 10, 60, mPaint);
 
 				// Release lock on canvas object
 				mHolder.unlockCanvasAndPost(canvas);

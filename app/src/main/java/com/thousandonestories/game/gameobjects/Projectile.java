@@ -5,6 +5,8 @@ package com.thousandonestories.game.gameobjects;
 import android.content.res.Resources;
 import android.graphics.Bitmap;
 
+import com.thousandonestories.game.OldPanel;
+
 public class Projectile extends Sprite
 {
 

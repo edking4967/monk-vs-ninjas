@@ -3,6 +3,7 @@ package com.thousandonestories.game.gameobjects;
 import java.util.concurrent.CopyOnWriteArrayList;
 
 import com.thousandonestories.game.GameTimer;
+import com.thousandonestories.game.OldPanel;
 import com.thousandonestories.game.SpriteResources;
 
 

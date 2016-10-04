@@ -2,7 +2,7 @@ package com.thousandonestories.game.ui;
 
 import com.thousandonestories.game.GameTimer;
 import com.thousandonestories.game.gameobjects.HeroSprite;
-import com.thousandonestories.game.gameobjects.OldPanel;
+import com.thousandonestories.game.OldPanel;
 import com.thousandonestories.game.gameobjects.Sprite;
 import com.thousandonestories.game.management.GameObjectMgr;
 
