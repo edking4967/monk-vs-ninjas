@@ -5,11 +5,9 @@ import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
 import android.graphics.Color;
-import android.graphics.Matrix;
 import android.graphics.Paint;
 import android.graphics.Typeface;
 import android.media.MediaPlayer;
-import android.util.DisplayMetrics;
 import android.util.Log;
 import android.view.MotionEvent;
 import android.view.SurfaceHolder;
@@ -27,10 +25,15 @@ import com.thousandonestories.game.gameobjects.HeroSprite;
 import com.thousandonestories.game.gameobjects.NPC;
 import com.thousandonestories.game.gameobjects.Ninja;
 import com.thousandonestories.game.gameobjects.Projectile;
+import com.thousandonestories.game.graphics.BitmapMgr;
+import com.thousandonestories.game.management.GameManager;
 import com.thousandonestories.game.management.GameObjectMgr;
 import com.thousandonestories.game.R.drawable;
 import com.thousandonestories.game.ai.Goal;
+import com.thousandonestories.game.screen.ScreenMgr;
+import com.thousandonestories.game.time.TimeMgr;
 import com.thousandonestories.game.ui.ClickableSprite;
+import com.thousandonestories.game.utils.ImageUtils;
 
 //gravity stuff does not go in panel
 
@@ -72,18 +75,10 @@ public class OldPanel extends SurfaceView implements SurfaceHolder.Callback {
     public static float mWidth;
     public static float mHeight;
 
-    public static float scrollSpeed;
-    private boolean scrollLock;
-    private float heroSavedPos; // saved position for camera
-    private boolean heroSavedDir; // saved direction character is pointing
-    private long gameStartTime;
-    private long crocSpawnTime;
-
     private Paint mPaint;
     private ViewThread mThread;
 
     private Enemy croc;
-
     private FlyingSprite flyingHero;
 
 
@@ -91,10 +86,6 @@ public class OldPanel extends SurfaceView implements SurfaceHolder.Callback {
 
     Bitmap cloudBitmap;
 
-    Bitmap crocbitmap[];
-    Bitmap crocbitmap_f[];
-
-    public static Bitmap projBmp[];
     Bitmap qiBmp[];
     Bitmap heroBmps[];
     Bitmap heroReverseBmps[];
@@ -123,7 +114,6 @@ public class OldPanel extends SurfaceView implements SurfaceHolder.Callback {
 
     SpriteResources goalOrbRes;
 
-    ClickableSprite gameOverSprite;
     ClickableSprite menuSprite;
 
     InteractiveScenery door;
@@ -141,9 +131,9 @@ public class OldPanel extends SurfaceView implements SurfaceHolder.Callback {
 
     public static MediaPlayer blip;
     public static MediaPlayer blip2;
+    GameManager gm;
 
-
-    public OldPanel(Context context) {
+    public OldPanel(Context context, GameManager gm) {
 
         super(context);
 
@@ -161,7 +151,9 @@ public class OldPanel extends SurfaceView implements SurfaceHolder.Callback {
 
         showMenu();
 
-        mThread = new ViewThread(this);
+        this.gm = gm;
+
+        mThread = new ViewThread(this, gm);
 
         bgSong = MediaPlayer.create(context, R.raw.shooter);
 
@@ -183,7 +175,7 @@ public class OldPanel extends SurfaceView implements SurfaceHolder.Callback {
             Log.d("bleh","surfaceCreated called");
 
             if (!mThread.isAlive()) {
-                mThread = new ViewThread(this);
+                mThread = new ViewThread(this, gm);
                 mThread.setRunning(true);
                 mThread.start();
             }
@@ -210,156 +202,6 @@ public class OldPanel extends SurfaceView implements SurfaceHolder.Callback {
         }
     /* End stays in NewPanel */
 
-    /* Goes in GameManager ? */
-    // Update position and velocity of all sprites in list
-    public void update(long elapsedTime) {
-
-        if(GameObjectMgr.hero==null) return;
-
-        if(isMenu() ) return;
-
-        if(GameObjectMgr.hero.getHealth() <= 0)
-        {
-            gameOver();
-
-        }
-
-        updateHealthBar();
-
-        //CAMERA CONTROL:
-
-        int moveBox = 100; // amount hero can move before camera locks to him again
-
-        scrollLock = true;
-
-        if(!scrollLock) // scroll lock off: screen fixed, hero moves
-        {
-            float heroX = (GameObjectMgr.hero.bX+GameObjectMgr.hero.mX) / 2; //center of the hero
-            if( heroX >= heroSavedPos + moveBox  || heroX <= heroSavedPos-moveBox  )
-            {
-                scrollLock = true;
-                heroSavedPos = (GameObjectMgr.hero.bX+GameObjectMgr.hero.mX)/2; //save hero's position
-                heroSavedDir=GameObjectMgr.hero.getDirection(); //save hero's direction
-            }
-        }
-        else // scroll lock is on: hero fixed, screen scrolling
-        {
-            if(heroSavedDir != GameObjectMgr.hero.getDirection() ) // hero direction has changed
-            {
-                heroSavedDir = GameObjectMgr.hero.getDirection();
-
-                scrollLock=false;
-            }
-        }
-        //end camera control
-
-
-        //TODO: fold these checks into one main GameObject loop.
-        //Check sprite collisions with blocks:
-        checkBlocks(elapsedTime);
-
-        //Check enemy collisions with projectiles:
-        checkEnemyProjectiles(elapsedTime);
-
-        //update enemy AI:
-        updateEnemyAI();
-
-        float offset = 1;
-
-        for(BackgroundScenery bgObj: GameObjectMgr.bgSceneryList)
-        {
-            scrollLock=true;
-            if(scrollLock)
-            {
-                bgObj.scroll( scrollSpeed/ ( 20f + 10*offset ) ,  elapsedTime );
-                offset++;
-            }
-        }
-
-        for( BackgroundSprite platform: GameObjectMgr.m3dPlatformList)
-        {
-            platform.scroll( scrollSpeed/ ( 20f ) ,  elapsedTime );
-        }
-        for (GameObject mObj : GameObjectMgr.mGameObjList) {
-
-            mObj.update(elapsedTime); //update object's position etc
-            scrollLock=true;
-            if( scrollLock) 
-            {
-                mObj.scroll(scrollSpeed/20f,  elapsedTime ) ; // scroll object as necessary
-            }
-
-
-            //remove offscreen objects:
-            if(mObj.getRightBound() <= 0 && !mObj.isPersistent() )
-            {
-
-                mObj.hide();
-
-                GameObjectMgr.mGameObjList.remove( mObj );
-
-                if( mObj instanceof Enemy )
-                {
-                    GameObjectMgr.mEnemyList.remove(mObj);
-                }
-
-                if( mObj instanceof Block)
-                {
-                    GameObjectMgr.mBlockList.remove(mObj);
-                }
-
-                if( mObj instanceof Projectile)
-                {
-                    GameObjectMgr.mProjList.remove(mObj);
-                }
-
-            }
-
-            if( mObj.getTopBound() >= this.getHeight() && mObj instanceof Enemy)
-            {
-                GameObjectMgr.mGameObjList.remove( mObj );
-                GameObjectMgr.mEnemyList.remove( mObj );
-            }
-
-        }
-
-        //Make more enemies:
-        if( ( System.currentTimeMillis() - crocSpawnTime >= 5000) //enough time has passed
-                && (GameObjectMgr.mEnemyList.size() < 10 ) )  // we're not saturated with enemies
-        {
-            Enemy newCroc = new Enemy(getResources(), 1100, 100, crocbitmap, crocbitmap_f, projBmp, GameObjectMgr.mProjList, GameObjectMgr.mBlockList, GameObjectMgr.mGameObjList, 1 );
-            GameObjectMgr.mEnemyList.add(newCroc);
-            GameObjectMgr.mGameObjList.add(newCroc);
-            GameObjectMgr.mGravSpriteList.add(newCroc);
-
-            crocSpawnTime = System.currentTimeMillis();
-
-        }
-
-        for (InteractiveScenery iScenery: GameObjectMgr.iSceneryList)
-        {
-            if( checkCollision( GameObjectMgr.hero, iScenery ) )
-            {
-                iScenery.hide();
-            }
-        }
-
-
-        //check if hero has fallen below the screen:
-        if(GameObjectMgr.hero.getTopBound() >= OldPanel.mHeight)
-        {
-            gameOver();
-        }
-
-    } // end of update function
-
-
-    public static boolean checkCollision(GameObject obj1, GameObject obj2) {		
-        return (obj1.getLeftBound() < obj2.getRightBound() && obj1.getRightBound() > obj2.getLeftBound() &&
-                obj1.getTopBound() < obj2.getBottomBound() && obj1.getBottomBound() > obj2.getTopBound() ) ; 
-    }
-
-
     /* Goes where? */
     // Draw all sprites and blocks in list
     //int color = 0;
@@ -372,7 +214,9 @@ public class OldPanel extends SurfaceView implements SurfaceHolder.Callback {
         {
             Paint mPaint = new Paint();
             mPaint.setColor(Color.WHITE);
-            gameOverSprite.doDraw( canvas  );
+            for (ClickableSprite cs: GameObjectMgr.menuItemList) {
+                cs.doDraw(canvas);
+            }
             canvas.drawText("Touch \"game over\" to restart.", 500, 500, mPaint);
             return;
         }
@@ -564,7 +408,7 @@ public class OldPanel extends SurfaceView implements SurfaceHolder.Callback {
 
                 GameObjectMgr.hero.fire(System.currentTimeMillis());
                 proj = new Projectile(getResources(), startpt, (int) ( (GameObjectMgr.hero.bY+GameObjectMgr.hero.mY)/2), vel, 
-                        projBmp, Projectile.TYPE_HERO, 4);
+                        BitmapMgr.projBmp, Projectile.TYPE_HERO, 4);
                 GameObjectMgr.mProjList.add( proj);
                 GameObjectMgr.mGameObjList.add(proj);
             }
@@ -606,16 +450,16 @@ public class OldPanel extends SurfaceView implements SurfaceHolder.Callback {
     {
         GameObjectMgr.hero.mDx = speed;
 
-        scrollLock = true;
+        ScreenMgr.scrollLock = true;
 
-        if(scrollLock) 
+        if(ScreenMgr.scrollLock)
         {
-            scrollSpeed = - speed;
+            ScreenMgr.scrollSpeed = - speed;
         }
 
     }	   
 
-    public void checkBlocks(long mElapsed) {
+    public static void checkBlocks(long mElapsed) {
         //check for new collisions between GravitySprites and Blocks or a fall() event
         for( GravitySprite sprite : GameObjectMgr.mGravSpriteList)
         {
@@ -643,21 +487,7 @@ public class OldPanel extends SurfaceView implements SurfaceHolder.Callback {
         }		
     }
 
-    public void updateEnemyAI()
-    {
-        for( Enemy enemy: GameObjectMgr.mEnemyList )
-        {
-            if( enemy.getState() != GravitySprite.STATE_INAIR ) //enemy is on the ground
-            {
-
-                //if enemy has a block
-                enemy.AICheckMoveBounds();
-
-            }
-        }
-    }
-
-    public void checkEnemyProjectiles(long mElapsed) {
+    public static void checkEnemyProjectiles(long mElapsed) {
         for( Enemy enemy: GameObjectMgr.mEnemyList)
         {
             //check for hits by projectiles:
@@ -670,56 +500,6 @@ public class OldPanel extends SurfaceView implements SurfaceHolder.Callback {
             enemy.checkHide( System.currentTimeMillis(), GameObjectMgr.mEnemyList );
 
         }
-    }
-
-    public Bitmap[] flipBmpHorizontal( Bitmap[] input )
-    {
-        int i;
-        Bitmap output[] = new Bitmap[input.length];
-        Matrix m = new Matrix();
-        m.preScale(-1, 1);
-        for(i=0; i< input.length; i++)
-        {
-            //flip bitmap:
-
-            output[i]=Bitmap.createBitmap(input[i], 0, 0, input[i].getWidth(), input[i].getHeight(), m, false);
-            output[i].setDensity(DisplayMetrics.DENSITY_DEFAULT);
-
-        }
-        return output;
-    }
-
-    public void gameOver()
-    {
-        Log.d("red", "gameOver() function started");
-
-        for( GameObject object: GameObjectMgr.mGameObjList )
-        {
-            object.hide();
-        }
-
-        GameObjectMgr.mGravSpriteList.clear();
-        GameObjectMgr.mBlockList.clear();
-        GameObjectMgr.mEnemyList.clear();
-        GameObjectMgr.mProjList.clear();
-        GameObjectMgr.mGameObjList.clear();
-
-        GameObjectMgr.menuItemList = new CopyOnWriteArrayList<ClickableSprite>();
-
-        Bitmap gameoverbitmap[] = new Bitmap[1];
-        Bitmap gameoverbitmap_r[] = new Bitmap[1];
-        gameoverbitmap[0]= BitmapFactory.decodeResource(getResources(), R.drawable.gameover);
-        gameoverbitmap_r = flipBmpHorizontal(gameoverbitmap);
-
-        gameOverSprite= new ClickableSprite( getResources(), (int) OldPanel.mWidth/2, (int) OldPanel.mHeight/2, gameoverbitmap, gameoverbitmap_r, 1 );
-        gameOverSprite.setAction(ClickableSprite.RESTART_GAME);
-
-        GameObjectMgr.menuItemList.add(gameOverSprite);
-
-        Log.d("red", "menuitemlist size = " + GameObjectMgr.menuItemList.size() );
-
-        setGameState(STATE_GAMEOVER);
-
     }
 
     public void showMenu()
@@ -771,7 +551,7 @@ public class OldPanel extends SurfaceView implements SurfaceHolder.Callback {
     private void setupUI()
     {
         // Setup UI:	
-        ClickableSprite ns = new ClickableSprite( getResources(), 100, 200, projBmp, projBmp, 3);
+        ClickableSprite ns = new ClickableSprite( getResources(), 100, 200, BitmapMgr.projBmp, BitmapMgr.projBmp, 3);
         ns.setAction(ClickableSprite.CHOOSE_PROJECTILE);
         ns.setPersistent(true);
         GameObjectMgr.gameUIList.add(ns);
@@ -808,8 +588,8 @@ public class OldPanel extends SurfaceView implements SurfaceHolder.Callback {
         mPaint.setColor(Color.BLACK);
 
 
-        scrollSpeed=0;
-        scrollLock = true;
+        ScreenMgr.scrollSpeed=0;
+        ScreenMgr.scrollLock = true;
 
 
         Resources res = getResources();
@@ -822,7 +602,8 @@ public class OldPanel extends SurfaceView implements SurfaceHolder.Callback {
             addBlock( i * 600, i* 600 + 400,450,550, Color.WHITE);
         }
 
-        croc = new Enemy(res, 1000, 100, crocbitmap, crocbitmap_f, projBmp, GameObjectMgr.mProjList, GameObjectMgr.mBlockList, GameObjectMgr.mGameObjList, 1 );
+        croc = new Enemy(res, 1000, 100, BitmapMgr.crocbitmap, BitmapMgr.crocbitmap_f,
+                BitmapMgr.projBmp, GameObjectMgr.mProjList, GameObjectMgr.mBlockList, GameObjectMgr.mGameObjList, 1 );
         GameObjectMgr.mEnemyList.add(croc);
         GameObjectMgr.mGameObjList.add(croc);
         GameObjectMgr.mGravSpriteList.add(croc);
@@ -845,16 +626,14 @@ public class OldPanel extends SurfaceView implements SurfaceHolder.Callback {
         GameObjectMgr.mGameObjList.add(goalOrb);
         goalOrb.startAnimation(0, 5);
 
-        gameStartTime = System.currentTimeMillis();
-        crocSpawnTime = gameStartTime;
+        TimeMgr.gameStartTime = System.currentTimeMillis();
+        TimeMgr.enemySpawnTime = TimeMgr.gameStartTime;
 
         //flyingHero = new FlyingSprite(flyingResources, 100, 100, 1);
         //ListManager.mGameObjList.add(flyingHero);
         door = new InteractiveScenery(res, 500, 500, door_b, door_b, 4, true);
         GameObjectMgr.mGameObjList.add(door);
         GameObjectMgr.iSceneryList.add(door);
-
-
 
         blebleguy = new NPC( tomatomanRes, 500,500, 2 );
         blebleguy.startAnimation(0, 20);
@@ -988,7 +767,7 @@ public class OldPanel extends SurfaceView implements SurfaceHolder.Callback {
         GameObjectMgr.hero = new HeroSprite(getResources(), 250, 100, heroBmps, heroReverseBmps, GameObjectMgr.mProjList, 1);
         GameObjectMgr.mGravSpriteList.add(GameObjectMgr.hero);
         GameObjectMgr.mGameObjList.add(GameObjectMgr.hero);
-        heroSavedPos = (GameObjectMgr.hero.bX+GameObjectMgr.hero.mX)/2 ;
+        ScreenMgr.heroSavedPos = (GameObjectMgr.hero.bX+GameObjectMgr.hero.mX)/2 ;
     }
 
     public void leaveMenu()
@@ -1063,8 +842,8 @@ public class OldPanel extends SurfaceView implements SurfaceHolder.Callback {
         o.inScaled = false;
 
         //projectile images:
-        projBmp = new Bitmap[1];
-        projBmp[0] = BitmapFactory.decodeResource(mRes, R.drawable.projectile_small, o);
+        BitmapMgr.projBmp = new Bitmap[1];
+        BitmapMgr.projBmp[0] = BitmapFactory.decodeResource(mRes, R.drawable.projectile_small, o);
 
 
         heroBmps = new Bitmap[imgs.length];
@@ -1076,10 +855,10 @@ public class OldPanel extends SurfaceView implements SurfaceHolder.Callback {
             heroBmps[i] = BitmapFactory.decodeResource( mRes, imgs[i], o );
         }
 
-        heroReverseBmps = flipBmpHorizontal( heroBmps );
+        heroReverseBmps = ImageUtils.flipBmpHorizontal( heroBmps );
 
-        crocbitmap = new Bitmap[22];  //TODO: don't need to duplicate "jump" bitmap.
-        crocbitmap_f = new Bitmap[22];
+        BitmapMgr.crocbitmap = new Bitmap[22];  //TODO: don't need to duplicate "jump" bitmap.
+        BitmapMgr.crocbitmap_f = new Bitmap[22];
 
         int ninjaBmps[] = new int[22];
         ninjaBmps[0]=R.drawable.ninja_0;
@@ -1107,12 +886,10 @@ public class OldPanel extends SurfaceView implements SurfaceHolder.Callback {
 
         for(i=0; i<imgs.length; i++ )
         {
-            crocbitmap[i] = BitmapFactory.decodeResource( mRes, ninjaBmps[i], o );
+            BitmapMgr.crocbitmap[i] = BitmapFactory.decodeResource( mRes, ninjaBmps[i], o );
         }
 
-
-
-        crocbitmap_f = flipBmpHorizontal( crocbitmap );
+        BitmapMgr.crocbitmap_f = ImageUtils.flipBmpHorizontal( BitmapMgr.crocbitmap );
 
         qiBmp = new Bitmap[1];
 
@@ -1122,8 +899,6 @@ public class OldPanel extends SurfaceView implements SurfaceHolder.Callback {
         int speechbubble[] = { R.drawable.speech_bubble };
 
         tomatomanRes = new SpriteResources( mRes, true, 1, tomatoman_imgs, speechbubble ); 
-
-
 
         pagoda_left = new Bitmap[1];
         pagoda_left[0]= BitmapFactory.decodeResource(mRes, R.drawable.pagoda_left);
@@ -1319,14 +1094,6 @@ public class OldPanel extends SurfaceView implements SurfaceHolder.Callback {
 
     public void loadBitmapsLevelOneTwo()
     {
-
-    }
-
-    public void updateHealthBar()
-    {
-        int numHealthBars = GameObjectMgr.hero.getHealth()/25;
-        if(numHealthBars < GameObjectMgr.healthBarList.size())
-            GameObjectMgr.healthBarList.remove(numHealthBars);
 
     }
 

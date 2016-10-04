@@ -1,24 +1,27 @@
 package com.thousandonestories.game.management;
+import android.content.res.Resources;
+
+import com.thousandonestories.game.OldPanel;
 import com.thousandonestories.game.levels.Level;
-import com.thousandonestories.game.GameState;
 
 public class GameManager {
+
+    GameObjectMgr gameobjectMgr;
+    GameStateMgr gamestateMgr;
+    OldPanel panel;
 	
-	private Level currentLevel;
-	private GameState currentState;
-	
-	public GameManager()
+	public GameManager(Resources r)
 	{
-		
+		gameobjectMgr = new GameObjectMgr(this, r);
+		gamestateMgr = new GameStateMgr(this, r);
 	}
-	
-	public GameState getGameState()
+
+	public void update(long elapsedTime)
 	{
-		return currentState;
+		gameobjectMgr.update(elapsedTime);
 	}
-	
-	public Level getLevel()
-	{
-		return currentLevel;
-	}
+
+    public void setPanel(OldPanel panel) {
+        this.panel = panel;
+    }
 }

@@ -11,11 +11,14 @@ import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
 
+import com.thousandonestories.game.management.GameManager;
+
 public class MainActivity extends Activity {
 
 	Drawable myImage;
 	Thread t;
 	OldPanel panel;
+    GameManager gm;
 	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -32,11 +35,12 @@ public class MainActivity extends Activity {
 				WindowManager.LayoutParams.FLAG_FULLSCREEN);
 
 	    // setContentView(R.layout.activity_main);
-	    
-	    panel = new OldPanel(this);   
-	    
+        gm = new GameManager(getResources());
+        panel = new OldPanel(this, gm);
 
-		setContentView(panel);
+        gm.setPanel(panel);
+
+        setContentView(panel);
 	}
 	
 	protected void onResume()
@@ -71,7 +75,7 @@ public class MainActivity extends Activity {
 	public void startButtonListener(View v)
 	{
 		v.getId();
-		panel = new OldPanel(this);        
+		panel = new OldPanel(this, gm);
 
 		setContentView(panel);
 	}

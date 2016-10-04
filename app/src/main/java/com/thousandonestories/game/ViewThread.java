@@ -12,6 +12,8 @@ import android.os.Environment;
 import android.util.Log;
 import android.view.SurfaceHolder;
 
+import com.thousandonestories.game.management.GameManager;
+
 public class ViewThread extends Thread {
 	private OldPanel mPanel;
 	private SurfaceHolder mHolder;
@@ -19,6 +21,7 @@ public class ViewThread extends Thread {
 	private long mStartTime;
 	public static long mElapsed;
 
+	private GameManager gm;
 	//debug: timesaves
 	private long mUpdateTime;
 	private long mDrawTime;
@@ -29,20 +32,17 @@ public class ViewThread extends Thread {
 
 	public static final float STEP = 1000/30f;
 
-
-
 	/**
 	 * Bitmap for exported gif
 	 */
 	private Bitmap saveBmp;
 
-	public ViewThread(OldPanel panel) {
+	public ViewThread(OldPanel panel, GameManager gm) {
 		mPanel = panel;
 		mHolder = mPanel.getHolder();
 		mPaint = new Paint();
 		mPaint.setColor(Color.WHITE);
-
-
+		this.gm = gm;
 	}
 
 	// Set current thread state
@@ -69,7 +69,7 @@ public class ViewThread extends Thread {
 				if(OldPanel.getGameState()==OldPanel.STATE_UNINITIALIZED)
 					continue;
 
-				mPanel.update(mElapsed);
+				gm.update(mElapsed);
 
 				mUpdateTime = System.currentTimeMillis() - mStartTime;
 
