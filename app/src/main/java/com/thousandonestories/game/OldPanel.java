@@ -50,7 +50,7 @@ public class OldPanel extends SurfaceView implements SurfaceHolder.Callback {
     public static final int STATE_GAME_RUNNING= 2;
     public static final int STATE_MENU= 3;
 
-    private static int gameState;
+    public static int gameState;
 
     /*
      *  DEBUG/DEVELOPMENT SETTINGS:
@@ -205,10 +205,28 @@ public class OldPanel extends SurfaceView implements SurfaceHolder.Callback {
     /* Goes where? */
     // Draw all sprites and blocks in list
     //int color = 0;
-    String color = "#7ec0ee";
+    int skyorig = 0xff7ec0ee; // TODO: Settable by user!
+    int skycolor = skyorig;
+    int counter = 0;
+    int skyStep = -0x0010101;
     public void doDraw(Canvas canvas) {
-
-        canvas.drawColor( Color.parseColor(color) );
+        Log.d("color", "skycolor = " + Integer.toHexString(skycolor) + " skystep = " +skyStep  );
+        counter++;
+        if(counter == 10) {
+            skycolor += skyStep;
+            counter = 0;
+        }
+        if(skycolor <= 0xff000000)
+        {
+            skycolor = 0xff004270;
+            skyStep = Math.abs(skyStep);
+        }
+        if( skycolor > skyorig)
+        {
+            skycolor = skyorig;
+            skyStep = -Math.abs(skyStep);
+        }
+        canvas.drawColor( skycolor );
 
         if( isGameOver() )
         {
@@ -245,7 +263,7 @@ public class OldPanel extends SurfaceView implements SurfaceHolder.Callback {
         if( getGameState()==STATE_GAME_RUNNING )  // game running
         {	
             //Draw background color:
-            canvas.drawColor( Color.parseColor(color) );
+            canvas.drawColor( skycolor );
 
 
             /*

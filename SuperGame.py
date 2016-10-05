@@ -10,3 +10,5 @@ while(isRunning):
 # Does input mgr take input and interpret as run / jump / fire?
 # Then update() is if(player.jump())
 # or 
+
+

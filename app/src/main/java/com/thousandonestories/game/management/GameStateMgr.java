@@ -54,7 +54,7 @@ public class GameStateMgr {
         GameObjectMgr.menuItemList.add(gameOverSprite);
 
         Log.d("red", "menuitemlist size = " + GameObjectMgr.menuItemList.size() );
-        
+        Log.d("red","OldPanel gamestate = " + OldPanel.gameState);
         OldPanel.gameState = OldPanel.STATE_GAMEOVER;
         currentState = GameState.GAMEOVER;
     }

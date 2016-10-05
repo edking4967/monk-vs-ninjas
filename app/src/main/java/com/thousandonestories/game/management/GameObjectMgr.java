@@ -81,7 +81,8 @@ public class GameObjectMgr {
     public void update(long elapsedTime) {
         if(GameObjectMgr.hero==null) return;
 
-        if(GameStateMgr.currentState == GameStateMgr.GameState.MENU ) return;
+        //if(GameStateMgr.currentState == GameStateMgr.GameState.MENU ) return;
+        if(OldPanel.gameState == OldPanel.STATE_MENU ) return;
 
         if(hero.getHealth() <= 0)
         {
