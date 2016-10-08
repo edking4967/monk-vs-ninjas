@@ -1,0 +1,10 @@
+[ ] take out state in OldPanel
+
+Managers:
+./app/src/main/java/com/thousandonestories/game/graphics/BitmapMgr.java
+./app/src/main/java/com/thousandonestories/game/InputMgr.java
+./app/src/main/java/com/thousandonestories/game/management/GameObjectMgr.java
+./app/src/main/java/com/thousandonestories/game/management/GameStateMgr.java
+./app/src/main/java/com/thousandonestories/game/screen/ScreenMgr.java
+./app/src/main/java/com/thousandonestories/game/time/TimeMgr.java
+./app/src/main/java/com/thousandonestories/game/ui/UIMgr.java

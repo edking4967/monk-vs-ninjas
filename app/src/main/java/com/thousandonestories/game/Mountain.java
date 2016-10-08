@@ -10,6 +10,7 @@ public class Mountain implements BackgroundScenery{
 	private Path outline;
 	private Paint paint;
 	float[][] pathcoords;
+    public int color;
 	
 	public Mountain( int color, float[][] coords ) 
 	{
@@ -18,6 +19,7 @@ public class Mountain implements BackgroundScenery{
 		paint = new Paint();
 		outline = new Path();
 		
+        this.color = color;
 		paint.setFlags(Paint.ANTI_ALIAS_FLAG);
 		paint.setColor(color);
 		paint.setStyle(Style.FILL);
@@ -33,15 +35,18 @@ public class Mountain implements BackgroundScenery{
 		}
 		outline.lineTo( coords[0][0], coords[0][1]);  // close the shape
 		
-		
 	}
 	
 	public void doDraw( Canvas c )
 	{
 		c.drawPath( outline, paint );
-		
-		c.drawText("" + pathcoords[pathcoords.length-1][0] + " " + pathcoords[pathcoords.length-1][1], 0, 200, paint);
 	}
+
+    public void setColor(int color)
+    {
+        this.color = color;
+        paint.setColor(color);
+    }
 	
 	public void scroll( float vel, long elapsedTime )
 	{

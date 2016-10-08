@@ -11,6 +11,7 @@ import com.thousandonestories.game.BackgroundSprite;
 import com.thousandonestories.game.BackgroundScenery;
 import com.thousandonestories.game.InteractiveScenery;
 import com.thousandonestories.game.ui.UIMgr;
+import com.thousandonestories.game.Mountain;
 
 import java.util.concurrent.CopyOnWriteArrayList;
 
@@ -36,6 +37,7 @@ public class GameObjectMgr {
     public static CopyOnWriteArrayList<ClickableSprite> gameUIList;
     public static CopyOnWriteArrayList<ClickableSprite> healthBarList;
     public static CopyOnWriteArrayList<BackgroundSprite> m3dPlatformList;
+    public static CopyOnWriteArrayList<Mountain> mountainList;
     public static HeroSprite hero;
 
     /**
@@ -57,6 +59,7 @@ public class GameObjectMgr {
         menuItemList = new CopyOnWriteArrayList<ClickableSprite>();
         gameUIList = new CopyOnWriteArrayList<ClickableSprite>();
         healthBarList = new CopyOnWriteArrayList<ClickableSprite>();
+        mountainList = new CopyOnWriteArrayList<Mountain>();
     }
 
     public static boolean checkCollision(GameObject obj1, GameObject obj2) {
@@ -131,7 +134,7 @@ public class GameObjectMgr {
 
         float offset = 1;
 
-        for(BackgroundScenery bgObj: bgSceneryList)
+        for(BackgroundScenery bgObj: bgSceneryList) // Mountains
         {
             ScreenMgr.scrollLock=true;
             if(ScreenMgr.scrollLock)

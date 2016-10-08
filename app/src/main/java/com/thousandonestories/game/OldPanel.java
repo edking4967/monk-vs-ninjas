@@ -208,24 +208,10 @@ public class OldPanel extends SurfaceView implements SurfaceHolder.Callback {
     int skyorig = 0xff7ec0ee; // TODO: Settable by user!
     int skycolor = skyorig;
     int counter = 0;
-    int skyStep = -0x0010101;
+    int lightStep = -0x0010101;
+    int lightInterval = 10;
     public void doDraw(Canvas canvas) {
-        Log.d("color", "skycolor = " + Integer.toHexString(skycolor) + " skystep = " +skyStep  );
-        counter++;
-        if(counter == 10) {
-            skycolor += skyStep;
-            counter = 0;
-        }
-        if(skycolor <= 0xff000000)
-        {
-            skycolor = 0xff004270;
-            skyStep = Math.abs(skyStep);
-        }
-        if( skycolor > skyorig)
-        {
-            skycolor = skyorig;
-            skyStep = -Math.abs(skyStep);
-        }
+        
         canvas.drawColor( skycolor );
 
         if( isGameOver() )
@@ -262,20 +248,37 @@ public class OldPanel extends SurfaceView implements SurfaceHolder.Callback {
 
         if( getGameState()==STATE_GAME_RUNNING )  // game running
         {	
+            counter++;
+            if(counter == lightInterval) {
+                skycolor += lightStep;
+                for (Mountain mtn: GameObjectMgr.mountainList)
+                {
+                    if( mtn.color >= 0xff000000)
+                        mtn.setColor(mtn.color + lightStep);
+                }
+                counter = 0;
+            }
+            if(skycolor <= 0xff000000)
+            {
+                skycolor = 0xff004270;
+                lightStep = Math.abs(lightStep);
+            }
+            if( skycolor > skyorig)
+            {
+                skycolor = skyorig;
+                lightStep = -Math.abs(lightStep);
+            }
+            
             //Draw background color:
             canvas.drawColor( skycolor );
-
 
             /*
              * Background Scenery: paths
              */
-
             for( BackgroundScenery bgObj: GameObjectMgr.bgSceneryList )
             {
                 bgObj.doDraw(canvas);
-
             }
-
             /*
              * Background Sprites: bitmaps
              */	
@@ -656,7 +659,7 @@ public class OldPanel extends SurfaceView implements SurfaceHolder.Callback {
         blebleguy = new NPC( tomatomanRes, 500,500, 2 );
         blebleguy.startAnimation(0, 20);
         blebleguy.speak("hello", 9000);
-        GameObjectMgr.mGameObjList.add(blebleguy);
+       // GameObjectMgr.mGameObjList.add(blebleguy);
 
         //		    dragontest = new NPC( dragonHeadRes, mWidth-200, 0, 3 );
         //		    dragontest.startAnimation(0, 20);
@@ -1105,6 +1108,7 @@ public class OldPanel extends SurfaceView implements SurfaceHolder.Callback {
             cloud = new BackgroundSprite(cloudBitmap, OldPanel.mWidth * k /4, OldPanel.mHeight/3, 1 );
 
             GameObjectMgr.bgSceneryList.add((BackgroundScenery) mountain);
+            GameObjectMgr.mountainList.add(mountain);
             GameObjectMgr.bgSceneryList.add((BackgroundScenery) cloud);
 
         }
