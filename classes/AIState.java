@@ -1,0 +1,1 @@
+public InstanceType getInstance()

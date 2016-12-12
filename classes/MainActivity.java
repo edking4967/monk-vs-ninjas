@@ -1,0 +1,7 @@
+protected void onCreate(Bundle savedInstanceState)
+protected void onResume()
+protected void onPause()
+protected void onSaveInstanceState(Bundle b)
+public boolean onCreateOptionsMenu(Menu menu)
+public void startButtonListener(View v)
+public void onBackPressed()

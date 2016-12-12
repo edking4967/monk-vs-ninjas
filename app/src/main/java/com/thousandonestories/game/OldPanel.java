@@ -540,12 +540,12 @@ public class OldPanel extends SurfaceView implements SurfaceHolder.Callback {
         ClickableSprite menuSprite3 = new ClickableSprite(getResources(), (int) 600, (int) 200, mimgarray, mimgarray, 1);
         menuSprite3.setAction(ClickableSprite.START_LEVEL_THREE);		
 
-        ClickableSprite menuSprite4 = new ClickableSprite(getResources(), (int) 800, (int) 200, mimgarray, mimgarray, 1);
-        menuSprite4.setAction(ClickableSprite.START_LEVEL_FOUR);		
+        //ClickableSprite menuSprite4 = new ClickableSprite(getResources(), (int) 800, (int) 200, mimgarray, mimgarray, 1);
+        //menuSprite4.setAction(ClickableSprite.START_LEVEL_FOUR);		
         GameObjectMgr.menuItemList.add(menuSprite);
         GameObjectMgr.menuItemList.add(menuSprite2);
         GameObjectMgr.menuItemList.add(menuSprite3);
-        GameObjectMgr.menuItemList.add(menuSprite4);
+        //GameObjectMgr.menuItemList.add(menuSprite4);
 
         setGameState(STATE_MENU);
     }

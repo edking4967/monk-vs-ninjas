@@ -1,0 +1,7 @@
+public void addNote(double fr, int ampl, int attack, int notelength, boolean choke, int waveform)
+public void playNextFrame()
+public void playFrame( int frameNum )
+public boolean playReady()
+public int getSize()
+public short[] getData()
+public int describeContents()

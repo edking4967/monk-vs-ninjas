@@ -1,0 +1,11 @@
+"I want to go to that mountain!"
+
+level 1 (learn to jump)
+
+"Oh no, a dragon!"
+
+level 2 (fight the dragon)
+
+"[some dialogue]"
+
+[

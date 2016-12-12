@@ -1,0 +1,5 @@
+public void onSensorChanged(SensorEvent event)
+protected void registerListener()
+protected void unregisterListener()
+public boolean jumped()
+public void onAccuracyChanged(Sensor sensor, int accuracy)
