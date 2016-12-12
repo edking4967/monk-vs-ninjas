@@ -26,6 +26,7 @@ public class HeroSprite extends GravitySprite {
 	private int weapon; 
 	
 	private Bitmap swordBmp;
+	private Bitmap santaBmp;
 
     private SynthCore synth;
 	
@@ -40,6 +41,7 @@ public class HeroSprite extends GravitySprite {
 		Log.d("bleh", "hero constructor called");
 		
 		this.swordBmp = OldPanel.swordBmp;
+		this.santaBmp = OldPanel.santaBmp;
 
         //synth = new SynthCore();
 	}
@@ -60,6 +62,7 @@ public class HeroSprite extends GravitySprite {
 		{
 			c.drawBitmap(swordBmp, getRightBound(), getYMiddle(), null );
 		}
+        c.drawBitmap(santaBmp, getLeftBound() - 1, getTopBound() - 35, null );
 	}
 	
 	@Override

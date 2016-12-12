@@ -83,6 +83,7 @@ public class OldPanel extends SurfaceView implements SurfaceHolder.Callback {
 
 
     public static Bitmap swordBmp;
+    public static Bitmap santaBmp;
 
     Bitmap cloudBitmap;
 
@@ -827,6 +828,7 @@ public class OldPanel extends SurfaceView implements SurfaceHolder.Callback {
         options_pixellated.inScaled = false;
 
         swordBmp = BitmapFactory.decodeResource(mRes, R.drawable.herosword);
+        santaBmp = BitmapFactory.decodeResource(mRes, R.drawable.santa);
 
         platformBitmap = BitmapFactory.decodeResource(mRes, R.drawable.platform, options_pixellated);
 

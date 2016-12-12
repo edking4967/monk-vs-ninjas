@@ -19,14 +19,14 @@ public class MainActivity extends Activity {
 	Thread t;
 	OldPanel panel;
     GameManager gm;
-	
+
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-		
+
 	    Log.d("bleh", "onCreate called");
 
-	    setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE);      
+	    setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE);
 		//Remove title bar
 	    this.requestWindowFeature(Window.FEATURE_NO_TITLE);
 
@@ -41,37 +41,38 @@ public class MainActivity extends Activity {
         gm.setPanel(panel);
 
         setContentView(panel);
+
 	}
-	
+
 	protected void onResume()
 	{
 		super.onResume();
 	    Log.d("bleh", "onResume called");
 	    if(panel.getThread() != null) panel.getThread().setRunning(true);
 	}
-	
+
 	protected void onPause()
 	{
 		super.onPause();
 		Log.d("bleh", "onPause was called");
 		panel.getThread().setRunning(false);
 	}
-	
+
 	protected void onSaveInstanceState(Bundle b) {
 		  super.onSaveInstanceState(b);
 		  b.putAll(b);
 	}
-	
-	
+
+
 	//protected void onRestoreInstanceState
-	
+
 	@Override
 	public boolean onCreateOptionsMenu(Menu menu) {
 		// Inflate the menu; this adds items to the action bar if it is present.
 		getMenuInflater().inflate(R.menu.main, menu);
 		return true;
 	}
-	
+
 	public void startButtonListener(View v)
 	{
 		v.getId();
