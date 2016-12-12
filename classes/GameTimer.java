@@ -1,0 +1,7 @@
+public void setTimer(long duration)
+public boolean hasElapsed()
+public void initialize()
+public void reset()
+public void start()
+public long getDuration()
+public void setDuration(long duration)

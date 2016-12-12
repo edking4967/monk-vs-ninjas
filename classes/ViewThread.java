@@ -1,0 +1,5 @@
+public void setRunning(boolean run)
+public void run()
+public void saveBitmaps(Canvas canvas)
+public void run()
+public void saveBitmap( Bitmap bmp, int num)
