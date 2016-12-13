@@ -3,6 +3,7 @@ import android.content.res.Resources;
 
 import com.thousandonestories.game.OldPanel;
 import com.thousandonestories.game.levels.Level;
+import com.thousandonestories.game.management.GlobalConstants;
 
 public class GameManager {
 
@@ -12,6 +13,7 @@ public class GameManager {
 	
 	public GameManager(Resources r)
 	{
+        GlobalConstants.gameManager = this;
 		gameobjectMgr = new GameObjectMgr(this, r);
 		gamestateMgr = new GameStateMgr(this, r);
 	}
