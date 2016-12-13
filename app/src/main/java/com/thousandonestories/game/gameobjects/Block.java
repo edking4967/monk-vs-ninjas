@@ -31,7 +31,11 @@ public class Block implements GameObject
 		mWidth = RB-LB;
 	}
 	
-
+    public void doAction()
+    {
+        // if this.teleporter = true
+        //      ?.doTeleport()
+    }
 	
 	public float getLeftBound()
 	{
