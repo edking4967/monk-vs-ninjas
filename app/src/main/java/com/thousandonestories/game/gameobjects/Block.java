@@ -4,6 +4,7 @@ package com.thousandonestories.game.gameobjects;
 import android.graphics.Canvas;
 import android.graphics.Paint;
 import android.graphics.Rect;
+import com.thousandonestories.game.tags.TagStore;
 
 public class Block implements GameObject
 {
@@ -18,6 +19,7 @@ public class Block implements GameObject
 	private boolean persistent;
 	private float mHeight;
 	private float mWidth;
+    public TagStore tags;
 	
 	public Block(float lB, float tB, float rB, float bB, int color)
 	{
@@ -29,6 +31,7 @@ public class Block implements GameObject
 		persistent=true;
 		mHeight = BB-TB;
 		mWidth = RB-LB;
+        tags = new TagStore();
 	}
 	
     public void doAction()

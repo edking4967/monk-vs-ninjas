@@ -32,9 +32,9 @@ public class Background {
 	public void doDraw(Canvas canvas)
 	{
 		int x=0; int y=0;
-		while(y < OldPanel.mHeight)
+		while(y < GameManager.mHeight)
 		{
-			while(x  < OldPanel.mWidth )
+			while(x  < GameManager.mWidth )
 			{
 				canvas.drawBitmap(drawBitmap, (float) x, (float) y, null);
 				x+=mWidth;

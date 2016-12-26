@@ -11,14 +11,15 @@ import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
 
-import com.thousandonestories.game.management.GameManager;
+import com.thousandonestories.game.management.GameManagerTempName;
+import com.thousandonestories.game.management.GlobalConstants;
 
 public class MainActivity extends Activity {
 
 	Drawable myImage;
 	Thread t;
-	OldPanel panel;
-    GameManager gm;
+	GameManager gm;
+    GameManagerTempName gmt;
 	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -35,26 +36,26 @@ public class MainActivity extends Activity {
 				WindowManager.LayoutParams.FLAG_FULLSCREEN);
 
 	    // setContentView(R.layout.activity_main);
-        gm = new GameManager(getResources());
-        panel = new OldPanel(this, gm);
+        gmt = new GameManagerTempName(getResources());
+        gm = new GameManager(this, gmt);
+		GlobalConstants.gm = gm;
+        gmt.setPanel(gm);
 
-        gm.setPanel(panel);
-
-        setContentView(panel);
+        setContentView(gm);
 	}
 	
 	protected void onResume()
 	{
 		super.onResume();
 	    Log.d("bleh", "onResume called");
-	    if(panel.getThread() != null) panel.getThread().setRunning(true);
+	    if(gm.getThread() != null) gm.getThread().setRunning(true);
 	}
 	
 	protected void onPause()
 	{
 		super.onPause();
 		Log.d("bleh", "onPause was called");
-		panel.getThread().setRunning(false);
+		gm.getThread().setRunning(false);
 	}
 	
 	protected void onSaveInstanceState(Bundle b) {
@@ -75,15 +76,14 @@ public class MainActivity extends Activity {
 	public void startButtonListener(View v)
 	{
 		v.getId();
-		panel = new OldPanel(this, gm);
+		gm = new GameManager(this, gmt); // ???
 
-		setContentView(panel);
+		setContentView(gm);
 	}
 
     @Override
     public void onBackPressed() {
-        panel.restartGame(this);
+        gm.restartGame();
     }
 
 }
-

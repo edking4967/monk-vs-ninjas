@@ -2,7 +2,7 @@ package com.thousandonestories.game.gameobjects;
 
 import java.util.concurrent.CopyOnWriteArrayList;
 
-import com.thousandonestories.game.OldPanel;
+import com.thousandonestories.game.GameManager;
 import com.thousandonestories.game.PhysicsStuff;
 import com.thousandonestories.game.SpriteResources;
 
@@ -83,7 +83,7 @@ public class NewPhysicsSprite extends NewSprite
 
 			//checkBlocks();
 
-			checkLanded(OldPanel.getBlockList(), elapsedTime);
+			checkLanded(GameManager.getBlockList(), elapsedTime);
 		}
 		else			
 		{

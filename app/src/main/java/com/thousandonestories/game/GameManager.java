@@ -26,7 +26,7 @@ import com.thousandonestories.game.gameobjects.NPC;
 import com.thousandonestories.game.gameobjects.Ninja;
 import com.thousandonestories.game.gameobjects.Projectile;
 import com.thousandonestories.game.graphics.BitmapMgr;
-import com.thousandonestories.game.management.GameManager;
+import com.thousandonestories.game.management.GameManagerTempName;
 import com.thousandonestories.game.management.GameObjectMgr;
 import com.thousandonestories.game.R.drawable;
 import com.thousandonestories.game.ai.Goal;
@@ -39,7 +39,7 @@ import com.thousandonestories.game.utils.ImageUtils;
 
 //TODO: scaleFactor does nothing
 
-public class OldPanel extends SurfaceView implements SurfaceHolder.Callback {
+public class GameManager extends SurfaceView implements SurfaceHolder.Callback {
 
     /*
      * Game states:
@@ -131,36 +131,25 @@ public class OldPanel extends SurfaceView implements SurfaceHolder.Callback {
 
     public static MediaPlayer blip;
     public static MediaPlayer blip2;
-    GameManager gm;
+    GameManagerTempName gmt;
+    Context c;
 
-    public OldPanel(Context context, GameManager gm) {
+    public GameManager(Context context, GameManagerTempName gmt) {
 
         super(context);
-
+        c = context;
         setGameState(STATE_UNINITIALIZED);
-
         currentLevel = 2; // why?
-
         Log.d("bleh", "Panel constructor called");
-
         getHolder().addCallback(this);
-
         GameObjectMgr.menuItemList = new CopyOnWriteArrayList<ClickableSprite>();
-
         loadBitmapsLevelOne();
-
         showMenu();
-
-        this.gm = gm;
-
-        mThread = new ViewThread(this, gm);
-
+        this.gmt = gmt;
+        mThread = new ViewThread(this, gmt);
         bgSong = MediaPlayer.create(context, R.raw.shooter);
-
         blip = MediaPlayer.create(context, R.raw.blip);
-
         blip2 = MediaPlayer.create(context, R.raw.blip2);
-
     }
 
     public void printText( String str, Canvas canvas, Paint paint, int x, int y )
@@ -170,36 +159,36 @@ public class OldPanel extends SurfaceView implements SurfaceHolder.Callback {
 
     /* Stays in NewPanel: */
     @Override
-        public void surfaceCreated(SurfaceHolder holder) {
-            // Create and start new thread
-            Log.d("bleh","surfaceCreated called");
+    public void surfaceCreated(SurfaceHolder holder) {
+        // Create and start new thread
+        Log.d("bleh","surfaceCreated called");
 
-            if (!mThread.isAlive()) {
-                mThread = new ViewThread(this, gm);
-                mThread.setRunning(true);
-                mThread.start();
-            }
+        if (!mThread.isAlive()) {
+            mThread = new ViewThread(this, gmt);
+            mThread.setRunning(true);
+            mThread.start();
         }
+    }
 
     @Override
-        public void surfaceChanged(SurfaceHolder holder, int format, int width, int height) {
-            Log.d("bleh","surfaceChanged called");
+    public void surfaceChanged(SurfaceHolder holder, int format, int width, int height) {
+        Log.d("bleh","surfaceChanged called");
 
-            // Store new extents
-            mWidth = width;
-            mHeight = height;
-        }
+        // Store new extents
+        mWidth = width;
+        mHeight = height;
+    }
 
     @Override
-        public void surfaceDestroyed(SurfaceHolder holder) {
-            Log.d("bleh","surfaceDestroyed called");
+    public void surfaceDestroyed(SurfaceHolder holder) {
+        Log.d("bleh","surfaceDestroyed called");
 
-            // Stop thread
-            if (mThread.isAlive()) {
-                mThread.setRunning(false);
-            }
-
+        // Stop thread
+        if (mThread.isAlive()) {
+            mThread.setRunning(false);
         }
+
+    }
     /* End stays in NewPanel */
 
     /* Goes where? */
@@ -211,7 +200,7 @@ public class OldPanel extends SurfaceView implements SurfaceHolder.Callback {
     int lightStep = -0x0010101;
     int lightInterval = 10;
     public void doDraw(Canvas canvas) {
-        
+
         canvas.drawColor( skycolor );
 
         if( isGameOver() )
@@ -268,7 +257,7 @@ public class OldPanel extends SurfaceView implements SurfaceHolder.Callback {
                 skycolor = skyorig;
                 lightStep = -Math.abs(lightStep);
             }
-            
+
             //Draw background color:
             canvas.drawColor( skycolor );
 
@@ -318,22 +307,22 @@ public class OldPanel extends SurfaceView implements SurfaceHolder.Callback {
             //Debugging stuff:
 
             /*
-            if(currentLevel == 1)
-            {
-                canvas.drawText(" CrocLB: " + croc.blockLB + " crocRB: " + croc.blockRB + 
-                        " LandCount "+hero.db_landcount+" density: "+  getResources().getDisplayMetrics().density + " elapsed: " 
-                        +" FPS: "+1000f/ ViewThread.mElapsed , 10, 10, mPaint);
-                canvas.drawText("Enemy_state " + croc.getState(), 10, 40, mPaint);
-                canvas.drawText("Health = " + hero.getHealth() + "Velocity = " + hero.getVelocity() + "x= " + hero.getLeftBound()
-                        + " rightB= " + hero.getRightBound(), 10, 25, mPaint);
-            }
-            */
+               if(currentLevel == 1)
+               {
+               canvas.drawText(" CrocLB: " + croc.blockLB + " crocRB: " + croc.blockRB + 
+               " LandCount "+hero.db_landcount+" density: "+  getResources().getDisplayMetrics().density + " elapsed: " 
+               +" FPS: "+1000f/ ViewThread.mElapsed , 10, 10, mPaint);
+               canvas.drawText("Enemy_state " + croc.getState(), 10, 40, mPaint);
+               canvas.drawText("Health = " + hero.getHealth() + "Velocity = " + hero.getVelocity() + "x= " + hero.getLeftBound()
+               + " rightB= " + hero.getRightBound(), 10, 25, mPaint);
+               }
+               */
         }
 
 
     } //end of doDraw function
 
-    public void addBlock(int left, int right, int top, int bottom, int color)
+    public Block addBlock(int left, int right, int top, int bottom, int color)
     {
         Block block = new Block(left, top, right, bottom, color);
         GameObjectMgr.mBlockList.add( block );
@@ -342,44 +331,45 @@ public class OldPanel extends SurfaceView implements SurfaceHolder.Callback {
         //Add platform image:
         GameObjectMgr.m3dPlatformList.add(
                 new BackgroundSprite(platformBitmap,left, top - 30, 6) ); //TODO: keeps loading bmps!
+        return block;
     }
 
     @Override
-        public boolean onTouchEvent(MotionEvent event) {
+    public boolean onTouchEvent(MotionEvent event) {
 
 
-            for( ClickableSprite clickSprite : GameObjectMgr.menuItemList)
+        for( ClickableSprite clickSprite : GameObjectMgr.menuItemList)
+        {
+            if( clickSprite.checkClick(event.getX(), event.getY()) )
             {
-                if( clickSprite.checkClick(event.getX(), event.getY()) )
+                if(!clickSprite.hasBeenClicked())
                 {
-                    if(!clickSprite.hasBeenClicked())
-                    {
-                        clickSprite.click( this );
-                        return true;
-                    }
+                    clickSprite.click( this );
+                    return true;
                 }
             }
+        }
 
-            for( ClickableSprite uiSprite : GameObjectMgr.gameUIList)
+        for( ClickableSprite uiSprite : GameObjectMgr.gameUIList)
+        {
+            if( uiSprite.checkClick(event.getX(), event.getY()) )
             {
-                if( uiSprite.checkClick(event.getX(), event.getY()) )
+                if(!uiSprite.hasBeenClicked())
                 {
-                    if(!uiSprite.hasBeenClicked())
-                    {
-                        uiSprite.click( this );
-                        return true;
-                    }
+                    uiSprite.click( this );
+                    return true;
                 }
             }
+        }
 
-            if( GameObjectMgr.hero != null && gameState==STATE_GAME_RUNNING )
-            {
-                return touchHandlePlatformerMode(event);
-            }
-            else return true;
+        if( GameObjectMgr.hero != null && gameState==STATE_GAME_RUNNING )
+        {
+            return touchHandlePlatformerMode(event);
+        }
+        else return true;
 
 
-        }  //END ONTOUCHEVENT
+    }  //END ONTOUCHEVENT
 
     public boolean touchHandleFlying(MotionEvent event)
     {
@@ -392,7 +382,7 @@ public class OldPanel extends SurfaceView implements SurfaceHolder.Callback {
         int jumpY = 200; // y amount above which will be a jump
 
         // check orientation of the hero:
-        if( (int) (event.getX()-OldPanel.mWidth/2) < 0 )
+        if( (int) (event.getX()-GameManager.mWidth/2) < 0 )
         {
             GameObjectMgr.hero.flipBmp=true;
         }
@@ -439,14 +429,14 @@ public class OldPanel extends SurfaceView implements SurfaceHolder.Callback {
 
             if(event.getAction() == MotionEvent.ACTION_DOWN)
             {
-                moveHero( (event.getX()-OldPanel.mWidth/2) /20 * GameObjectMgr.hero.getScaleFactor() );
+                moveHero( (event.getX()-GameManager.mWidth/2) /20 * GameObjectMgr.hero.getScaleFactor() );
                 //hero.mDx=(int) (event.getX()-Panel.mWidth/2) /20 * hero.getScaleFactor();
                 GameObjectMgr.hero.run(System.currentTimeMillis());
 
             }
             if(event.getAction() == MotionEvent.ACTION_MOVE)
             {
-                moveHero(  (event.getX()-OldPanel.mWidth/2) /20 * GameObjectMgr.hero.getScaleFactor() );
+                moveHero(  (event.getX()-GameManager.mWidth/2) /20 * GameObjectMgr.hero.getScaleFactor() );
                 //hero.mDx=(int) (event.getX()-Panel.mWidth/2) /20 ;
             }
 
@@ -565,7 +555,7 @@ public class OldPanel extends SurfaceView implements SurfaceHolder.Callback {
     }
 
     public static void setCurrentLevel(int currentLevel) {
-        OldPanel.currentLevel = currentLevel;
+        GameManager.currentLevel = currentLevel;
     }
 
 
@@ -595,7 +585,7 @@ public class OldPanel extends SurfaceView implements SurfaceHolder.Callback {
         }
     }
 
-    public void gameStartLevelOne(Context context)
+    public void gameStartLevelOne()
     {
         Log.d("red", "start of gamestartlevelone" );
 
@@ -622,9 +612,12 @@ public class OldPanel extends SurfaceView implements SurfaceHolder.Callback {
         {
             addBlock( i * 600, i* 600 + 400,450,550, Color.WHITE);
         }
+        Block lastBlock = addBlock( 10 * 600, 10 * 600 + 400,450,550, Color.WHITE);
+        lastBlock.tags.add("loadLevelTwo");
 
         croc = new Enemy(res, 1000, 100, BitmapMgr.crocbitmap, BitmapMgr.crocbitmap_f,
-                BitmapMgr.projBmp, GameObjectMgr.mProjList, GameObjectMgr.mBlockList, GameObjectMgr.mGameObjList, 1 );
+                BitmapMgr.projBmp, GameObjectMgr.mProjList, GameObjectMgr.mBlockList, 
+                GameObjectMgr.mGameObjList, 1 );
         GameObjectMgr.mEnemyList.add(croc);
         GameObjectMgr.mGameObjList.add(croc);
         GameObjectMgr.mGravSpriteList.add(croc);
@@ -659,29 +652,23 @@ public class OldPanel extends SurfaceView implements SurfaceHolder.Callback {
         blebleguy = new NPC( tomatomanRes, 500,500, 2 );
         blebleguy.startAnimation(0, 20);
         blebleguy.speak("hello", 9000);
-       // GameObjectMgr.mGameObjList.add(blebleguy);
+        GameObjectMgr.mGameObjList.add(blebleguy);
 
         //		    dragontest = new NPC( dragonHeadRes, mWidth-200, 0, 3 );
         //		    dragontest.startAnimation(0, 20);
         //		    ListManager.mGameObjList.add(dragontest);
 
-
-
         //START MUSIC:
 
         //mp.setLooping(true);
         //mp.start();
-
-
         setGameState(STATE_GAME_RUNNING);
-
-
 
     } // END GAMESTART LEVEL ONE
 
 
 
-    public void gameStartLevelTwo(Context context)
+    public void gameStartLevelTwo()
     {
         Log.d("bloh", "start of gamestartlevelone" );
 
@@ -699,12 +686,13 @@ public class OldPanel extends SurfaceView implements SurfaceHolder.Callback {
 
         addBlock(  0,  400,450,550, Color.WHITE);
 
+        addBlock(  0,  400,250,350, Color.WHITE);
 
         setGameState(STATE_GAME_RUNNING);
 
     }
 
-    private void gameStartLevelThree(Context context) {
+    private void gameStartLevelThree() {
         GameObjectMgr.initializeLists();
 
         initializeHero();
@@ -740,7 +728,7 @@ public class OldPanel extends SurfaceView implements SurfaceHolder.Callback {
 
     }
 
-    private void gameStartLevelFour(Context context)
+    private void gameStartLevelFour()
     {
         /*
            ListManager.initializeLists();
@@ -796,22 +784,22 @@ public class OldPanel extends SurfaceView implements SurfaceHolder.Callback {
         switch(currentLevel)
         {
             case ClickableSprite.START_LEVEL_ONE:
-                gameStartLevelOne(getContext());
+                gameStartLevelOne();
                 break;
             case ClickableSprite.START_LEVEL_TWO:
-                gameStartLevelTwo(getContext());
+                gameStartLevelTwo();
                 break;
             case ClickableSprite.START_LEVEL_THREE:
-                gameStartLevelThree(getContext());
+                gameStartLevelThree();
                 break;
             case ClickableSprite.START_LEVEL_FOUR:
-                gameStartLevelFour(getContext());
+                gameStartLevelFour();
                 break;
         }
 
     }
 
-    public void restartGame(Context context)
+    public void restartGame()
     {
         showMenu();
     }
@@ -1059,13 +1047,13 @@ public class OldPanel extends SurfaceView implements SurfaceHolder.Callback {
     public void generateMountains()
     {
         float coords[][] = { 
-            {0,OldPanel.mHeight},
-            {0, OldPanel.mHeight/2} ,
-            {OldPanel.mWidth/4,OldPanel.mHeight/6}, 
-            {OldPanel.mWidth/2,OldPanel.mHeight/2}, 
-            {OldPanel.mWidth*3/4, OldPanel.mHeight/5},
-            {OldPanel.mWidth, (float) (OldPanel.mHeight /2)},
-            {OldPanel.mWidth, OldPanel.mHeight }    		  
+            {0,GameManager.mHeight},
+            {0, GameManager.mHeight/2} ,
+            {GameManager.mWidth/4,GameManager.mHeight/6}, 
+            {GameManager.mWidth/2,GameManager.mHeight/2}, 
+            {GameManager.mWidth*3/4, GameManager.mHeight/5},
+            {GameManager.mWidth, (float) (GameManager.mHeight /2)},
+            {GameManager.mWidth, GameManager.mHeight }    		  
         };
 
 
@@ -1091,7 +1079,7 @@ public class OldPanel extends SurfaceView implements SurfaceHolder.Callback {
             {
                 for(int j =0; j< coords.length; j++)
                 {
-                    newcoords[(i+1) * coords.length + j][0] = coords[j][0] + OldPanel.mWidth * i;  // x coord: shift
+                    newcoords[(i+1) * coords.length + j][0] = coords[j][0] + GameManager.mWidth * i;  // x coord: shift
                     newcoords[(i+1) * coords.length + j][1] = coords[j][1];   // y coord: keep
                 }
             }
@@ -1105,7 +1093,7 @@ public class OldPanel extends SurfaceView implements SurfaceHolder.Callback {
 
             mountain = new Mountain( Color.parseColor( mtnColors[k] ) , newcoords );
 
-            cloud = new BackgroundSprite(cloudBitmap, OldPanel.mWidth * k /4, OldPanel.mHeight/3, 1 );
+            cloud = new BackgroundSprite(cloudBitmap, GameManager.mWidth * k /4, GameManager.mHeight/3, 1 );
 
             GameObjectMgr.bgSceneryList.add((BackgroundScenery) mountain);
             GameObjectMgr.mountainList.add(mountain);
@@ -1141,7 +1129,7 @@ public class OldPanel extends SurfaceView implements SurfaceHolder.Callback {
     }
 
     public void setGameState(int gameState) {
-        OldPanel.gameState = gameState;
+        GameManager.gameState = gameState;
     }
 
 }

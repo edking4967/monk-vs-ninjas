@@ -2,7 +2,7 @@ package com.thousandonestories.game.ui;
 
 import com.thousandonestories.game.GameTimer;
 import com.thousandonestories.game.gameobjects.HeroSprite;
-import com.thousandonestories.game.OldPanel;
+import com.thousandonestories.game.GameManager;
 import com.thousandonestories.game.gameobjects.Sprite;
 import com.thousandonestories.game.management.GameObjectMgr;
 
@@ -69,39 +69,39 @@ public class ClickableSprite extends Sprite
 		else return false;
 	}
 	
-	public void click(OldPanel panel)
+	public void click(GameManager gm)
 	{
 		
-		doAction(this.action, panel);
+		doAction(this.action, gm);
 		
 		clicked = true;
 		
 		clickTimer.start();
 	}
 	
-	public void doAction(int action, OldPanel panel)
+	public void doAction(int action, GameManager gm)
 	{
 		switch(action)
 		{
 			case RESTART_GAME:
 				Log.d("red", "restart game called from ClickableSprite");
-				panel.restartGame( panel.getContext() );
+				gm.restartGame( );
 				break;
 			case START_LEVEL_ONE:
-				OldPanel.setCurrentLevel(1);
-				panel.leaveMenu();
+				GameManager.setCurrentLevel(1);
+				gm.leaveMenu();
 				break;
 			case START_LEVEL_TWO:
-				OldPanel.setCurrentLevel(2);
-				panel.leaveMenu();
+				GameManager.setCurrentLevel(2);
+				gm.leaveMenu();
 				break;
 			case START_LEVEL_THREE:
-				OldPanel.setCurrentLevel(3);
-				panel.leaveMenu();
+				GameManager.setCurrentLevel(3);
+				gm.leaveMenu();
 				break;
             case START_LEVEL_FOUR:
-				OldPanel.setCurrentLevel(4);
-				panel.leaveMenu();
+				GameManager.setCurrentLevel(4);
+				gm.leaveMenu();
 				break;
 			case CHOOSE_PROJECTILE:
 				GameObjectMgr.hero.setWeapon( HeroSprite.WEAPON_PROJECTILE );

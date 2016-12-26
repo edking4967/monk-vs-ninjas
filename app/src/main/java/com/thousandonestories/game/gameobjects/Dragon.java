@@ -3,7 +3,7 @@ package com.thousandonestories.game.gameobjects;
 import java.util.concurrent.CopyOnWriteArrayList;
 
 import com.thousandonestories.game.GameTimer;
-import com.thousandonestories.game.OldPanel;
+import com.thousandonestories.game.GameManager;
 import com.thousandonestories.game.SpriteResources;
 
 
@@ -131,7 +131,7 @@ public class Dragon implements GameObject {
 
 			//Check projectile collisions:
 
-			for( Projectile proj: OldPanel.getProjList() )
+			for( Projectile proj: GameManager.getProjList() )
 			{
 				if( GameObjectMgr.checkCollision(bp, proj) )
 				{
@@ -149,7 +149,7 @@ public class Dragon implements GameObject {
 						    bodyPartsList.remove(bp);
 						}
 						
-						OldPanel.blip2.start();
+						GameManager.blip2.start();
 
 						if(!spewingFire) 
 						{
@@ -362,7 +362,7 @@ public class Dragon implements GameObject {
 		public void doActions( long elapsedTime ) {
 			if(!init)
 			{
-				getInstance().moveBy( 0, OldPanel.mHeight );
+				getInstance().moveBy( 0, GameManager.mHeight );
 				init = true;
 			}
 			else

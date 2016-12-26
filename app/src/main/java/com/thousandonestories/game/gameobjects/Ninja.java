@@ -2,7 +2,7 @@ package com.thousandonestories.game.gameobjects;
 
 
 import com.thousandonestories.game.GameTimer;
-import com.thousandonestories.game.OldPanel;
+import com.thousandonestories.game.GameManager;
 import com.thousandonestories.game.PhysicsStuff;
 import com.thousandonestories.game.SpriteResources;
 
@@ -86,19 +86,19 @@ public class Ninja extends NewPhysicsSprite {
 		 */
 		if( tintTimer.hasElapsed() ) 
 		{
-			OldPanel.removeFromLists( this );
+			GameManager.removeFromLists( this );
 		}
 
 		/*
 		 * Check for collisions with hero's projectile:
 		 */
-		for( Projectile p: OldPanel.getProjList() )
+		for( Projectile p: GameManager.getProjList() )
 		{
 			if(p.getType() == Projectile.TYPE_HERO)
 			{
 				if( GameObjectMgr.checkCollision(this, p) )
 				{
-					OldPanel.removeFromLists(p); //delete projectile
+					GameManager.removeFromLists(p); //delete projectile
 					die();
 					this.setDx(10 * p.mDx / Math.abs(p.mDx) );
 				}
@@ -126,8 +126,8 @@ public class Ninja extends NewPhysicsSprite {
 		Projectile proj = new Projectile( getSpriteResources().getAndroidResources() , startX,  ( getTopBound() + getBottomBound() )/2, 10 * dir, 
 				BitmapMgr.projBmp, Projectile.TYPE_ENEMY, 2 );
 
-		OldPanel.getProjList().add( proj);
-		OldPanel.getGameObjList().add(proj);
+		GameManager.getProjList().add( proj);
+		GameManager.getGameObjList().add(proj);
 
 	}
 	

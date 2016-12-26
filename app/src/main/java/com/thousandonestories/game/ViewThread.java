@@ -12,16 +12,16 @@ import android.os.Environment;
 import android.util.Log;
 import android.view.SurfaceHolder;
 
-import com.thousandonestories.game.management.GameManager;
+import com.thousandonestories.game.management.GameManagerTempName;
 
 public class ViewThread extends Thread {
-	private OldPanel mPanel;
+	private GameManager mPanel;
 	private SurfaceHolder mHolder;
 	private boolean mRun = false;
 	private long mStartTime;
 	public static long mElapsed;
 
-	private GameManager gm;
+	private GameManagerTempName gm;
 	//debug: timesaves
 	private long mUpdateTime;
 	private long mDrawTime;
@@ -37,7 +37,7 @@ public class ViewThread extends Thread {
 	 */
 	private Bitmap saveBmp;
 
-	public ViewThread(OldPanel panel, GameManager gm) {
+	public ViewThread(GameManager panel, GameManagerTempName gm) {
 		mPanel = panel;
 		mHolder = mPanel.getHolder();
 		mPaint = new Paint();
@@ -66,7 +66,7 @@ public class ViewThread extends Thread {
 
 				// Update state based on elapsed time
 
-				if(OldPanel.getGameState()==OldPanel.STATE_UNINITIALIZED)
+				if(GameManager.getGameState()==GameManager.STATE_UNINITIALIZED)
 					continue;
 
 				gm.update(mElapsed);
@@ -113,7 +113,7 @@ public class ViewThread extends Thread {
 		/**
 		 * Experimental: save canvas as a bitmap to create gameplay gifs/movies
 		 */
-		if(OldPanel.SAVE_BITMAPS) {
+		if(GameManager.SAVE_BITMAPS) {
 			if (saveNum % 5 == 0) {
 
 				saveBmp = Bitmap.createBitmap( canvas.getWidth(), canvas.getHeight(), Bitmap.Config.ARGB_8888);

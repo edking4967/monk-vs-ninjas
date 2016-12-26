@@ -5,7 +5,7 @@ package com.thousandonestories.game.gameobjects;
 import android.content.res.Resources;
 import android.graphics.Bitmap;
 
-import com.thousandonestories.game.OldPanel;
+import com.thousandonestories.game.GameManager;
 
 public class Projectile extends Sprite
 {
@@ -34,7 +34,7 @@ public class Projectile extends Sprite
 		super.update(elapsedTime);
 		
 		
-		if( getLeftBound() >= OldPanel.mWidth  || getRightBound() <= 0 )
+		if( getLeftBound() >= GameManager.mWidth  || getRightBound() <= 0 )
 		{
 			//deactivate();
 			hide();
