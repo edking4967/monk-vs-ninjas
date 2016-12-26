@@ -1,21 +1,20 @@
 package com.thousandonestories.game.gameobjects;
 
 import java.util.concurrent.CopyOnWriteArrayList;
-
-
-
 import android.content.res.Resources;
 import android.graphics.Bitmap;
 import android.graphics.Canvas;
 import android.util.Log;
 
-import com.thousandonestories.game.OldPanel;
+import com.thousandonestories.game.GameManager;
+import com.thousandonestories.game.management.GlobalConstants;
 import com.thousandonestories.synth.SynthCore;
 
 public class HeroSprite extends GravitySprite {
 	
 	CopyOnWriteArrayList<Projectile> mProjList;
 	private int health;	
+    GameManager gm;
 	
 	public static final int WEAPON_PROJECTILE=0;
 	public static final int WEAPON_SWORD = 1;
@@ -28,6 +27,7 @@ public class HeroSprite extends GravitySprite {
 	private Bitmap swordBmp;
 
     private SynthCore synth;
+    Resources res;
 	
 	public HeroSprite(Resources res, int x, int y, Bitmap bmps[], Bitmap reversebmps[], CopyOnWriteArrayList<Projectile> projList, float scalefactor) {
 		super(res, x, y, bmps, reversebmps, scalefactor);
@@ -39,9 +39,12 @@ public class HeroSprite extends GravitySprite {
 		
 		Log.d("bleh", "hero constructor called");
 		
-		this.swordBmp = OldPanel.swordBmp;
+		this.swordBmp = GameManager.swordBmp;
 
         //synth = new SynthCore();
+        //
+        gm = GlobalConstants.gm;
+        this.res = res;
 	}
 
 	
@@ -68,7 +71,7 @@ public class HeroSprite extends GravitySprite {
 		{
 			setHealth( getHealth() - 25);
 			
-			OldPanel.blip.start();
+			GameManager.blip.start();
 			
 			return true;
 		}
@@ -100,5 +103,14 @@ public class HeroSprite extends GravitySprite {
         else
             toneIndex = 0;
             */
+    }
+
+    @Override
+    public void land( Block mBlock) {
+        super.land(mBlock);
+        if(mBlock.tags.contains("loadLevelTwo")) // Don't do string compare
+        {
+            gm.gameStartLevelTwo();  // TODO: progressToLevelTwo: do after timer / music etc
+        }
     }
 }

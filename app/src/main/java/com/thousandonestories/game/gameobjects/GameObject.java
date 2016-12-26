@@ -27,5 +27,6 @@ public interface GameObject
 	
 	public void setWidth( float width );
 	public void setHeight( float height);
+//  public TagStore tags;
 	
 }

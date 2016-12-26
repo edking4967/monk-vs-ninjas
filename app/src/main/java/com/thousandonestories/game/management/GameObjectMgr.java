@@ -1,7 +1,7 @@
 package com.thousandonestories.game.management; 
 import android.content.res.Resources;
 
-import com.thousandonestories.game.OldPanel;
+import com.thousandonestories.game.GameManager;
 import com.thousandonestories.game.graphics.BitmapMgr;
 import com.thousandonestories.game.screen.ScreenMgr;
 import com.thousandonestories.game.time.TimeMgr;
@@ -16,10 +16,10 @@ import com.thousandonestories.game.Mountain;
 import java.util.concurrent.CopyOnWriteArrayList;
 
 public class GameObjectMgr {
-    public GameManager gm;
+    public GameManagerTempName gm;
     Resources r;
 
-    public GameObjectMgr(GameManager gm, Resources r)
+    public GameObjectMgr(GameManagerTempName gm, Resources r)
     {
         this.gm = gm;
         this.r = r;
@@ -85,7 +85,7 @@ public class GameObjectMgr {
         if(GameObjectMgr.hero==null) return;
 
         //if(GameStateMgr.currentState == GameStateMgr.GameState.MENU ) return;
-        if(OldPanel.gameState == OldPanel.STATE_MENU ) return;
+        if(GameManager.gameState == GameManager.STATE_MENU ) return;
 
         if(hero.getHealth() <= 0)
         {
@@ -124,10 +124,10 @@ public class GameObjectMgr {
 
         //TODO: fold these checks into one main GameObject loop.
         //Check sprite collisions with blocks:
-        OldPanel.checkBlocks(elapsedTime);
+        GameManager.checkBlocks(elapsedTime);
 
         //Check enemy collisions with projectiles:
-        OldPanel.checkEnemyProjectiles(elapsedTime);
+        GameManager.checkEnemyProjectiles(elapsedTime);
 
         //update enemy AI:
         updateEnemyAI();
@@ -215,7 +215,7 @@ public class GameObjectMgr {
 
 
         //check if hero has fallen below the screen:
-        if(hero.getTopBound() >= OldPanel.mHeight)
+        if(hero.getTopBound() >= GameManager.mHeight)
         {
             gm.gamestateMgr.gameOver();
         }

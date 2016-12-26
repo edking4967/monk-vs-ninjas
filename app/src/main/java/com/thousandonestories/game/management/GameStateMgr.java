@@ -5,7 +5,7 @@ import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.util.Log;
 
-import com.thousandonestories.game.OldPanel;
+import com.thousandonestories.game.GameManager;
 import com.thousandonestories.game.R;
 import com.thousandonestories.game.gameobjects.GameObject;
 import com.thousandonestories.game.ui.ClickableSprite;
@@ -16,10 +16,10 @@ import java.util.concurrent.CopyOnWriteArrayList;
 public class GameStateMgr {
     public enum GameState { UNINITIALIZED, RUNNING, MENU, GAMEOVER };
     public static GameState currentState;
-    GameManager gm;
+    GameManagerTempName gm;
     Resources r;
 
-    public GameStateMgr(GameManager gm, Resources r)
+    public GameStateMgr(GameManagerTempName gm, Resources r)
     {
         this.gm = gm;
         this.r = r;
@@ -47,15 +47,15 @@ public class GameStateMgr {
         gameoverbitmap[0]= BitmapFactory.decodeResource(r, R.drawable.gameover);
         gameoverbitmap_r = ImageUtils.flipBmpHorizontal(gameoverbitmap);
 
-        ClickableSprite gameOverSprite= new ClickableSprite( r, (int) OldPanel.mWidth/2,
-                (int) OldPanel.mHeight/2, gameoverbitmap, gameoverbitmap_r, 1 );
+        ClickableSprite gameOverSprite= new ClickableSprite( r, (int) GameManager.mWidth/2,
+                (int) GameManager.mHeight/2, gameoverbitmap, gameoverbitmap_r, 1 );
         gameOverSprite.setAction(ClickableSprite.RESTART_GAME);
 
         GameObjectMgr.menuItemList.add(gameOverSprite);
 
         Log.d("red", "menuitemlist size = " + GameObjectMgr.menuItemList.size() );
-        Log.d("red","OldPanel gamestate = " + OldPanel.gameState);
-        OldPanel.gameState = OldPanel.STATE_GAMEOVER;
+        Log.d("red","GameManager gamestate = " + GameManager.gameState);
+        GameManager.gameState = GameManager.STATE_GAMEOVER;
         currentState = GameState.GAMEOVER;
     }
 }
