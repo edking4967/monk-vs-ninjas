@@ -2,18 +2,16 @@ package com.thousandonestories.game.management;
 import android.content.res.Resources;
 
 import com.thousandonestories.game.GameManager;
-import com.thousandonestories.game.levels.Level;
-import com.thousandonestories.game.management.GlobalConstants;
 
-public class GameManagerTempName {
+public class GameConnector {
 
     GameObjectMgr gameobjectMgr;
     GameStateMgr gamestateMgr;
     GameManager panel;
 	
-	public GameManagerTempName(Resources r)
+	public GameConnector(Resources r)
 	{
-        GlobalConstants.gameManager = this;
+        GlobalConstants.gameConnector = this;
 		gameobjectMgr = new GameObjectMgr(this, r);
 		gamestateMgr = new GameStateMgr(this, r);
 	}
