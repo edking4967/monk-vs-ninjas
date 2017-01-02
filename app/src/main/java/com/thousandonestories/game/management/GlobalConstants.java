@@ -1,9 +1,9 @@
 package com.thousandonestories.game.management;
 
-import com.thousandonestories.game.management.GameManagerTempName;
+import com.thousandonestories.game.management.GameConnector;
 import com.thousandonestories.game.GameManager;
 
 public class GlobalConstants {
-    static GameManagerTempName gameManager;
+    static GameConnector gameConnector;
     public static GameManager gm;
 }
