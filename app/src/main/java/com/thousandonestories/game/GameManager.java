@@ -26,7 +26,7 @@ import com.thousandonestories.game.gameobjects.NPC;
 import com.thousandonestories.game.gameobjects.Ninja;
 import com.thousandonestories.game.gameobjects.Projectile;
 import com.thousandonestories.game.graphics.BitmapMgr;
-import com.thousandonestories.game.management.GameManagerTempName;
+import com.thousandonestories.game.management.GameConnector;
 import com.thousandonestories.game.management.GameObjectMgr;
 import com.thousandonestories.game.R.drawable;
 import com.thousandonestories.game.ai.Goal;
@@ -131,10 +131,10 @@ public class GameManager extends SurfaceView implements SurfaceHolder.Callback {
 
     public static MediaPlayer blip;
     public static MediaPlayer blip2;
-    GameManagerTempName gmt;
+    GameConnector gmt;
     Context c;
 
-    public GameManager(Context context, GameManagerTempName gmt) {
+    public GameManager(Context context, GameConnector gmt) {
 
         super(context);
         c = context;
@@ -302,24 +302,7 @@ public class GameManager extends SurfaceView implements SurfaceHolder.Callback {
             {
                 healthBar.doDraw(canvas);
             }
-
-
-            //Debugging stuff:
-
-            /*
-               if(currentLevel == 1)
-               {
-               canvas.drawText(" CrocLB: " + croc.blockLB + " crocRB: " + croc.blockRB + 
-               " LandCount "+hero.db_landcount+" density: "+  getResources().getDisplayMetrics().density + " elapsed: " 
-               +" FPS: "+1000f/ ViewThread.mElapsed , 10, 10, mPaint);
-               canvas.drawText("Enemy_state " + croc.getState(), 10, 40, mPaint);
-               canvas.drawText("Health = " + hero.getHealth() + "Velocity = " + hero.getVelocity() + "x= " + hero.getLeftBound()
-               + " rightB= " + hero.getRightBound(), 10, 25, mPaint);
-               }
-               */
         }
-
-
     } //end of doDraw function
 
     public Block addBlock(int left, int right, int top, int bottom, int color)
@@ -374,7 +357,6 @@ public class GameManager extends SurfaceView implements SurfaceHolder.Callback {
     public boolean touchHandleFlying(MotionEvent event)
     {
         return flyingHero.handleEvent(event);
-
     }
 
     public boolean touchHandlePlatformerMode(MotionEvent event)
@@ -730,23 +712,6 @@ public class GameManager extends SurfaceView implements SurfaceHolder.Callback {
 
     private void gameStartLevelFour()
     {
-        /*
-           ListManager.initializeLists();
-
-           initializeHero();
-
-           addBlock(  0,  400,450,550, Color.WHITE);
-
-           PhysicsStuff phys = new PhysicsStuff(0, 20);
-
-           Ninja floatingGuy = new Ninja(coffeeCupRes, 0, 0, 2, phys);
-
-           ListManager.mGameObjList.add(floatingGuy);
-
-           setupUI();
-
-           setGameState(STATE_GAME_RUNNING);
-           */
         GameObjectMgr.initializeLists();
 
         initializeHero();

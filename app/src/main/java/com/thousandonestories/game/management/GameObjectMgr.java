@@ -16,12 +16,12 @@ import com.thousandonestories.game.Mountain;
 import java.util.concurrent.CopyOnWriteArrayList;
 
 public class GameObjectMgr {
-    public GameManagerTempName gm;
+    public GameConnector gc;
     Resources r;
 
-    public GameObjectMgr(GameManagerTempName gm, Resources r)
+    public GameObjectMgr(GameConnector gc, Resources r)
     {
-        this.gm = gm;
+        this.gc = gc;
         this.r = r;
     }
 
@@ -89,7 +89,7 @@ public class GameObjectMgr {
 
         if(hero.getHealth() <= 0)
         {
-            gm.gamestateMgr.gameOver();
+            gc.gamestateMgr.gameOver();
 
         }
         UIMgr.updateHealthBar();
@@ -183,7 +183,7 @@ public class GameObjectMgr {
 
             }
 
-            if( mObj.getTopBound() >= gm.panel.getHeight() && mObj instanceof Enemy)
+            if( mObj.getTopBound() >= gc.panel.getHeight() && mObj instanceof Enemy)
             {
                 mGameObjList.remove( mObj );
                 mEnemyList.remove( mObj );
@@ -217,7 +217,7 @@ public class GameObjectMgr {
         //check if hero has fallen below the screen:
         if(hero.getTopBound() >= GameManager.mHeight)
         {
-            gm.gamestateMgr.gameOver();
+            gc.gamestateMgr.gameOver();
         }
     }
 }

@@ -11,7 +11,7 @@ import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
 
-import com.thousandonestories.game.management.GameManagerTempName;
+import com.thousandonestories.game.management.GameConnector;
 import com.thousandonestories.game.management.GlobalConstants;
 
 public class MainActivity extends Activity {
@@ -19,7 +19,7 @@ public class MainActivity extends Activity {
 	Drawable myImage;
 	Thread t;
 	GameManager gm;
-    GameManagerTempName gmt;
+    GameConnector gmt;
 	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -36,7 +36,7 @@ public class MainActivity extends Activity {
 				WindowManager.LayoutParams.FLAG_FULLSCREEN);
 
 	    // setContentView(R.layout.activity_main);
-        gmt = new GameManagerTempName(getResources());
+        gmt = new GameConnector(getResources());
         gm = new GameManager(this, gmt);
 		GlobalConstants.gm = gm;
         gmt.setPanel(gm);

@@ -16,12 +16,12 @@ import java.util.concurrent.CopyOnWriteArrayList;
 public class GameStateMgr {
     public enum GameState { UNINITIALIZED, RUNNING, MENU, GAMEOVER };
     public static GameState currentState;
-    GameManagerTempName gm;
+    GameConnector gc;
     Resources r;
 
-    public GameStateMgr(GameManagerTempName gm, Resources r)
+    public GameStateMgr(GameConnector gc, Resources r)
     {
-        this.gm = gm;
+        this.gc = gc;
         this.r = r;
     }
 
