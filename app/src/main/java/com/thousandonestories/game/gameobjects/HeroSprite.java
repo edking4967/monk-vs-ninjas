@@ -19,6 +19,8 @@ public class HeroSprite extends GravitySprite {
 	
 	public static final int WEAPON_PROJECTILE=0;
 	public static final int WEAPON_SWORD = 1;
+    
+    private static final boolean IS_CHRISTMAS = false;
 	
 	/**
 	 * The weapon that the hero currently has
@@ -62,7 +64,9 @@ public class HeroSprite extends GravitySprite {
 		{
 			c.drawBitmap(swordBmp, getRightBound(), getYMiddle(), null );
 		}
-        c.drawBitmap(santaBmp, getLeftBound() - 1, getTopBound() - 35, null );
+        if(IS_CHRISTMAS) { // FIXME
+            c.drawBitmap(santaBmp, getLeftBound() - 1, getTopBound() - 35, null );
+        }
 	}
 	
 	@Override
